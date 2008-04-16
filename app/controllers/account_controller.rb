@@ -43,14 +43,14 @@ class AccountController < ApplicationController
 
   def activate
     flash.clear  
-    return if params[:id]  nil and params[:activation_code]  nil
+    return if params[:id] == nil and params[:activation_code] == nil
     activator = params[:id] || params[:activation_code]
     @user = User.find_by_activation_code(activator) 
     if @user and @user.activate
-      redirect_back_or_default(:controller => ’/account’, :action => ‘login’)
-      flash[:notice] = “Your account has been activated.  Please login.” 
+      redirect_back_or_default(:controller => '/account', :action => 'login')
+      flash[:notice] = "Your account has been activated.  Please login."
     else
-      flash[:notice] = “Unable to activate the account.  Please check or enter manually.” 
+      flash[:notice] = "Unable to activate the account.  Please check or enter manually."
     end
   end
 end

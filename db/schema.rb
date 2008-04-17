@@ -9,7 +9,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
+ActiveRecord::Schema.define(:version => 4) do
+
+  create_table "items", :force => true do |t|
+    t.string   "type",        :null => false
+    t.string   "title",       :null => false
+    t.text     "description"
+    t.datetime "created",     :null => false
+    t.datetime "date_back",   :null => false
+    t.integer  "held_by",     :null => false
+    t.integer  "owner_id",    :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "login"

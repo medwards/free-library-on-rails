@@ -21,6 +21,9 @@ class User < ActiveRecord::Base
 
   before_create :make_activation_code
 
+  has_many :owned, :class_name => 'Item', :foreign_key => :owner_id
+  has_many :held, :class_name => 'Item', :foreign_key => :held_by
+
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
     # hide records with a nil activated_at

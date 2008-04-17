@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 3) do
 
   create_table "users", :force => true do |t|
     t.string   "login"
@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(:version => 2) do
     t.datetime "remember_token_expires_at"
     t.string   "activation_code",           :limit => 40
     t.datetime "activated_at"
+    t.string   "address"
+    t.string   "city"
+    t.string   "postalcode",                :limit => 6,                 :null => false
+    t.integer  "latitude",                                               :null => false
+    t.integer  "longitude",                                              :null => false
+    t.string   "cellphone",                 :limit => 10
+    t.string   "cellphone_provider"
+    t.integer  "region_id",                               :default => 1
   end
 
 end

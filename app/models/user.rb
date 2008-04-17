@@ -15,7 +15,9 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..100
   validates_format_of       :email,    :with   => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
   validates_uniqueness_of   :login, :email, :case_sensitive => false
+
   before_save :encrypt_password
+  before_save :do_geocoding
 
   before_create :make_activation_code
 
@@ -76,25 +78,24 @@ class User < ActiveRecord::Base
     save(false)
   end
 
-  def save
-    # geocoding
-    self.latitude = 0;
-    self.longitude = 0;
-    super
-  end
-
   protected
-    # before filter 
+    # turn a postal code into latitude and longitude
+    def do_geocoding
+      self.latitude = 0
+      self.longitude = 0
+    end
+
+    # before filter
     def encrypt_password
       return if password.blank?
       self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
       self.crypted_password = encrypt(password)
     end
-    
+
     def password_required?
       crypted_password.blank? || !password.blank?
     end
-  
+
     # If you're going to use activation, uncomment this too
     def make_activation_code
       self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )

@@ -9,4 +9,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # :secret => '80917b8faf645ce57e19ede4fec57e60'
 
   layout 'base'
+
+  # use acts_as_authenticated bits
+  include AuthenticatedSystem
 end

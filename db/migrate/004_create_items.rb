@@ -5,7 +5,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :title, :null => false
       t.text :description
       t.datetime :created, :null => false
-      t.datetime :date_back, :null => false
+      t.datetime :date_back
       t.integer :held_by, :null => false
       t.integer :owner_id, :null => false
     end

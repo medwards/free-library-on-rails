@@ -1,6 +1,4 @@
 class AccountController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
   # If you want "remember me" functionality, add this before_filter to Application Controller
   before_filter :login_from_cookie
 
@@ -25,14 +23,17 @@ class AccountController < ApplicationController
   def signup
     @user = User.new(params[:user])
     return unless request.post?
+
     @user.save!
     self.current_user = @user
+
     redirect_back_or_default(:controller => '/account', :action => 'index')
+
     flash[:notice] = "Thanks for signing up!"
   rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
   end
-  
+
   def logout
     self.current_user.forget_me if logged_in?
     cookies.delete :auth_token
@@ -42,10 +43,10 @@ class AccountController < ApplicationController
   end
 
   def activate
-    flash.clear  
+    flash.clear
     return if params[:id] == nil and params[:activation_code] == nil
     activator = params[:id] || params[:activation_code]
-    @user = User.find_by_activation_code(activator) 
+    @user = User.find_by_activation_code(activator)
     if @user and @user.activate
       redirect_back_or_default(:controller => '/account', :action => 'login')
       flash[:notice] = "Your account has been activated.  Please login."

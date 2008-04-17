@@ -76,6 +76,13 @@ class User < ActiveRecord::Base
     save(false)
   end
 
+  def save
+    # geocoding
+    self.latitude = 0;
+    self.longitude = 0;
+    super
+  end
+
   protected
     # before filter 
     def encrypt_password

@@ -12,13 +12,13 @@
 ActiveRecord::Schema.define(:version => 4) do
 
   create_table "items", :force => true do |t|
-    t.string   "type",        :null => false
-    t.string   "title",       :null => false
+    t.string   "type",        :default => "", :null => false
+    t.string   "title",       :default => "", :null => false
     t.text     "description"
-    t.datetime "created",     :null => false
-    t.datetime "date_back",   :null => false
-    t.integer  "held_by",     :null => false
-    t.integer  "owner_id",    :null => false
+    t.datetime "created",                     :null => false
+    t.datetime "date_back",                   :null => false
+    t.integer  "held_by",                     :null => false
+    t.integer  "owner_id",                    :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(:version => 4) do
     t.datetime "activated_at"
     t.string   "address"
     t.string   "city"
-    t.string   "postalcode",                :limit => 6,                 :null => false
-    t.integer  "latitude",                                               :null => false
-    t.integer  "longitude",                                              :null => false
+    t.string   "postalcode",                              :default => "", :null => false
+    t.integer  "latitude",                                                :null => false
+    t.integer  "longitude",                                               :null => false
     t.string   "cellphone",                 :limit => 10
     t.string   "cellphone_provider"
     t.integer  "region_id",                               :default => 1

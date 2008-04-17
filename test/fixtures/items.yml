@@ -1,0 +1,8 @@
+lhd:
+  id: 1
+  owner_id: 1
+  held_by: 0
+  type: book
+  created: 2008-04-16
+  date_back: 2008-05-01
+  title: The Left Hand of Darkness

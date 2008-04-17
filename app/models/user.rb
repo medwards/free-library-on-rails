@@ -1,4 +1,6 @@
 require 'digest/sha1'
+require 'open-uri.rb'
+
 class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
@@ -86,6 +88,17 @@ class User < ActiveRecord::Base
     def do_geocoding
       self.latitude = 0
       self.longitude = 0
+
+      googleKey = "ABQIAAAAtMckXwUuUit3GcU7fqrjfhQ-fLx3XxcGMYuMv93Lb2-UXt48NxQJ0Yah9JBOEjCrA8dHFLPTAfhB3w"
+      url = "http://maps.google.com/maps/geo?q=" << self.postalcode << "&output=csv&key=" << googleKey
+
+      open(url) {|f|
+        f.each_line { |line|
+          csv = line.split(',')
+          self.latitude = csv[2]
+          self.longitude = csv[3]
+        }
+      }
     end
 
     # before filter

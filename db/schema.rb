@@ -15,10 +15,10 @@ ActiveRecord::Schema.define(:version => 4) do
     t.string   "type",        :default => "", :null => false
     t.string   "title",       :default => "", :null => false
     t.text     "description"
-    t.datetime "created",                     :null => false
-    t.datetime "date_back",                   :null => false
-    t.integer  "held_by",                     :null => false
-    t.integer  "owner_id",                    :null => false
+    t.datetime "created",     :null => false
+    t.datetime "date_back"
+    t.integer  "held_by",     :null => false
+    t.integer  "owner_id",    :null => false
   end
 
   create_table "users", :force => true do |t|

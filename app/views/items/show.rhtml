@@ -1,0 +1,16 @@
+<h1><%=h @item.title %></h1>
+
+<table>
+  <tr><th>type of item:</th>
+    <td><%=h @item.type %></td></tr>
+  <tr><th>owner:</th>
+    <td><%=h @item.owner.login %></td></tr>
+  <tr><th>held by:</th>
+    <td><%=h @item.held_by.login %></td></tr>
+</table>
+
+<h2>Description</h2>
+
+<p>
+<%=h @item.description %>
+</p>

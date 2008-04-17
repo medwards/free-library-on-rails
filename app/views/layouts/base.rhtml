@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+</head>
+
+<body>
+  <div class="head">free library</div>
+
+  <div class="main">
+    <% if flash[:notice] %>
+      <p style="color: green"><%= flash[:notice].untaint %></p>
+    <% elsif flash[:error] %>
+      <p style="color: red"><%= flash[:error].untaint %></p>
+    <% end %>
+
+    <%= yield  %>
+  </div>
+</body>
+
+</html>

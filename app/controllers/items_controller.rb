@@ -21,4 +21,12 @@ class ItemsController < ApplicationController
 
     redirect_to item_path(@item.id)
   end
+
+  def destroy
+    raise 'not logged in' unless logged_in?
+    @item = Item.find(params[:id])
+    raise 'not authorized to edit this item' unless self.current_user.id == @item.owner_id
+    @item.destroy
+    redirect_to :action => "new"
+  end
 end

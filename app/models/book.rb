@@ -1,0 +1,2 @@
+class Book < Item
+end

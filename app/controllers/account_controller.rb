@@ -2,14 +2,24 @@ class AccountController < ApplicationController
   # If you want "remember me" functionality, add this before_filter to Application Controller
   before_filter :login_from_cookie
 
+  before_filter :login_required, :only => [ :update ]
+
   # say something nice, you goof!  something sweet.
   def index
-    redirect_to(:action => 'signup') unless logged_in? || User.count > 0
+    redirect_to(:action => 'signup') unless logged_in?
+  end
+
+  def update
+    @user = current_user
+    @user.update_attributes!(params[:user])
+
+    redirect_to :action => 'index'
   end
 
   def login
     return unless request.post?
     self.current_user = User.authenticate(params[:login], params[:password])
+
     if logged_in?
       if params[:remember_me] == "1"
         self.current_user.remember_me
@@ -46,6 +56,7 @@ class AccountController < ApplicationController
     flash.clear
     return if params[:id] == nil and params[:activation_code] == nil
     activator = params[:id] || params[:activation_code]
+
     @user = User.find_by_activation_code(activator)
     if @user and @user.activate
       redirect_back_or_default(:controller => '/account', :action => 'login')

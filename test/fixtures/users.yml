@@ -1,12 +1,16 @@
 bct:
   id: 0
   login: bct
+  crypted_password: ding
+  email: fake@example.org
   postalcode: T6E2J2
   latitude: 0
   longitude: 0
 medwards:
   id: 1
   login: medwards
+  crypted_password: dong
+  email: test@example.org
   postalcode: T5K1M1
   latitude: 0
   longitude: 0

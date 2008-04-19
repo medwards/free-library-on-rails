@@ -46,16 +46,16 @@ class BooksControllerTest < Test::Unit::TestCase
     # the number of items in the database should increase after a POST
     assert_difference(Item, :count, 1) do
       post :create, :item => {
-                              :type => 'book',
                               :title => 'Iron Council'
                               }
     end
 
-    # i'm foolishly assuming the next ID is 3 here
-    assert_redirected_to :action => :show, :id => 3
+    new_book = Book.find_by_title('Iron Council')
+
+    assert_redirected_to :controller => 'books', :action => 'show', :id => new_book
 
     # you should be able to GET the new item
-    get :show, :id => 3
+    get :show, :id => new_book
     assert_response :success
 
     assert_match /Iron Council/, @response.body
@@ -65,7 +65,6 @@ class BooksControllerTest < Test::Unit::TestCase
   def test_unauthenticated_create
     assert_difference(Item, :count, 0) do
       post :create, :item => {
-                              :type => 'book',
                               :title => 'Iron Council'
                               }
     end

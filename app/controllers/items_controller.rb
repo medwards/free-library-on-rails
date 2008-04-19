@@ -18,7 +18,7 @@ class ItemsController < ApplicationController
 
     @item.save!
 
-    redirect_to item_path(@item.id)
+    redirect_to :controller => itemclass.to_s.tableize, :action => 'show', :id => @item
   end
 
   def destroy

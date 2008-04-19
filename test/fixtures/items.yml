@@ -12,5 +12,11 @@ htc:
   held_by: 0
   type: Book
   created: 2008-04-18
-  date_back: 2008-05-01
   title: Homage to Catalonia
+sg:
+  id: 3
+  owner_id: 0
+  held_by: 0
+  type: Video
+  created: 2008-04-19
+  title: Soylent Green

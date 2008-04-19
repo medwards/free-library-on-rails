@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   # resource routes (map HTTP verbs to controller actions automatically
   map.resources :items
   map.resources :books
+  map.resources :videos
 
   map.resources :users
 

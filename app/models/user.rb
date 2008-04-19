@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  # recommended on http://technoweenie.stikipad.com/plugins/show/User+Activation
-  attr_protected :activated_at
+  # don't allow these attributes to be mass-assigned
+  attr_protected :login, :created_at, :updated_at, :activated_at, :crypted_password, :salt
 
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
@@ -90,9 +90,9 @@ class User < ActiveRecord::Base
       self.longitude = 0
 
       googleKey = "ABQIAAAAtMckXwUuUit3GcU7fqrjfhQ-fLx3XxcGMYuMv93Lb2-UXt48NxQJ0Yah9JBOEjCrA8dHFLPTAfhB3w"
-      url = "http://maps.google.com/maps/geo?q=" << self.postalcode << "&output=csv&key=" << googleKey
+      url = "http://maps.google.com/maps/geo?q=#{URI.escape self.postalcode}&output=csv&key=#{googleKey}"
 
-      open(url) {|f|
+      open(url) { |f|
         f.each_line { |line|
           csv = line.split(',')
           self.latitude = csv[2]

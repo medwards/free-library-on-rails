@@ -7,6 +7,8 @@ class AccountController < ApplicationController
   # say something nice, you goof!  something sweet.
   def index
     redirect_to(:action => 'signup') unless logged_in?
+
+    @user = current_user
   end
 
   def update
@@ -14,6 +16,8 @@ class AccountController < ApplicationController
     @user.update_attributes!(params[:user])
 
     redirect_to :action => 'index'
+
+    flash[:notice] = 'Updated your settings.'
   end
 
   def login
@@ -26,6 +30,7 @@ class AccountController < ApplicationController
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
       redirect_back_or_default(:controller => '/account', :action => 'index')
+
       flash[:notice] = "Logged in successfully"
     end
   end

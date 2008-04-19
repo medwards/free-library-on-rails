@@ -4,6 +4,9 @@ bct:
   crypted_password: ding
   email: fake@example.org
   postalcode: T6E2J2
+  created_at: 2008-04-01
+  updated_at: 2008-04-01
+  activated_at: 2008-04-01
   latitude: 0
   longitude: 0
 medwards:

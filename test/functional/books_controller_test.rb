@@ -11,6 +11,9 @@ class BooksControllerTest < Test::Unit::TestCase
 
   def test_routing
     assert_routing 'items/1', :controller => 'items', :action => 'show', :id => '1'
+    assert_routing 'books/1', :controller => 'books', :action => 'show', :id => '1'
+
+    assert_routing 'books/new', :controller => 'books', :action => 'new'
   end
 
   def test_show
@@ -92,6 +95,7 @@ class BooksControllerTest < Test::Unit::TestCase
       delete :destroy, :id => 1
     end
 
+    # XXX this is expected to fail for now
     assert_response 401
   end
 end

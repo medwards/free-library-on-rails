@@ -1,0 +1,13 @@
+<h1><%=h @user.login %></h1>
+
+<table>
+  <tr><th>type</th><th>title</th></tr>
+  <% @user.owned.each do |item| %>
+    <tr>
+      <td><%=h item.type %></td>
+      <td><%= link_to h(item.title), { :controller => item.type.tableize,
+                                       :action => :show,
+                                       :id => item.id } %></td>
+    </tr>
+  <% end %>
+</table>

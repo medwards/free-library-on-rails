@@ -4,9 +4,13 @@
   <tr><th>type of item:</th>
     <td><%=h @item.type %></td></tr>
   <tr><th>owner:</th>
-    <td><%=h @item.owner.login %></td></tr>
+    <td><%=
+      login = @item.owner.login
+      link_to h(login), user_path(login) %></td></tr>
   <tr><th>held by:</th>
-    <td><%=h @item.held_by.login %></td></tr>
+    <td><%=
+      login = @item.held_by.login
+      link_to h(login), user_path(login) %></td></tr>
 </table>
 
 <h2>Description</h2>

@@ -10,9 +10,6 @@ class ItemsController < ApplicationController
   end
 
   def create
-    # XXX better unauth handling
-    raise 'not logged in' unless logged_in?
-
     @item = itemclass.new(params[:item])
 
     @item.created = Time.now

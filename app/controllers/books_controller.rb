@@ -1,4 +1,3 @@
 class BooksController < ItemsController
-  @itemclass = 'Book'
-
+  def itemclass; Book end
 end

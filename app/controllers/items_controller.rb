@@ -1,17 +1,19 @@
 class ItemsController < ApplicationController
+  before_filter :login_required, :only => [ :new, :create, :destroy ]
+
   def show
-    @item = Item.find(params[:id])
+    @item = itemclass.find(params[:id])
   end
 
   def new
-    @item = Item.factory('')
+    @item = itemclass.new
   end
 
   def create
     # XXX better unauth handling
     raise 'not logged in' unless logged_in?
 
-    @item = Item.factory('', params[:item])
+    @item = itemclass.new(params[:item])
 
     @item.created = Time.now
     @item.owner = self.current_user

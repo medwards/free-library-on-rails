@@ -29,4 +29,5 @@ class BooksController < ItemsController
       doc.at("//div[@id='subjects_v']").search("a").each { |l| p possible_tags = possible_tags << l.inner_html[0..-13].split(' / ')}
     end
     possible_tags.flatten.each {|l| l.downcase!}.uniq
+  end
 end

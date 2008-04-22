@@ -1,0 +1,12 @@
+<%= error_messages_for :item %>
+
+<% form_for :item, :url => books_path do |f| -%>
+
+  <p><label for="email">Book Title</label><br/>
+  <%= f.text_field :title %></p>
+
+  <p><label for="description">Review</label><br/>
+  <%= f.text_area :description %></p>
+
+  <p><%= submit_tag 'Add book' %></p>
+<% end -%>

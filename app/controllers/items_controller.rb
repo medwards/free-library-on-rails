@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
   before_filter :login_required, :only => [ :new, :create, :destroy ]
 
+  def itemclass; Item end
+
   def show
     @item = itemclass.find(params[:id])
   end

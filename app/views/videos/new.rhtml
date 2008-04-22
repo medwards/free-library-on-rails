@@ -1,12 +1,11 @@
-<%= error_messages_for :item %>
+<% inheriting_view 'items/new' do %>
+  <% content_for :utility_fields do %>
+  <% end %>
 
-<% form_for :item, :url => videos_path do |f| -%>
-
-  <p><label for="email">Video Title</label><br/>
-  <%= f.text_field :title %></p>
-
-  <p><label for="description">Description</label><br/>
-  <%= f.text_area :description %></p>
-
-  <p><%= submit_tag 'Add video' %></p>
-<% end -%>
+  <% content_for :additional_fields do %>
+  <% end %>
+  
+  <% content_for :submit_button do %>
+    <%= submit_tag 'Add Book' %>
+  <% end %>
+<% end %>

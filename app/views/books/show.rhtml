@@ -1,20 +1,2 @@
-<h1><%=h @item.title %></h1>
-
-<table>
-  <tr><th>type of item:</th>
-    <td><%=h @item.type %></td></tr>
-  <tr><th>owner:</th>
-    <td><%=
-      login = @item.owner.login
-      link_to h(login), user_path(login) %></td></tr>
-  <tr><th>held by:</th>
-    <td><%=
-      login = @item.held_by.login
-      link_to h(login), user_path(login) %></td></tr>
-</table>
-
-<h2>Description</h2>
-
-<p>
-<%=h @item.description %>
-</p>
+<% inheriting_view 'items/show' do %>
+<% end %>

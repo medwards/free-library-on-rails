@@ -1,12 +1,12 @@
-<%= error_messages_for :item %>
+<% inheriting_view 'items/new' do %>
+  <% content_for :utility_fields do %>
+    <p>do ISBN here</p>
+  <% end %>
 
-<% form_for :item, :url => books_path do |f| -%>
-
-  <p><label for="email">Book Title</label><br/>
-  <%= f.text_field :title %></p>
-
-  <p><label for="description">Review</label><br/>
-  <%= f.text_area :description %></p>
-
-  <p><%= submit_tag 'Add book' %></p>
-<% end -%>
+  <% content_for :additional_fields do %>
+  <% end %>
+  
+  <% content_for :submit_button do %>
+    <%= submit_tag 'Add Book' %>
+  <% end %>
+<% end %>

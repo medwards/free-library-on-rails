@@ -2,11 +2,19 @@
 
 <% form_for :item, :url => books_path do |f| -%>
 
-  <p><label for="email">Book Title</label><br/>
+  <% default_content_for :utility_fields do %><% end %>
+  
+  <p><label for="title">Book Title</label><br/>
   <%= f.text_field :title %></p>
+
+  <% default_content_for :additional_fields do %><% end %>
 
   <p><label for="description">Review</label><br/>
   <%= f.text_area :description %></p>
-
-  <p><%= submit_tag 'Add book' %></p>
+  
+  <p>
+    <% default_content_for :submit_button do %>
+      <%= submit_tag 'Add Item' %></p>
+    <% end %>
+  </p>
 <% end -%>

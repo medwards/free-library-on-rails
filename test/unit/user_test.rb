@@ -17,4 +17,16 @@ class UserTest < Test::Unit::TestCase
 
     assert medwards.owned.member?(lhd)
   end
+
+  def test_distance
+    bct      = User.find_by_login('bct')
+    medwards = User.find_by_login('medwards')
+    pierre   = User.find_by_login('pierre')
+
+    assert_in_delta 2.47, bct.distance_from(medwards), 0.15
+    assert_in_delta 2.47, medwards.distance_from(bct), 0.15
+
+    assert_in_delta 2975, bct.distance_from(pierre), 5
+    assert_in_delta 2975, pierre.distance_from(bct), 5
+  end
 end

@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
   end
 
   def remember_token?
-    remember_token_expires_at && Time.now.utc < remember_token_expires_at 
+    remember_token_expires_at && Time.now.utc < remember_token_expires_at
   end
 
   # These create and unset the fields required for remembering users between browser closes
@@ -81,6 +81,32 @@ class User < ActiveRecord::Base
     self.remember_token_expires_at = nil
     self.remember_token            = nil
     save(false)
+  end
+
+  # average great-circle radius according to Wikipedia
+  EARTH_RADIUS = 6372.795
+
+  # the distance between this user and another, in kilometres
+  #
+  # calculated using the haversine formula
+  # <http://en.wikipedia.org/wiki/Haversine_formula>
+  def distance_from other
+    la1 = self.latitude * Math::PI / 180
+    lo1 = self.longitude * Math::PI / 180
+
+    la2 = other.latitude * Math::PI / 180
+    lo2 = other.longitude * Math::PI / 180
+
+    d_l = (lo1 - lo2).abs
+
+    EARTH_RADIUS * 2 * Math.asin(Math.sqrt(
+      hav(la2-la1) + Math.cos(la1)*Math.cos(la2)*hav(d_l)
+    ))
+  end
+
+  # the haversine function
+  def hav angle
+    Math.sin(angle/2.0) ** 2
   end
 
   protected

@@ -18,15 +18,19 @@ class ItemTest < Test::Unit::TestCase
   def test_tagging
     htc = Item.find(2)
 
-    assert_equal 2, htc.item_taggings.length
-
-    tags = htc.item_taggings.map { |t| t.to_s }.sort
+    tags = htc.taggings.map { |t| t.to_s }.sort
 
     assert_equal ['politics', 'spain'], tags
 
-    users = htc.item_taggings.map { |t| t.user }
-    bct = User.find_by_login('bct')
+    # tags can be added
+    htc.tag_with ['nonfiction']
 
-    assert(users.all? { |u| u == bct })
+    assert_equal 3, htc.taggings.length
+
+    # items can be found by tag
+    tagged_with = Item.find_by_tag('nonfiction')
+
+    assert_equal 1, tagged_with.length
+    assert_equal htc, tagged_with[0]
   end
 end

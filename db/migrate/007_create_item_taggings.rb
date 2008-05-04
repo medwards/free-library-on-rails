@@ -1,9 +1,8 @@
 class CreateItemTaggings < ActiveRecord::Migration
   def self.up
     create_table 'item_taggings' do |t|
-      t.integer 'item_id'
-      t.integer 'user_id'
-      t.integer 'tag_id'
+      t.integer 'item_id', :null => false
+      t.integer 'tag_id', :null => false
     end
 
     create_table 'tags' do |t|

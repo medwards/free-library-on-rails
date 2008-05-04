@@ -3,6 +3,8 @@ class Item < ActiveRecord::Base
   belongs_to :held_by, :class_name => 'User',
     :foreign_key => "held_by"
 
+  has_many :item_taggings
+
   validates_presence_of :title, :created, :held_by, :owner_id
 
   # maybe single table inheritance is the best way to do this,

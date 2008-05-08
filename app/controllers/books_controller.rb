@@ -5,7 +5,7 @@ class BooksController < ItemsController
     if params.key?(:lookup) && params[:lookup] == 'lookup'
       self.isbnLookup(params[:isbn])
     else
-      super.create(params)
+      super
     end
   end
 

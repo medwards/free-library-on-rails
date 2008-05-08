@@ -36,8 +36,10 @@ class AccountController < ApplicationController
   end
 
   def signup
-    @user = User.new(params[:user])
     return unless request.post?
+
+    @user = User.new(params[:user])
+    @user.login = params[:user][:login]
 
     @user.save!
     self.current_user = @user

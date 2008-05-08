@@ -1,5 +1,9 @@
 <h1><%=h @item.title %></h1>
 
+<% if @item.owned_by? session[:user] %>
+  <p><%= link_to 'edit', edit_polymorphic_path(@item) %></p>
+<% end %>
+
 <table>
   <tr><th>type of item:</th>
     <td><%=h @item.type %></td></tr>
@@ -11,6 +15,10 @@
     <td><%=
       login = h(@item.held_by.login)
       link_to login, user_path(login) %></td></tr>
+  <tr><th>tags:</th>
+    <td><% @item.taggings.each do |t| %>
+      <%= h(t) %> 
+    <% end %></td></tr>
 </table>
 
 <h2>Description</h2>

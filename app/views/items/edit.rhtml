@@ -1,0 +1,20 @@
+<h1>editing</h1>
+
+<% error_messages_for :item %>
+
+<% form_for :item, :url => { :action => 'update' }, :html => { :method => 'put' } do |f| -%>
+  <p><label for="title">Title</label><br/>
+  <%= f.text_field :title %></p>
+
+  <p><label for="title">Description</label><br/>
+  <%= f.text_field :description %></p>
+
+  <p><label for="tags">Tags</label><br/>
+  <input id="tags" name="tags" value="<%= h @item.taggings.map { |t| t.to_s }.join(' ') %>" /></p>
+
+  <p>
+    <% default_content_for :submit_button do %>
+      <%= submit_tag 'Update' %>
+    <% end %>
+  </p>
+<% end -%>

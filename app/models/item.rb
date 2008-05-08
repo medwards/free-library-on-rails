@@ -7,11 +7,20 @@ class Item < ActiveRecord::Base
 
   validates_presence_of :title, :created, :held_by, :owner_id
 
-  # maybe single table inheritance is the best way to do this,
-  # but we can worry about that later
-  self.inheritance_column = :type
+  def owned_by? user
+    if user and user.is_a? User
+      user = user.id
+    end
 
+    self.owner_id == user
+  end
+
+  # replaces existing taggings
   def tag_with tags
+    ItemTagging.find_all_by_item_id(self).each do |t|
+      t.destroy
+    end
+
     tags.each do |tag|
       tagging = ItemTagging.new
       tagging.tag = Tag.find_or_create_by_name tag

@@ -1,9 +1,9 @@
 <%= error_messages_for :item %>
 
-<% form_for :item, :url => books_path do |f| -%>
+<% form_for :item, :url => items_path do |f| -%>
 
   <% default_content_for :utility_fields do %><% end %>
-  
+
   <p><label for="title">Book Title</label><br/>
   <%= f.text_field :title %></p>
 
@@ -11,10 +11,13 @@
 
   <p><label for="description">Review</label><br/>
   <%= f.text_area :description %></p>
-  
+
+  <p><label for="tags">Tags</label><br/>
+  <input id="tags" name="tags" />
+
   <p>
     <% default_content_for :submit_button do %>
-      <%= submit_tag 'Add Item' %></p>
+      <%= submit_tag 'Add Item' %>
     <% end %>
   </p>
 <% end -%>

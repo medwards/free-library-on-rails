@@ -94,7 +94,35 @@ class BooksControllerTest < Test::Unit::TestCase
       delete :destroy, :id => 1
     end
 
-    # XXX this is expected to fail for now
     assert_response 401
+  end
+
+  def test_edit
+    login_as 'bct'
+
+    get :edit, :id => 2
+    assert_response :success
+
+    put :update, :id => 2, :item => { :title => 'something new' }, :tags => 'new tags'
+
+    assert_redirected_to :controller => 'books', :action => 'show', :id => 2
+
+    item = Book.find(2)
+    assert_equal 'something new', item.title
+    assert_equal ['new', 'tags'], item.taggings.map { |t| t.to_s }.sort
+  end
+
+  def test_unauthorized_edit
+    login_as 'bct'
+
+    get :edit, :id => 1
+    assert_redirected_to :controller => 'books', :action => 'show', :id => 1
+
+    put :update, :id => 1, :item => { :title => 'haxored' }, :tags => 'pwned lol'
+    assert_response 401
+
+    lhd = Book.find(1)
+    assert_equal 'The Left Hand of Darkness', lhd.title
+    assert_equal [], lhd.taggings.map { |t| t.to_s }.sort
   end
 end

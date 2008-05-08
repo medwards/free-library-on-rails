@@ -12,4 +12,16 @@ class ApplicationController < ActionController::Base
 
   # use acts_as_authenticated bits
   include AuthenticatedSystem
+
+  # Not Found
+  def four_oh_four
+    render :file => './public/404.html', :status => 404
+  end
+
+  # throw up a raw 401 Unauthorized
+  #
+  # you may want to redirect instead of using this
+  def unauthorized reason
+    render :file => './public/422.html', :status => 401
+  end
 end

@@ -1,10 +1,12 @@
 class ItemsController < ApplicationController
-  before_filter :login_required, :only => [ :new, :create, :destroy ]
+  before_filter :login_required, :only => [ :new, :create, :destroy, :edit, :update ]
 
   def itemclass; Item end
 
   def show
     @item = itemclass.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    four_oh_four
   end
 
   def new
@@ -15,6 +17,33 @@ class ItemsController < ApplicationController
       params.delete(:controller)
       @item = itemclass.new(params)
     end
+  end
+
+  def edit
+    @item = itemclass.find(params[:id])
+
+    unless @item.owned_by? self.current_user
+      redirect_to polymorphic_path(@item)
+    end
+  rescue ActiveRecord::RecordNotFound
+    four_oh_four
+  end
+
+  def update
+    @item = itemclass.find(params[:id])
+
+    unless @item.owned_by? self.current_user
+      unauthorized 'not authorized to edit this item'; return
+    end
+
+    itemclass.update(params[:id], params[:item])
+
+    tags = params[:tags]
+    if tags and not tags.empty?
+      @item.tag_with tags.split(' ')
+    end
+
+    redirect_to polymorphic_path(@item)
   end
 
   def create
@@ -31,7 +60,11 @@ class ItemsController < ApplicationController
 
   def destroy
     @item = Item.find(params[:id])
-    raise 'not authorized to edit this item' unless self.current_user.id == @item.owner_id
+
+    unless @item.owned_by? self.current_user
+      unauthorized 'not authorized to edit this item'; return
+    end
+
     @item.destroy
 
     # XXX this has behaved weird anecdotally... come back to it and test

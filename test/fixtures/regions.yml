@@ -1,0 +1,8 @@
+edmonton:
+  id: 1
+  name: Edmonton
+  subdomain: edmonton
+montreal:
+  id: 2
+  name: Montréal
+  subdomain: montreal

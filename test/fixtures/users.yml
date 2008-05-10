@@ -9,6 +9,7 @@ bct:
   activated_at: 2008-04-01
   latitude: 53.520
   longitude: -113.509
+  region_id: 1
 medwards:
   id: 1
   login: medwards
@@ -17,6 +18,7 @@ medwards:
   postalcode: T5K1M1
   latitude: 53.541
   longitude: -113.513
+  region_id: 1
 pierre:
   id: 2
   login: pierre
@@ -25,3 +27,4 @@ pierre:
   postalcode: H2X1A1
   latitude: 45.5
   longitude: -73.6
+  region_id: 2

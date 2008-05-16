@@ -24,4 +24,19 @@ class ApplicationController < ActionController::Base
   def unauthorized reason
     render :file => './public/422.html', :status => 401
   end
+
+  # determine the name of the region that we're operating in
+  def region
+    return @region if @region
+
+    name = if ENV['RAILS_ENV'] == 'development'
+             # hardcoded region for development
+             'edmonton'
+           else
+             # the first part of the domain name
+             @request.host.split(/\./).first
+           end
+
+    @region = Region.find_by_subdomain(name)
+  end
 end

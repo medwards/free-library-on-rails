@@ -3,6 +3,10 @@ class ItemsController < ApplicationController
 
   def itemclass; Item end
 
+  def index
+    @items = region.items.find(:all, :conditions => { :type => itemclass.to_s })
+  end
+
   def show
     @item = itemclass.find(params[:id])
   rescue ActiveRecord::RecordNotFound

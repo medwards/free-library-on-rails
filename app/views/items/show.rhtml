@@ -11,10 +11,6 @@
     <td><%=
       login = h(@item.owner.login)
       link_to login, user_path(login) %></td></tr>
-  <tr><th>held by:</th>
-    <td><%=
-      login = h(@item.held_by.login)
-      link_to login, user_path(login) %></td></tr>
   <tr><th>tags:</th>
     <td><% @item.taggings.each do |t| %>
       <%= h(t) %> 

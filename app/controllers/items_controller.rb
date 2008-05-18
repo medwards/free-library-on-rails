@@ -55,7 +55,6 @@ class ItemsController < ApplicationController
 
     @item.created = Time.now
     @item.owner = self.current_user
-    @item.held_by = self.current_user
 
     @item.save!
 

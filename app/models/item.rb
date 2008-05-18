@@ -1,11 +1,28 @@
 class Item < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User'
-  belongs_to :held_by, :class_name => 'User',
-    :foreign_key => "held_by"
+  belongs_to :current_loan, :class_name => 'Loan'
 
   has_many :taggings, :class_name => 'ItemTagging'
 
-  validates_presence_of :title, :created, :held_by, :owner_id
+  validates_presence_of :title, :created, :owner_id
+
+  def loaned?
+    !self.current_loan.nil?
+  end
+
+  def borrower
+    if loaned?
+      self.current_loan.borrower
+    end
+  end
+
+  def returned!
+    self.current_loan.status = 'returned'
+    self.current_loan.save!
+
+    self.current_loan = nil
+    save!
+  end
 
   def owned_by? user
     if user and user.is_a? User
@@ -31,25 +48,6 @@ class Item < ActiveRecord::Base
   end
 
   def self.find_by_tag tag
-    self.find_by_sql [
-  'SELECT *
-    FROM items i, item_taggings t, tags tag
-    WHERE
-    tag.name = ? AND t.tag_id = tag.id AND i.id = t.item_id', tag ]
-  end
-
-  def tag_counts
-    counts = {}
-
-    Tag.find_by_sql([
-  'SELECT tag.name, COUNT(*) as count
-    FROM item_taggings t, tags tag
-    WHERE
-    t.item_id = ? AND t.tag_id = tag.id
-    GROUP BY tag.name', self.id ]).each do |t|
-      counts[t.name] = t.count.to_i
-    end
-
-    counts
+    Tag.find_by_name(tag).items
   end
 end

@@ -2,21 +2,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ItemTest < Test::Unit::TestCase
   def test_owner
-    lhd = Item.find(1)
-    medwards = User.find_by_login('medwards')
+    lhd = items(:lhd)
+    medwards = users(:medwards)
 
     assert_equal medwards, lhd.owner
   end
 
-  def test_holder
-    lhd = Item.find(1)
-    bct = User.find_by_login('bct')
-
-    assert_equal bct, lhd.held_by
-  end
-
   def test_tagging
-    htc = Item.find(2)
+    htc = items(:htc)
 
     tags = htc.taggings.map { |t| t.to_s }.sort
 
@@ -32,5 +25,24 @@ class ItemTest < Test::Unit::TestCase
 
     assert_equal 1, tagged_with.length
     assert_equal htc, tagged_with[0]
+  end
+
+  def test_current_loan
+    lhd = items(:lhd)
+    bct = users(:bct)
+
+    assert lhd.loaned?
+    assert_equal bct, lhd.borrower
+  end
+
+  def test_return_item
+    lhd = items(:lhd)
+
+    lhd.returned!
+
+    assert !lhd.loaned?
+    assert_nil lhd.borrower
+
+    assert Loan.find(:all, :conditions => {:item_id => lhd, :status => 'lent'}).empty?
   end
 end

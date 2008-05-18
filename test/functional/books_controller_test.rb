@@ -17,7 +17,7 @@ class BooksControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    get :show, :id => 1
+    get :show, :id => items(:lhd)
     assert_response :success
 
     assert_match /Left Hand of Darkness/, @response.body
@@ -76,12 +76,14 @@ class BooksControllerTest < Test::Unit::TestCase
   def test_destroy
     login_as 'bct'
 
+    item = items(:htc)
+
     assert_difference(Item, :count, -1) do
-      delete :destroy, :id => 2
+      delete :destroy, :id => item
     end
 
     # it's gone now
-    get :show, :id => 2
+    get :show, :id => item
 
     assert_response 404
   end
@@ -90,8 +92,10 @@ class BooksControllerTest < Test::Unit::TestCase
   def test_unauthorized_destroy
     login_as 'bct'
 
+    item = items(:lhd)
+
     assert_difference(Item, :count, 0) do
-      delete :destroy, :id => 1
+      delete :destroy, :id => item
     end
 
     assert_response 401
@@ -100,14 +104,16 @@ class BooksControllerTest < Test::Unit::TestCase
   def test_edit
     login_as 'bct'
 
-    get :edit, :id => 2
+    htc = items(:htc)
+
+    get :edit, :id => htc
     assert_response :success
 
-    put :update, :id => 2, :item => { :title => 'something new' }, :tags => 'new tags'
+    put :update, :id => htc, :item => { :title => 'something new' }, :tags => 'new tags'
 
-    assert_redirected_to :controller => 'books', :action => 'show', :id => 2
+    assert_redirected_to :controller => 'books', :action => 'show', :id => htc
 
-    item = Book.find(2)
+    item = Book.find(htc)
     assert_equal 'something new', item.title
     assert_equal ['new', 'tags'], item.taggings.map { |t| t.to_s }.sort
   end
@@ -115,13 +121,15 @@ class BooksControllerTest < Test::Unit::TestCase
   def test_unauthorized_edit
     login_as 'bct'
 
-    get :edit, :id => 1
-    assert_redirected_to :controller => 'books', :action => 'show', :id => 1
+    lhd = items(:lhd)
 
-    put :update, :id => 1, :item => { :title => 'haxored' }, :tags => 'pwned lol'
+    get :edit, :id => lhd
+    assert_redirected_to :controller => 'books', :action => 'show', :id => lhd
+
+    put :update, :id => lhd, :item => { :title => 'haxored' }, :tags => 'pwned lol'
     assert_response 401
 
-    lhd = Book.find(1)
+    lhd = Book.find(lhd)
     assert_equal 'The Left Hand of Darkness', lhd.title
     assert_equal [], lhd.taggings.map { |t| t.to_s }.sort
   end

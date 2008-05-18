@@ -17,7 +17,7 @@ class VideosControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    get :show, :id => 3
+    get :show, :id => items(:sg)
     assert_response :success
 
     assert_match /Soylent Green/, @response.body

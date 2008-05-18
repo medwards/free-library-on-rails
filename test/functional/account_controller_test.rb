@@ -62,6 +62,8 @@ class AccountControllerTest < Test::Unit::TestCase
   def test_update_protected_attributes
     login_as 'bct'
 
+    old_user = User.find_by_login('bct')
+
     post :update, :user => { :id                        => 1337,
                              :created_at                => '2008-04-20',
                              :updated_at                => '2008-04-20',
@@ -74,7 +76,7 @@ class AccountControllerTest < Test::Unit::TestCase
     bct = User.find_by_login('bct')
 
     assert_not_nil bct, 'user was able to rename themself'
-    assert_equal 0, bct.id
+    assert_equal old_user.id, bct.id
     assert_equal 'bct', bct.login
     assert_equal Time.parse('2008-04-01'), bct.created_at
     assert_equal Time.parse('2008-04-01'), bct.activated_at

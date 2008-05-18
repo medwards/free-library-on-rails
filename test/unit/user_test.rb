@@ -7,15 +7,8 @@ class UserTest < Test::Unit::TestCase
     @pierre   = User.find_by_login('pierre')
   end
 
-
-  def test_held
-    lhd = Item.find(1)
-
-    assert @bct.held.member?(lhd)
-  end
-
   def test_owned
-    lhd = Item.find(1)
+    lhd = items(:lhd)
 
     assert @medwards.owned.member?(lhd)
   end

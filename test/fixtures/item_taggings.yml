@@ -1,6 +1,6 @@
-1:
-  item_id: 2
-  tag_id: 0
-2:
-  item_id: 2
-  tag_id: 1
+tagging1:
+  item: htc
+  tag: politics
+tagging2:
+  item: htc
+  tag: spain

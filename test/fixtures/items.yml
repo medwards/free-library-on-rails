@@ -1,22 +1,16 @@
 lhd:
-  id: 1
-  owner_id: 1
-  held_by: 0
+  owner: medwards
   type: Book
+  current_loan: loan1
   created: 2008-04-16
-  date_back: 2008-05-01
   title: The Left Hand of Darkness
 htc:
-  id: 2
-  owner_id: 0
-  held_by: 0
+  owner: bct
   type: Book
   created: 2008-04-18
   title: Homage to Catalonia
 sg:
-  id: 3
-  owner_id: 0
-  held_by: 0
+  owner: bct
   type: Video
   created: 2008-04-19
   title: Soylent Green

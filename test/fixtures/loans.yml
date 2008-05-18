@@ -1,0 +1,9 @@
+loan1:
+  status: lent
+  return_date: 2008-05-01
+  item: lhd
+  borrower: bct
+request:
+  status: requested
+  item: htc
+  borrower: pierre

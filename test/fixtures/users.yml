@@ -1,5 +1,4 @@
 bct:
-  id: 0
   login: bct
   crypted_password: aoeu
   email: fake@example.org
@@ -9,22 +8,20 @@ bct:
   activated_at: 2008-04-01
   latitude: 53.520
   longitude: -113.509
-  region_id: 1
+  region: edmonton
 medwards:
-  id: 1
   login: medwards
   crypted_password: aoeu
   email: test@example.org
   postalcode: T5K1M1
   latitude: 53.541
   longitude: -113.513
-  region_id: 1
+  region: edmonton
 pierre:
-  id: 2
   login: pierre
   crypted_password: aoeu
   email: montreal@example.org
   postalcode: H2X1A1
   latitude: 45.5
   longitude: -73.6
-  region_id: 2
+  region: montreal

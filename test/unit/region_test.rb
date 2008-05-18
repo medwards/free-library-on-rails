@@ -4,13 +4,20 @@ class RegionTest < Test::Unit::TestCase
   def test_find_region_items
     edm = Region.find_by_subdomain('edmonton')
 
-    lhd = Item.find_by_id(1)
-    htc = Item.find_by_id(2)
-    sg  = Item.find_by_id(3)
+    lhd = items(:lhd)
+    htc = items(:htc)
+    sg  = items(:sg)
 
-    assert_equal [lhd, htc, sg], edm.items.sort_by { |i| i.id }
+    items = edm.items.sort_by { |i| i.id }
 
-    books = edm.items.find(:all, :conditions => {:type => 'Book'}).sort_by { |i| i.id }
-    assert_equal [lhd, htc], books
+    [lhd, htc, sg].each do |i|
+      assert items.member?(i)
+    end
+
+    books = edm.items.find(:all, :conditions => {:type => 'Book'})
+
+    assert  books.member?(lhd)
+    assert  books.member?(htc)
+    assert !books.member?(sg)
   end
 end

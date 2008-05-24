@@ -18,4 +18,15 @@ class LoanTest < Test::Unit::TestCase
     loan = Loan.create_request(pierre, sg)
     assert_equal 'requested', loan.status
   end
+
+  def test_already_requested
+    htc = items(:htc)
+    lhd = items(:lhd)
+    bct = users(:bct)
+    pierre = users(:pierre)
+
+    assert Loan.already_requested(bct, lhd)
+    assert Loan.already_requested(pierre, htc)
+    assert !Loan.already_requested(bct, htc)
+  end
 end

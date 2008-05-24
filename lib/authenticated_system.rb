@@ -3,12 +3,12 @@ module AuthenticatedSystem
     # Returns true or false if the user is logged in.
     # Preloads @current_user with the user model if they're logged in.
     def logged_in?
-      current_user != :false
+      !current_user.nil?
     end
 
     # Accesses the current user from the session.
     def current_user
-      @current_user ||= (session[:user] && User.find_by_id(session[:user])) || :false
+      @current_user ||= (session[:user] && User.find_by_id(session[:user]))
     end
 
     # Store the given user in the session.
@@ -49,7 +49,7 @@ module AuthenticatedSystem
     #
     def login_required
       username, passwd = get_auth_data
-      self.current_user ||= User.authenticate(username, passwd) || :false if username && passwd
+      self.current_user ||= User.authenticate(username, passwd) || nil if username && passwd
       logged_in? && authorized? ? true : access_denied
     end
 

@@ -10,4 +10,12 @@ class LoanTest < Test::Unit::TestCase
 
     assert loan.approved?
   end
+
+  def test_request
+    pierre = users(:pierre)
+    sg = items(:sg)
+
+    loan = Loan.create_request(pierre, sg)
+    assert_equal 'requested', loan.status
+  end
 end

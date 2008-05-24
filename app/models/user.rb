@@ -23,9 +23,15 @@ class User < ActiveRecord::Base
 
   before_create :make_activation_code
 
-  has_many :owned, :class_name => 'Item', :foreign_key => :owner_id
-  has_many :held, :class_name => 'Item', :foreign_key => :held_by
   belongs_to :region
+
+  has_many :owned, :class_name => 'Item', :foreign_key => :owner_id
+
+  # this user's past and present borrowings
+  has_many :borrowings, :foreign_key => :borrower_id, :class_name => 'Loan'
+
+  # items that this user is currently borrowing
+  has_many :borrowed, :class_name => 'Item', :through => :borrowings, :source => :item, :conditions => "status = 'lent'"
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)

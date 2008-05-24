@@ -2,6 +2,8 @@ class Item < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User'
   belongs_to :current_loan, :class_name => 'Loan'
 
+  has_many :lendings, :class_name => 'Loan'
+
   has_many :taggings, :class_name => 'ItemTagging'
 
   validates_presence_of :title, :created, :owner_id

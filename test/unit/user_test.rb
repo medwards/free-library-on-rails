@@ -29,4 +29,13 @@ class UserTest < Test::Unit::TestCase
     assert_equal edmonton, @medwards.region
     assert_equal montreal, @pierre.region
   end
+
+  def test_borrowed
+    lhd = items(:lhd)
+
+    assert_equal 1, @bct.borrowed.length
+    assert_equal lhd, @bct.borrowed.first
+
+    assert_equal 0, @pierre.borrowed.length
+  end
 end

@@ -17,6 +17,10 @@
     <% end %></td></tr>
 </table>
 
+<% if current_user %>
+  <%= button_to 'request loan', new_loan_path(:item_id => @item) %>
+<% end %>
+
 <h2>Description</h2>
 
 <p>

@@ -23,6 +23,17 @@ class ItemsController < ApplicationController
     end
   end
 
+  def create
+    @item = itemclass.new(params[:item])
+
+    @item.created = Time.now
+    @item.owner = self.current_user
+
+    @item.save!
+
+    redirect_to :controller => itemclass.to_s.tableize, :action => 'show', :id => @item
+  end
+
   def edit
     @item = itemclass.find(params[:id])
 
@@ -48,17 +59,6 @@ class ItemsController < ApplicationController
     end
 
     redirect_to polymorphic_path(@item)
-  end
-
-  def create
-    @item = itemclass.new(params[:item])
-
-    @item.created = Time.now
-    @item.owner = self.current_user
-
-    @item.save!
-
-    redirect_to :controller => itemclass.to_s.tableize, :action => 'show', :id => @item
   end
 
   def destroy

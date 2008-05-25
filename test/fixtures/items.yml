@@ -1,7 +1,7 @@
 lhd:
   owner: medwards
   type: Book
-  current_loan: loan1
+  current_loan: loan
   created: 2008-04-16
   title: The Left Hand of Darkness
 htc:

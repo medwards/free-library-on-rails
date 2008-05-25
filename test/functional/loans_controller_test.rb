@@ -31,4 +31,14 @@ class LoansControllerTest < Test::Unit::TestCase
 
     assert_redirected_to :controller => 'videos', :action => 'show', :id => sg.id.to_s
   end
+
+  def test_index
+    get :index
+    assert_redirected_to :controller => 'account', :action => 'login'
+
+    login_as 'bct'
+
+    get :index
+    assert_response :success
+  end
 end

@@ -1,9 +1,17 @@
-loan1:
+loan:
   status: lent
   return_date: 2008-05-01
   item: lhd
   borrower: bct
 request:
   status: requested
+  item: htc
+  borrower: pierre
+request2:
+  status: requested
+  item: htc
+  borrower: medwards
+reject:
+  status: rejected
   item: htc
   borrower: pierre

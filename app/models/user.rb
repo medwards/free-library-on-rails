@@ -30,15 +30,16 @@ class User < ActiveRecord::Base
   # this user's past and present borrowings
   has_many :borrowings, :foreign_key => :borrower_id, :class_name => 'Loan'
 
-  # items that this user is currently borrowing
-  has_many :borrowed, :class_name => 'Item', :through => :borrowings, :source => :item, :conditions => "status = 'lent'"
+  # outstanding loans and loan requests
+  has_many :borrowed_and_pending, :foreign_key => :borrower_id,
+    :class_name => 'Loan', :conditions => "status NOT IN ('returned', 'rejected')"
 
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  def self.authenticate(login, password)
-    # hide records with a nil activated_at
-    u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
-    u && u.authenticated?(password) ? u : nil
-  end
+  has_many :lent_and_pending, :class_name => 'Loan', :through => :owned,
+    :source => :lendings, :conditions => "status NOT IN ('returned', 'rejected')"
+
+  # items that this user is currently borrowing
+  has_many :borrowed, :class_name => 'Item', :through => :borrowings,
+    :source => :item, :conditions => "status = 'lent'"
 
   # Activates the user in the database.
   def activate
@@ -48,15 +49,19 @@ class User < ActiveRecord::Base
     self.save!
   end
 
+  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
+  def self.authenticate(login, password)
+    # hide records with a nil activated_at
+    u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
+
+    if u and u.authenticated?(password)
+      u
+    end
+  end
+
   # Returns true if the user has just been activated.
   def recently_activated?
     @activated
-  end
-
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  def self.authenticate(login, password)
-    u = find_by_login(login) # need to get the salt
-    u && u.authenticated?(password) ? u : nil
   end
 
   # Encrypts some data with the salt.

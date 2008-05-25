@@ -1,0 +1,29 @@
+<h1>Incoming</h1>
+
+<table>
+  <tr><th>Title</th><th>Owner</th><th>Status</th></tr>
+<% @borrowed_and_pending.each do |l| %>
+  <tr>
+    <td><%=h l.item.title %></td>
+    <td><%=h l.item.owner.login %></td>
+    <td><%=h l.status%></td>
+  </tr>
+<% end %>
+</table>
+
+<h1>Outgoing</h1>
+
+<table>
+  <tr><th>Title</th><th>Borrower</th><th>Status</th></tr>
+<% @borrowed_and_pending.each do |l| %>
+  <tr>
+    <td><%=h l.item.title %></td>
+    <td><%=h l.borrower.login %></td>
+    <td><%=h l.status %></td>
+    <% if l.status == 'requested' %>
+      <td><%= button_to 'cancel', loan_path(l),
+        :method => :delete, :confirm => 'Cancel this loan request?' %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>

@@ -18,7 +18,7 @@
 </table>
 
 <% if current_user and not Loan.already_requested(current_user, @item) %>
-  <%= button_to 'request loan', new_loan_path(:item_id => @item) %>
+  <%= button_to 'request loan', loans_path(:item_id => @item) %>
 <% end %>
 
 <h2>Description</h2>

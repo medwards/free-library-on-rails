@@ -8,12 +8,15 @@ module AuthenticatedSystem
 
     # Accesses the current user from the session.
     def current_user
-      @current_user ||= (session[:user] && User.find_by_id(session[:user]))
+      if @current_user.nil? and session[:user]
+        @current_user = User.find_by_id(session[:user])
+      end
+      @current_user
     end
 
     # Store the given user in the session.
     def current_user=(new_user)
-      session[:user] = (new_user.nil? || new_user.is_a?(Symbol)) ? nil : new_user.id
+      session[:user] = new_user.nil? ? nil : new_user.id
       @current_user = new_user
     end
 
@@ -49,8 +52,20 @@ module AuthenticatedSystem
     #
     def login_required
       username, passwd = get_auth_data
-      self.current_user ||= User.authenticate(username, passwd) || nil if username && passwd
-      logged_in? && authorized? ? true : access_denied
+
+      if username and passwd
+        user = User.authenticate(username, passwd)
+
+        if user
+          self.current_user = user
+        end
+      end
+
+      if logged_in? and authorized?
+        true
+      else
+        access_denied
+      end
     end
 
     # Redirect as appropriate when an access request fails.
@@ -104,7 +119,8 @@ module AuthenticatedSystem
       if user && user.remember_token?
         user.remember_me
         self.current_user = user
-        cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
+        cookies[:auth_token] = { :value => self.current_user.remember_token,
+                                 :expires => self.current_user.remember_token_expires_at }
         flash[:notice] = "Logged in successfully"
       end
     end

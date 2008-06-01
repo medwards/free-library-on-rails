@@ -31,7 +31,14 @@ class AccountController < ApplicationController
       end
       redirect_back_or_default(:controller => '/account', :action => 'index')
 
-      flash[:notice] = "Logged in successfully"
+      flash[:notice] = "Logged in successfully."
+    else
+      user = User.find_by_login(params[:login]) an
+      if user and not user.activated_at
+        flash[:error] = "Couldn't log you in. You haven't activated your account."
+      else
+        flash[:error] = "Couldn't log you in. Check your username and password."
+      end
     end
   end
 

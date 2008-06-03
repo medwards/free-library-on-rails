@@ -33,7 +33,7 @@ class AccountController < ApplicationController
 
       flash[:notice] = "Logged in successfully."
     else
-      user = User.find_by_login(params[:login]) an
+      user = User.find_by_login(params[:login])
       if user and not user.activated_at
         flash[:error] = "Couldn't log you in. You haven't activated your account."
       else

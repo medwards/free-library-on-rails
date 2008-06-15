@@ -1,4 +1,4 @@
-<h1>editing</h1>
+<h1>editing <%= @item.title %></h1>
 
 <% error_messages_for :item %>
 
@@ -7,7 +7,7 @@
   <%= f.text_field :title %></p>
 
   <p><label for="title">Description</label><br/>
-  <%= f.text_field :description %></p>
+  <%= f.text_area :description %></p>
 
   <p><label for="tags">Tags</label><br/>
   <input id="tags" name="tags" value="<%= h @item.taggings.map { |t| t.to_s }.join(' ') %>" /></p>

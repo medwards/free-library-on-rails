@@ -2,7 +2,7 @@
 
 <%= error_messages_for :item %>
 
-<% form_for :item, :url => items_path do |f| -%>
+<% form_for :item, :url => polymorphic_path(@item) do |f| -%>
   <% default_content_for :utility_fields do %><% end %>
 
   <p><label for="title">Title</label><br/>

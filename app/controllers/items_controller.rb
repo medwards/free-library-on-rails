@@ -31,6 +31,8 @@ class ItemsController < ApplicationController
 
     @item.save!
 
+    @item.tag_with params[:tags]
+
     redirect_to :controller => itemclass.to_s.tableize, :action => 'show', :id => @item
   end
 
@@ -53,10 +55,7 @@ class ItemsController < ApplicationController
 
     itemclass.update(params[:id], params[:item])
 
-    tags = params[:tags]
-    if tags and not tags.empty?
-      @item.tag_with tags.split(' ')
-    end
+    @item.tag_with params[:tags]
 
     redirect_to polymorphic_path(@item)
   end

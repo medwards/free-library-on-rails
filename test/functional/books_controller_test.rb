@@ -47,10 +47,13 @@ class BooksControllerTest < Test::Unit::TestCase
     assert_difference(Item, :count, 1) do
       post :create, :item => {
                               :title => 'Iron Council'
-                              }
+                              },
+                    :tags => 'political fiction'
     end
 
     new_book = Book.find_by_title('Iron Council')
+
+    assert_equal ['fiction', 'political'], new_book.tags.sort
 
     assert_redirected_to :controller => 'books', :action => 'show', :id => new_book
 
@@ -115,7 +118,7 @@ class BooksControllerTest < Test::Unit::TestCase
 
     item = Book.find(htc)
     assert_equal 'something new', item.title
-    assert_equal ['new', 'tags'], item.taggings.map { |t| t.to_s }.sort
+    assert_equal ['new', 'tags'], item.tags.sort
   end
 
   def test_unauthorized_edit
@@ -131,6 +134,6 @@ class BooksControllerTest < Test::Unit::TestCase
 
     lhd = Book.find(lhd)
     assert_equal 'The Left Hand of Darkness', lhd.title
-    assert_equal [], lhd.taggings.map { |t| t.to_s }.sort
+    assert_equal [], lhd.tags.sort
   end
 end

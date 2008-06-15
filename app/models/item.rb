@@ -37,8 +37,15 @@ class Item < ActiveRecord::Base
     self.owner_id == user
   end
 
-  # replaces existing taggings
+  # replace existing taggings with the tags in an Array or a
+  # space-separated string
   def tag_with tags
+    if tags.is_a? String
+      tags = tags.split(' ')
+    end
+
+    return if not tags or tags.empty?
+
     ItemTagging.find_all_by_item_id(self).each do |t|
       t.destroy
     end
@@ -50,6 +57,11 @@ class Item < ActiveRecord::Base
 
       self.taggings << tagging
     end
+  end
+
+  # an Item's tags, as an Array of Strings
+  def tags
+    taggings.map { |t| t.to_s }
   end
 
   def self.find_by_tag tag

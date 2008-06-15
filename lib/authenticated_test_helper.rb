@@ -106,7 +106,7 @@ class XmlLoginProxy < BaseLoginProxy
       @controller.accept 'application/xml'
       @controller.authorize_as @login if @login
     end
-    
+
     def check
       @controller.assert_response 401
     end

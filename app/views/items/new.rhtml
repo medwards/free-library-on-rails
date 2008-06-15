@@ -1,10 +1,11 @@
+<h1>Add a new <%=h params[:controller].singularize %></h1>
+
 <%= error_messages_for :item %>
 
 <% form_for :item, :url => items_path do |f| -%>
-
   <% default_content_for :utility_fields do %><% end %>
 
-  <p><label for="title">Book Title</label><br/>
+  <p><label for="title">Title</label><br/>
   <%= f.text_field :title %></p>
 
   <% default_content_for :additional_fields do %><% end %>

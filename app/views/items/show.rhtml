@@ -1,9 +1,5 @@
 <h1><%=h @item.title %></h1>
 
-<% if @item.owned_by? session[:user] %>
-  <p><%= link_to 'edit', edit_polymorphic_path(@item) %></p>
-<% end %>
-
 <table>
   <tr><th>type of item:</th>
     <td><%=h @item.type %></td></tr>
@@ -17,9 +13,27 @@
     <% end %></td></tr>
 </table>
 
-<% if current_user and not Loan.already_requested(current_user, @item) %>
-  <%= button_to 'request loan', loans_path(:item_id => @item) %>
+<% if current_user %>
+  <% if Loan.already_requested(current_user, @item) %>
+    You have already requested to borrow this item.
+  <% else %>
+    <%= button_to 'request loan', loans_path(:item_id => @item) %>
+  <% end %>
 <% end %>
+
+<% if @item.owned_by? session[:user] %>
+  <p><%= link_to 'edit', edit_polymorphic_path(@item) %></p>
+
+  <% unless @item.requests.empty? %>
+    <p>Requested by:</p>
+    <ul>
+      <% @item.requests.each do |req| %>
+        <li><%= req.borrower.login %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
 
 <h2>Description</h2>
 

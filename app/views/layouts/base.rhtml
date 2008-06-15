@@ -2,10 +2,23 @@
 <html>
 
 <head>
+  <%= stylesheet_link_tag 'main' %>
 </head>
 
 <body>
   <div class="head">free library</div>
+
+  <ul>
+  <% if current_user %>
+    <li>hello, <%= link_to current_user.login, user_path(current_user.login) %></li>
+    <li><%= link_to 'edit your account', :controller => 'account' %></li>
+  <% else %>
+    <li><%= link_to 'log in', :controller => 'account', :action => 'login' %></li>
+  <% end %>
+
+    <li><%= link_to 'books', books_path %></li>
+    <li><%= link_to 'videos', videos_path %></li>
+  </ul>
 
   <div class="main">
     <% if flash[:notice] %>

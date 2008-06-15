@@ -1,0 +1,8 @@
+<ul>
+  <li><%= link_to 'add video', new_video_path %></li>
+</ul>
+
+<h1>Videos in <%= h(@region.name) %></h1>
+
+<% inheriting_view 'items/index' do %>
+<% end %>

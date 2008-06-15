@@ -4,6 +4,9 @@ class Item < ActiveRecord::Base
 
   has_many :lendings, :class_name => 'Loan'
 
+  has_many :requests, :class_name => 'Loan',
+    :conditions => "status NOT IN ('returned', 'rejected')"
+
   has_many :taggings, :class_name => 'ItemTagging'
 
   validates_presence_of :title, :created, :owner_id

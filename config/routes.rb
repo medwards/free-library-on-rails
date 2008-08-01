@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # The priority is based upon order of creation: first created -> highest priority.
 
-  # resource routes (map HTTP verbs to controller actions automatically
+  # resource routes (map HTTP verbs to controller actions automatically)
   map.resources :items
   map.resources :books
   map.resources :videos
@@ -11,6 +11,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
 
   map.resources :loans
+
+  map.resources :tags
 
   # Sample resource route with options:
   #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }

@@ -1,0 +1,9 @@
+<% form_tag loan_path(req), :method => 'put' do -%>
+  <fieldset>
+    <legend>loan length</legend>
+    <label>One week <%= radio_button_tag 'return_date', (Date.today + 1.week).to_s %></label>
+    <label>Two weeks <%= radio_button_tag 'return_date', (Date.today + 2.weeks).to_s %></label>
+    <label>One month <%= radio_button_tag 'return_date', (Date.today + 1.month).to_s %></label>
+  </fieldset>
+  <%= submit_tag 'approve request' %>
+<% end %>

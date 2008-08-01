@@ -11,6 +11,8 @@ class CreateLoans < ActiveRecord::Migration
     remove_column :items, :date_back
 
     add_column :items, :current_loan_id, :integer
+
+    remove_column :items, :current_loan
   end
 
   def self.down

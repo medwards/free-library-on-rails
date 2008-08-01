@@ -7,6 +7,9 @@
     <td><%=h l.item.title %></td>
     <td><%=h l.item.owner.login %></td>
     <td><%=h l.status%></td>
+    <% if l.status != 'lent' %>
+      <td><%= render :partial => 'approval', :locals => { :req => l } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
@@ -15,7 +18,7 @@
 
 <table>
   <tr><th>Title</th><th>Borrower</th><th>Status</th></tr>
-<% @borrowed_and_pending.each do |l| %>
+<% @lent_and_pending.each do |l| %>
   <tr>
     <td><%=h l.item.title %></td>
     <td><%=h l.borrower.login %></td>

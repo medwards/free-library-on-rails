@@ -41,4 +41,58 @@ class LoansControllerTest < Test::Unit::TestCase
     get :index
     assert_response :success
   end
+
+  def test_approve
+    request = loans(:request)
+    htc = items(:htc)
+
+    login_as 'bct'
+
+    put :update, :id => request, :return_date => '2012-12-21'
+    assert_redirected_to :controller => 'books', :action => 'show', :id => htc.id.to_s
+
+    # loan was approved
+    loan = Loan.find(request)
+    assert_equal "lent", loan.status
+
+    book = Book.find(htc)
+    assert_equal loan, book.current_loan
+  end
+
+  def test_approve_already_lent
+    loan = loans(:loan)
+    request = loans(:lhd_req)
+    lhd = items(:lhd)
+
+    login_as 'medwards'
+
+    put :update, :id => request, :return_date => '2012-12-21'
+    assert_redirected_to :controller => 'books', :action => 'show', :id => lhd.id.to_s
+
+    # loan was not approved
+    request = Loan.find(request)
+    assert_equal 'requested', request.status
+
+    # original loan is still intact
+    loan = Loan.find(loan)
+    assert_equal 'lent', loan.status
+
+    book = Book.find(lhd)
+    assert_equal loan, book.current_loan
+  end
+
+  def test_unauthorized_approve
+    request = loans(:request)
+    htc = items(:htc)
+
+    put :update, :id => request, :return_date => '2012-12-21'
+    assert_response 302
+
+    # loan was not approved
+    loan = Loan.find(request)
+    assert_equal 'requested', loan.status
+
+    book = Book.find(htc)
+    assert_nil book.current_loan
+  end
 end

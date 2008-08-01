@@ -9,7 +9,7 @@
       link_to login, user_path(login) %></td></tr>
   <tr><th>tags:</th>
     <td><% @item.taggings.each do |t| %>
-      <%= h(t) %> 
+      <%= link_to t, tag_path(t.to_s) %> 
     <% end %></td></tr>
 </table>
 
@@ -28,7 +28,10 @@
     <p>Requested by:</p>
     <ul>
       <% @item.requests.each do |req| %>
-        <li><%= req.borrower.login %></li>
+        <li>
+          <%= req.borrower.login %>
+          <%= render :partial => 'loans/approval', :locals => { :req => req } %>
+        </li>
       <% end %>
     </ul>
   <% end %>

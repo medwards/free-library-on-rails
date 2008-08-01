@@ -1,6 +1,6 @@
 # the 'status' field holds a string that is one of:
 #   - requested
-#   - approved
+#   - approved    <- this is not used at the moment, it goes straight to lent
 #   - lent
 #   - returned
 #   - rejected
@@ -15,6 +15,15 @@ class Loan < ActiveRecord::Base
   def approved!
     self.status = 'approved'
     save!
+  end
+
+  def lent!(return_date)
+    self.return_date = return_date
+    self.status = 'lent'
+    save!
+
+    self.item.current_loan = self
+    self.item.save!
   end
 
   # make a new loan request

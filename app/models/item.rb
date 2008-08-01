@@ -5,7 +5,7 @@ class Item < ActiveRecord::Base
   has_many :lendings, :class_name => 'Loan'
 
   has_many :requests, :class_name => 'Loan',
-    :conditions => "status NOT IN ('returned', 'rejected')"
+    :conditions => "status NOT IN ('lent', 'returned', 'rejected')"
 
   has_many :taggings, :class_name => 'ItemTagging'
 

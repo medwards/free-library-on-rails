@@ -3,6 +3,10 @@ loan:
   return_date: 2008-05-01
   item: lhd
   borrower: bct
+lhd_req:
+  status: requested
+  item: lhd
+  borrower: pierre
 request:
   status: requested
   item: htc

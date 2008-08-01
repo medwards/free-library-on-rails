@@ -20,6 +20,26 @@ class LoansController < ApplicationController
     redirect_to polymorphic_path(@item)
   end
 
+  def update
+    @loan = Loan.find(params[:id])
+
+    if @loan.status == "requested"
+      unless @loan.item.owner == self.current_user
+        unauthorized "you don't have permission to approve this loan"; return
+      end
+
+      if @loan.item.loaned?
+        flash[:error] = "Can't loan an item that is already loaned."
+      else
+        return_date = Date.parse(params[:return_date])
+        @loan.lent!(return_date)
+        flash[:notice] = "Request approved."
+      end
+    end
+
+    redirect_back_or_to polymorphic_path(@loan.item)
+  end
+
   def destroy
     @loan = Loan.find(params[:id])
 

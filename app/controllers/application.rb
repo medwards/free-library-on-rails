@@ -39,4 +39,11 @@ class ApplicationController < ActionController::Base
 
     @region = Region.find_by_subdomain(name)
   end
+
+  # like redirect_to :back, but gives a default in case Referer isn't set
+  def redirect_back_or_to(default)
+    redirect :back
+  rescue ActionController::RedirectBackError
+    redirect_to default
+  end
 end

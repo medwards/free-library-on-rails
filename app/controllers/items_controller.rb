@@ -14,13 +14,7 @@ class ItemsController < ApplicationController
   end
 
   def new
-    if(params[:isbn] == nil)
-      @item = itemclass.new
-    else
-      params.delete(:action)
-      params.delete(:controller)
-      @item = itemclass.new(params)
-    end
+    @item = itemclass.new(params[:item])
   end
 
   def create

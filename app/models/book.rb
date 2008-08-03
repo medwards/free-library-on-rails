@@ -1,13 +1,48 @@
 require 'open-uri'
+require 'rexml/document'
+
 require 'hpricot'
 
 class Book < Item
+  ISBNDB_KEY = 'PJ6X926W'
+  ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
+
   def self.new_from_isbn(isbn)
+    # spin off threads that will do metadata lookups on multiple services?
+    self.new_from_isbndb(isbn)
+  end
+
+  def self.new_from_isbndb(isbn)
+    book = self.new
+    url = ISBNDB_ROOT + '&index1=isbn&value1=' + isbn
+
+    xml = REXML::Document.new(open(url))
+
+    bookdata = xml.elements['//BookData[1]']
+    book.isbn = bookdata.attributes['isbn']
+
+    book.title = bookdata.elements['Title'].text
+
+    authors_text = bookdata.elements['AuthorsText'].text
+    if authors_text
+      authors = authors_text.split(',').map { |a| a.strip }.reject { |a| a.empty? }
+
+      # only take the first author for now
+      author = authors.first
+
+      # unfortunately there's no algorithm for separating a first name from a last
+      # (also "first" and "last" name is pretty much meaningless in a multicultural world)
+      book.author_first, book.author_last = author.split(' ', 2)
+    end
+
+    book
+  end
+
+  # as of 2008-08-02, this doesn't work. google seems to block based on User-Agent.
+  def self.new_from_google_books(isbn)
     book = self.new
     book.isbn = isbn
 
-    # spin off threads that will do metadata lookups on multiple services?
-    # First google books
     doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn))
 
     book.title = doc.at("//h2[@class='title']").inner_html

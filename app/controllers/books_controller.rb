@@ -17,16 +17,18 @@ class BooksController < ItemsController
     begin
       @item = Book.new_from_isbn(isbn)
     rescue OpenURI::HTTPError
-      flash[:warning] = "Lookup failed - Could not find that ISBN"
+      flash[:warning] = "Lookup failed - could not find that ISBN."
       redirect_to :action => "new", :isbn => isbn
     end
 
-    flash[:notice] = "Lookup Successful"
+    flash[:notice] = "Lookup successful."
     redirect_to :action =>        "new",
-                :title =>         @item.title,
-                :description =>   @item.review,
-                :isbn =>          @item.isbn,
-                :author_last =>   @item.author_last,
-                :author_first =>  @item.author_first
+                :item => {
+                  :title =>         @item.title,
+                  :description =>   @item.description,
+                  :isbn =>          @item.isbn,
+                  :author_last =>   @item.author_last,
+                  :author_first =>  @item.author_first
+                }
   end
 end

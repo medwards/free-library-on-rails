@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   # like redirect_to :back, but gives a default in case Referer isn't set
   def redirect_back_or_to(default)
-    redirect :back
+    redirect_to :back
   rescue ActionController::RedirectBackError
     redirect_to default
   end

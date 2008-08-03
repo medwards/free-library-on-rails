@@ -3,7 +3,7 @@
   <% @items.each do |item| %>
     <tr>
       <td><%= link_to h(item.title), polymorphic_path(item) %></td>
-      <td><%= link_to h(item.owner.login), user_path(item.owner.login) %></td>
+      <td><%= user_link item.owner %></td>
     </tr>
   <% end %>
 </table>

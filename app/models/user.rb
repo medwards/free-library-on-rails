@@ -41,6 +41,9 @@ class User < ActiveRecord::Base
   has_many :borrowed, :class_name => 'Item', :through => :borrowings,
     :source => :item, :conditions => "status = 'lent'"
 
+  # users are generally displayed with their login
+    def to_s; login; end
+
   # Activates the user in the database.
   def activate
     @activated = true

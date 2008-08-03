@@ -26,6 +26,14 @@ class Loan < ActiveRecord::Base
     self.item.save!
   end
 
+  def returned!
+    self.status = 'returned'
+    save!
+
+    self.item.current_loan = nil
+    self.item.save!
+  end
+
   # make a new loan request
   def self.create_request(user, item)
     self.create(:borrower => user, :item => item, :status => 'requested')

@@ -1,32 +1,42 @@
-<h1>Incoming</h1>
+<h1>Things I'm Borrowing, Things I've Requested</h1>
 
-<table>
-  <tr><th>Title</th><th>Owner</th><th>Status</th></tr>
-<% @borrowed_and_pending.each do |l| %>
-  <tr>
-    <td><%=h l.item.title %></td>
-    <td><%=h l.item.owner.login %></td>
-    <td><%=h l.status%></td>
-    <% if l.status != 'lent' %>
-      <td><%= render :partial => 'approval', :locals => { :req => l } %></td>
-    <% end %>
-  </tr>
+<% if @borrowed_and_pending.empty? %>
+  <p>You are not borrowing anything and have not made any requests.</p>
+<% else %>
+  <table>
+    <tr><th>Title</th><th>Owner</th><th>Status</th></tr>
+  <% @borrowed_and_pending.each do |l| %>
+    <tr>
+      <td><%=h l.item.title %></td>
+      <td><%=h l.item.owner.login %></td>
+      <td><%=h l.status%></td>
+      <% if l.status == 'requested' %>
+        <td><%= button_to 'cancel', loan_path(l),
+          :method => :delete, :confirm => 'Cancel this loan request?' %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </table>
 <% end %>
-</table>
 
-<h1>Outgoing</h1>
+<h1>Things I've Lent &amp; Loan Requests</h1>
 
-<table>
-  <tr><th>Title</th><th>Borrower</th><th>Status</th></tr>
-<% @lent_and_pending.each do |l| %>
-  <tr>
-    <td><%=h l.item.title %></td>
-    <td><%=h l.borrower.login %></td>
-    <td><%=h l.status %></td>
-    <% if l.status == 'requested' %>
-      <td><%= button_to 'cancel', loan_path(l),
-        :method => :delete, :confirm => 'Cancel this loan request?' %></td>
-    <% end %>
-  </tr>
+<% if @lent_and_pending.empty? %>
+  <p>Nobody has borrowed or requested anything.</p>
+<% else %>
+  <table>
+    <tr><th>Title</th><th>Borrower</th><th>Status</th></tr>
+  <% @lent_and_pending.each do |l| %>
+    <tr>
+      <td><%=h l.item.title %></td>
+      <td><%=h l.borrower.login %></td>
+      <td><%=h l.status %></td>
+      <% if l.status == 'lent' %>
+        <td><%= button_to 'returned', loan_path(l), :method => :put %></td>
+      <% else %>
+        <td><%= render :partial => 'approval', :locals => { :req => l } %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </table>
 <% end %>
-</table>

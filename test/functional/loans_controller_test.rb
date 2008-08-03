@@ -95,4 +95,21 @@ class LoansControllerTest < Test::Unit::TestCase
     book = Book.find(htc)
     assert_nil book.current_loan
   end
+
+  def test_returned
+    loan = loans(:loan)
+    lhd = items(:lhd)
+
+    login_as 'medwards'
+
+    put :update, :id => loan
+    assert_redirected_to :controller => 'books', :action => 'show', :id => lhd.id.to_s
+
+    # item was marked returned
+    loan = Loan.find(loan)
+    assert_equal 'returned', loan.status
+
+    book = Book.find(lhd)
+    assert_nil book.current_loan
+  end
 end

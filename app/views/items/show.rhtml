@@ -22,6 +22,11 @@
 <% if @item.owned_by? session[:user] %>
   <p><%= link_to 'edit', edit_polymorphic_path(@item) %></p>
 
+  <% if @item.current_loan %>
+    <p>Currently loaned to <%= user_link @item.current_loan.borrower %>.
+      <%= button_to 'returned', loan_path(@item.current_loan), :method => :put %></p>
+  <% end %>
+
   <% unless @item.requests.empty? %>
     <p>Requested by:</p>
     <ul>

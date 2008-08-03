@@ -35,6 +35,13 @@ class LoansController < ApplicationController
         @loan.lent!(return_date)
         flash[:notice] = "Request approved."
       end
+    elsif @loan.status == "lent"
+      unless @loan.item.owner == self.current_user
+        unauthorized "you don't have permission to mark this item as returned"; return
+      end
+
+      @loan.returned!
+      flash[:notice] = "Return acknowledged."
     end
 
     redirect_back_or_to polymorphic_path(@loan.item)

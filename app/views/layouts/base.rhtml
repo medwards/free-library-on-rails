@@ -12,8 +12,10 @@
   <% if current_user %>
     <li>hello, <%= user_link current_user %></li>
     <li><%= link_to 'edit your account', :controller => 'account' %></li>
+    <li><%= link_to 'log out', :controller => 'account', :action => 'logout' %></li>
   <% else %>
     <li><%= link_to 'log in', :controller => 'account', :action => 'login' %></li>
+    <li><%= link_to 'new account', :controller => 'account', :action => 'signup' %></li>
   <% end %>
 
     <li><%= link_to 'books', books_path %></li>

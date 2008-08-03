@@ -29,7 +29,7 @@ class AccountController < ApplicationController
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
-      redirect_back_or_to(:controller => 'account', :action => 'index')
+      redirect_back_or_default(:controller => 'account', :action => 'index')
 
       flash[:notice] = "Logged in successfully."
     else
@@ -51,7 +51,7 @@ class AccountController < ApplicationController
     @user.save!
     self.current_user = @user
 
-    redirect_back_or_to(:controller => 'account', :action => 'index')
+    redirect_back_or_default(:controller => 'account', :action => 'index')
 
     flash[:notice] = "Thanks for signing up!"
   rescue ActiveRecord::RecordInvalid
@@ -63,7 +63,7 @@ class AccountController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_back_or_to(:controller => 'account', :action => 'login')
+    redirect_back_or_default(:controller => 'account', :action => 'login')
   end
 
   def activate
@@ -73,7 +73,7 @@ class AccountController < ApplicationController
 
     @user = User.find_by_activation_code(activator)
     if @user and @user.activate
-      redirect_back_or_to(:controller => 'account', :action => 'login')
+      redirect_back_or_default(:controller => 'account', :action => 'login')
       flash[:notice] = "Your account has been activated.  Please login."
     else
       flash[:notice] = "Unable to activate the account.  Please check or enter manually."

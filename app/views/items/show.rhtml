@@ -7,7 +7,7 @@
     <td><%= user_link @item.owner %></td></tr>
   <tr><th>tags:</th>
     <td><% @item.taggings.each do |t| %>
-      <%= link_to t, tag_path(t.to_s) %> 
+      <%= link_to h(t), tag_path(h(t.to_s)) %> 
     <% end %></td></tr>
 </table>
 
@@ -32,7 +32,7 @@
     <ul>
       <% @item.requests.each do |req| %>
         <li>
-          <%= req.borrower.login %>
+          <%= h req.borrower.login %>
           <%= render :partial => 'loans/approval', :locals => { :req => req } %>
         </li>
       <% end %>

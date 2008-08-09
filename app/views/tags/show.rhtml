@@ -2,6 +2,6 @@
 
 <table>
   <% @items.each do |i| %>
-    <tr><td><%= link_to i.title, polymorphic_path(i) %></td></tr>
+    <tr><td><%= link_to h(i.title), h(polymorphic_path(i)) %></td></tr>
   <% end %>
 </table>

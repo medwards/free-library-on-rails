@@ -30,7 +30,7 @@ class Book < Item
     end
     book.author_last, book.author_first = author.text.split(', ', 2)
 
-    bookdata.elements['Subjects/Subject'].each { |subject| book.tag_with subject.to_s.gsub(' -- ', ', '); }
+    bookdata.elements.to_a('Subjects/Subject').each { |subject| book.tag_with subject.text.to_s.gsub(' -- ', ', '); puts book.tags }
 
     book
   end

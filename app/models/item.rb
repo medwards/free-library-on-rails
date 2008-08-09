@@ -53,12 +53,14 @@ class Item < ActiveRecord::Base
       t.destroy
     end
 
-    tags.each do |tag|
-      tagging = ItemTagging.new
-      tagging.tag = Tag.find_or_create_by_name tag
-      tagging.item = self
+    tags.uniq.each do |tag|
+      if not self.tags.member? tag
+        tagging = ItemTagging.new
+        tagging.tag = Tag.find_or_create_by_name tag
+        tagging.item = self
 
-      self.taggings << tagging
+        self.taggings << tagging
+      end
     end
   end
 

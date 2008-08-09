@@ -42,11 +42,11 @@ class UserTest < Test::Unit::TestCase
   def test_borrowed_and_pending
     assert_equal 1, @bct.borrowed_and_pending.length
     assert_equal 1, @medwards.borrowed_and_pending.length
-    assert_equal 1, @pierre.borrowed_and_pending.length
+    assert_equal 2, @pierre.borrowed_and_pending.length
   end
 
   def test_lent_and_pending
-    assert_equal 1, @medwards.lent_and_pending.length
+    assert_equal 2, @medwards.lent_and_pending.length
     assert_equal 2, @bct.lent_and_pending.length
   end
 end

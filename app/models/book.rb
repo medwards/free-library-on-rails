@@ -14,7 +14,7 @@ class Book < Item
 
   def self.new_from_isbndb(isbn)
     book = self.new
-    url = ISBNDB_ROOT + '&index1=isbn&value1=' + isbn
+    url = ISBNDB_ROOT + '&results=subjects&results=texts&results=authors&index1=isbn&value1=' + isbn
 
     xml = REXML::Document.new(open(url))
 
@@ -22,18 +22,15 @@ class Book < Item
     book.isbn = bookdata.attributes['isbn']
 
     book.title = bookdata.elements['Title'].text
-
-    authors_text = bookdata.elements['AuthorsText'].text
-    if authors_text
-      authors = authors_text.split(',').map { |a| a.strip }.reject { |a| a.empty? }
-
-      # only take the first author for now
-      author = authors.first
-
-      # unfortunately there's no algorithm for separating a first name from a last
-      # (also "first" and "last" name is pretty much meaningless in a multicultural world)
-      book.author_first, book.author_last = author.split(' ', 2)
+    book.description = bookdata.elements['Summary'].text
+    
+    author = bookdata.elements['Authors/Person']
+    if author.is_a? Array
+      author = author[0]
     end
+    book.author_last, book.author_first = author.text.split(', ', 2)
+
+    bookdata.elements['Subjects/Subject'].each { |subject| book.tag_with subject.to_s.gsub(' -- ', ', '); }
 
     book
   end
@@ -43,13 +40,14 @@ class Book < Item
     book = self.new
     book.isbn = isbn
 
-    doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn))
+    doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn, 'User-Agent' => 'FLORa'))
 
     book.title = doc.at("//h2[@class='title']").inner_html
 
-    authorblock = doc.at("//span[@class='addmd']").inner_html.split(',  ')
-    book.author_last = authorblock[0][3..-1]
-    book.author_first = authorblock[1]
+    book.author_last = doc.at("//span[@class='addmd']").inner_html[3..-1]
+    #authorblock = doc.at("//span[@class='addmd']").inner_html.split(", ")
+    #book.author_last = authorblock[0][3..-1]
+    #book.author_first = authorblock[1]
 
     image = doc.at("//img[@title='Preview this book']")
     image &&= image.attributes['src']
@@ -58,14 +56,14 @@ class Book < Item
     review ||= doc.search("//div[@class='snippet']").sort_by { |x| x.inner_html.size }[0].inner_html
     book.description = review
 
-    possible_tags = doc.at("//table[@id='bibdata']").search("a")[1].inner_html.split('/')
+    #possible_tags = doc.at("//table[@id='bibdata']").search("a")[1].inner_html.split('/')
 
     #if !doc.search("//td[@class='volumetab '").empty?
     #  doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn << '&printsec=frontcover'))
     #  doc.at("//div[@id='subjects_v']").search("a").each { |l| p possible_tags = possible_tags << l.inner_html[0..-13].split(' / ')}
     #end
 
-    possible_tags.flatten.each {|l| l.downcase!}.uniq
+    #possible_tags.flatten.each {|l| l.downcase!}.uniq
 
     book
   end

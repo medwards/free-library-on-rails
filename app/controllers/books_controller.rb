@@ -29,6 +29,7 @@ class BooksController < ItemsController
                   :isbn =>          @item.isbn,
                   :author_last =>   @item.author_last,
                   :author_first =>  @item.author_first
-                }
+                },
+                :tags =>          @item.tags
   end
 end

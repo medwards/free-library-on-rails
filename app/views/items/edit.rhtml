@@ -10,7 +10,7 @@
   <%= f.text_area :description %></p>
 
   <p><label for="tags">Tags</label><br/>
-  <input id="tags" name="tags" value="<%= h @item.taggings.map { |t| t.to_s }.join(' ') %>" /></p>
+  <input id="tags" name="tags" value="<%= h @item.taggings.map { |t| t.to_s }.join(', ') %>" /></p>
 
   <p>
     <% default_content_for :submit_button do %>

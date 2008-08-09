@@ -15,6 +15,9 @@ class ItemsController < ApplicationController
 
   def new
     @item = itemclass.new(params[:item])
+
+    @tags = params[:tags]
+    @tags ||= []
   end
 
   def create

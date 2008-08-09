@@ -45,6 +45,7 @@
 						<%= link_to 'log in', {:controller => 'account', :action => 'login'}, :class=> 'nav' %><br class="hide" />
 						<%= link_to 'new account', {:controller => 'account', :action => 'signup'}, :class=> 'nav' %><br class="hide" />
 					<% end %>
+          <%= yield :extra_side_links %>
 					<a class="hide" href="#top">Back to top</a>
 				</p>
 			</div>

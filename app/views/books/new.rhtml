@@ -1,12 +1,21 @@
 <% inheriting_view 'items/new' do %>
   <% content_for :utility_fields do %>
-    <p><label for="isbn">ISBN</label>
-    <%= text_field_tag :isbn, @item.isbn %> <button onclick="window.location='isbnLookup/' + document.getElementById('isbn').value; return false;">Lookup</button></p>
+    <tr>
+      <td><label for="isbn">ISBN</label></td>
+      <td><%= text_field_tag :isbn, @item.isbn %> <button onclick="window.location='isbnLookup/' + document.getElementById('isbn').value; return false;">Lookup</button></td>
+    </tr>
   <% end %>
 
   <% content_for :additional_fields do %>
-    <p><label for="author_first">Author's First Name</label> <%= text_field_tag :author_first, @item.author_first %></p>
-	<p><label for="author_last">Author's Last Name</label> <%= text_field_tag :author_last, @item.author_last %></p>
+    <tr>
+      <td><label for="author_first">Author's First Name</label></td>
+      <td><%= text_field_tag :author_first, @item.author_first %></td>
+    </tr>
+
+    <tr>
+      <td><label for="author_last">Author's Last Name</label></td>
+      <td><%= text_field_tag :author_last, @item.author_last %></td>
+    </tr>
   <% end %>
 
   <% content_for :submit_button do %>

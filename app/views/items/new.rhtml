@@ -3,18 +3,28 @@
 <%= error_messages_for :item %>
 
 <% form_for :item, :url => polymorphic_path(@item) do |f| -%>
+  <table>
+
   <% default_content_for :utility_fields do %><% end %>
 
-  <p><label for="title">Title</label><br/>
-  <%= f.text_field :title %></p>
+  <tr>
+    <td><label for="title">Title</label></td>
+    <td><%= f.text_field :title %></td>
+  </tr>
 
   <% default_content_for :additional_fields do %><% end %>
 
-  <p><label for="description">Review</label><br/>
-  <%= f.text_area :description %></p>
+  <tr>
+    <td><label for="description">Review</label></td>
+    <td><%= f.text_area :description %></td>
+  </tr>
 
-  <p><label for="tags">Tags</label><br/>
-  <input id="tags" name="tags" value="<%= h @tags.map { |t| t.to_s }.join(', ') %>" />
+  <tr>
+    <td><label for="tags">Tags</label></td>
+    <td><input id="tags" name="tags" value="<%= h @tags.map { |t| t.to_s }.join(', ') %>" /></td>
+  </tr>
+
+  </table>
 
   <p>
     <% default_content_for :submit_button do %>

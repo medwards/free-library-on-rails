@@ -48,7 +48,7 @@ class BooksControllerTest < Test::Unit::TestCase
       post :create, :item => {
                               :title => 'Iron Council'
                               },
-                    :tags => 'political fiction'
+                    :tags => 'political, fiction'
     end
 
     new_book = Book.find_by_title('Iron Council')
@@ -112,7 +112,7 @@ class BooksControllerTest < Test::Unit::TestCase
     get :edit, :id => htc
     assert_response :success
 
-    put :update, :id => htc, :item => { :title => 'something new' }, :tags => 'new tags'
+    put :update, :id => htc, :item => { :title => 'something new' }, :tags => 'new ,tags'
 
     assert_redirected_to :controller => 'books', :action => 'show', :id => htc
 

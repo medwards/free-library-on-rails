@@ -37,11 +37,14 @@ class Item < ActiveRecord::Base
     self.owner_id == user
   end
 
+  # separate tags with commas and optional whitespace
+  TAG_SEPARATOR = /\s*,\s*/
+
   # replace existing taggings with the tags in an Array or a
-  # space-separated string
+  # TAG_SEPARATOR separated string
   def tag_with tags
     if tags.is_a? String
-      tags = tags.split(' ')
+      tags = tags.strip.split(TAG_SEPARATOR)
     end
 
     return if not tags or tags.empty?

@@ -9,6 +9,7 @@
     <td><% @item.taggings.each do |t| %>
       <%= link_to h(t), tag_path(h(t.to_s)) %> 
     <% end %></td></tr>
+  <% default_content_for :additional_fields do %><% end %>
 </table>
 
 <% if current_user %>
@@ -39,7 +40,6 @@
     </ul>
   <% end %>
 <% end %>
-
 
 <h2>Description</h2>
 

@@ -1,2 +1,8 @@
 <% inheriting_view 'items/show' do %>
+  <% content_for :additional_fields do %>
+    <tr>
+      <th>author:</th>
+      <td><%= h @item.author_first %> <%= h @item.author_last %></td>
+    </tr>
+  <% end %>
 <% end %>

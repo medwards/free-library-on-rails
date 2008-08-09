@@ -7,6 +7,9 @@ class CreateLoans < ActiveRecord::Migration
       t.datetime :return_date
     end
 
+    remove_column :items, :held_by
+    remove_column :items, :date_back
+
     add_column :items, :current_loan_id, :integer
   end
 

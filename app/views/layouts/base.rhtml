@@ -40,12 +40,14 @@
 					<% if current_user %>
 						<%= user_link current_user, :class => 'nav' %><br class="hide" />
 						<%= link_to 'edit profile', {:controller => 'account'}, :class =>'nav' %><br class="hide" />
-						<%= link_to 'log out', {:controller => 'account', :action => 'logout'}, :class=> 'nav' %>
 					<% else %>
 						<%= link_to 'log in', {:controller => 'account', :action => 'login'}, :class=> 'nav' %><br class="hide" />
 						<%= link_to 'new account', {:controller => 'account', :action => 'signup'}, :class=> 'nav' %><br class="hide" />
 					<% end %>
-          <%= yield :extra_side_links %>
+					<%= yield :extra_side_links %>
+					<% if current_user %>
+						<%= link_to 'log out', {:controller => 'account', :action => 'logout'}, :class=> 'nav' %>
+					<% end %>
 					<a class="hide" href="#top">Back to top</a>
 				</p>
 			</div>

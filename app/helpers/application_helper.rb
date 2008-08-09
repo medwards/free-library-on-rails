@@ -35,7 +35,7 @@ module ApplicationHelper
     concat(render(options), bind)
   end
 
-  def user_link(user)
-    link_to h(user.login), h(user_path(user.login))
+  def user_link(user, *args)
+    link_to h(user.login), h(user_path(user.login)), *args
   end
 end

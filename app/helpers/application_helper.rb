@@ -36,6 +36,6 @@ module ApplicationHelper
   end
 
   def user_link(user)
-    link_to user.login, user_path(user.login)
+    link_to h(user.login), h(user_path(user.login))
   end
 end

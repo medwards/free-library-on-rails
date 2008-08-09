@@ -1,2 +1,14 @@
 <% inheriting_view 'items/edit' do %>
+  <% content_for :additional_fields do %>
+
+    <tr>
+      <td><label for="author_first">Author's First Name</label></td>
+      <td><%= text_field_tag 'item[author_first]', @item.author_first, :id => 'author_first' %></td>
+    </tr>
+
+    <tr>
+      <td><label for="author_last">Author's Last Name</label></td>
+      <td><%= text_field_tag 'item[author_last]', @item.author_last, :id => 'author_last' %></td>
+    </tr>
+  <% end %>
 <% end %>

@@ -3,14 +3,25 @@
 <% error_messages_for :item %>
 
 <% form_for :item, :url => { :action => 'update' }, :html => { :method => 'put' } do |f| -%>
-  <p><label for="title">Title</label><br/>
-  <%= f.text_field :title %></p>
+  <table>
 
-  <p><label for="title">Description</label><br/>
-  <%= f.text_area :description %></p>
+  <tr>
+    <td><label for="item_title">Title</label></td>
+    <td><%= f.text_field :title %></td>
+  </tr>
 
-  <p><label for="tags">Tags</label><br/>
-  <input id="tags" name="tags" value="<%= h @item.taggings.map { |t| t.to_s }.join(', ') %>" /></p>
+  <tr>
+    <td><label for="item_description">Description</label></td>
+    <td><%= f.text_area :description %></td>
+  </tr>
+
+  <% default_content_for :additional_fields do %><% end %>
+
+  <tr>
+    <td><label for="tags">Tags</label></td>
+    <td><input id="tags" name="tags" value="<%= h @item.taggings.map { |t| t.to_s }.join(', ') %>" /></td>
+
+  </table>
 
   <p>
     <% default_content_for :submit_button do %>

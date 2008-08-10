@@ -2,19 +2,22 @@
   <% content_for :utility_fields do %>
     <tr>
       <td><label for="isbn">ISBN</label></td>
-      <td><%= text_field_tag :isbn, @item.isbn %> <button onclick="window.location='isbnLookup/' + document.getElementById('isbn').value; return false;">Lookup</button></td>
+      <td>
+        <%= text_field_tag 'item[isbn]', @item.isbn, :id => 'isbn' %>
+        <button onclick="window.location='isbnLookup/' + document.getElementById('isbn').value; return false;">Lookup</button>
+      </td>
     </tr>
   <% end %>
 
   <% content_for :additional_fields do %>
     <tr>
       <td><label for="author_first">Author's First Name</label></td>
-      <td><%= text_field_tag :author_first, @item.author_first %></td>
+      <td><%= text_field_tag 'item[author_first]', @item.author_first, :id => 'author_first' %></td>
     </tr>
 
     <tr>
       <td><label for="author_last">Author's Last Name</label></td>
-      <td><%= text_field_tag :author_last, @item.author_last %></td>
+      <td><%= text_field_tag 'item[author_last]', @item.author_last, :id => 'author_last' %></td>
     </tr>
   <% end %>
 

@@ -3,6 +3,8 @@ require 'rexml/document'
 
 require 'hpricot'
 
+class NoSuchISBN < Exception; end
+
 class Book < Item
   ISBNDB_KEY = 'PJ6X926W'
   ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
@@ -19,16 +21,19 @@ class Book < Item
     xml = REXML::Document.new(open(url))
 
     bookdata = xml.elements['//BookData[1]']
+
+    raise NoSuchISBN unless bookdata
+
     book.isbn = bookdata.attributes['isbn']
 
     book.title = bookdata.elements['Title'].text
     book.description = bookdata.elements['Summary'].text
-    
+
+    # I think this just gets the first Person --bct
     author = bookdata.elements['Authors/Person']
-    if author.is_a? Array
-      author = author[0]
+    if author
+      book.author_last, book.author_first = author.text.split(', ', 2)
     end
-    book.author_last, book.author_first = author.text.split(', ', 2)
 
     bookdata.elements.to_a('Subjects/Subject').each { |subject| book.tag_with subject.text.to_s.gsub(' -- ', ', '); puts book.tags }
 

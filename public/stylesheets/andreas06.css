@@ -417,3 +417,23 @@ text-align:center;
 .hide{
 display:none;
 }
+
+/* rails flashes */
+.flash {
+  border: 1px solid #a0a0a0;
+  padding: 1em;
+  width: 80%;
+}
+
+.flash strong {
+  color:#808080;
+  size: 0.8em;
+}
+
+.flash.notice {
+  background: #262;
+}
+
+.flash.error {
+  background: #622;
+}

@@ -6,9 +6,9 @@
   <tr><th>owner:</th>
     <td><%= user_link @item.owner %></td></tr>
   <tr><th>tags:</th>
-    <td><% @item.taggings.each do |t| %>
-      <%= link_to h(t), tag_path(h(t.to_s)) %> 
-    <% end %></td></tr>
+    <td><%= @item.taggings.map do |t|
+      link_to(h(t), tag_path(h(t.to_s)))
+    end.join ', ' %></td></tr>
   <% default_content_for :additional_fields do %><% end %>
 </table>
 

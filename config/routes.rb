@@ -8,11 +8,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :books
   map.resources :videos
 
-  map.resources :users
+  map.resources :users, :requirements => { :id => %r([^/;,?]+) }
 
   map.resources :loans
 
-  map.resources :tags
+  map.resources :tags, :requirements => { :id => %r([^/;,?]+) }
 
   # Sample resource route with options:
   #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }

@@ -38,4 +38,12 @@ module ApplicationHelper
   def user_link(user, *args)
     link_to h(user.login), h(user_path(user.login)), *args
   end
+
+  # display controller-specific sidebar links, if they exist
+  # (they're stored in views/[controller]/_side_links.rhtml)
+  def controller_side_links
+    render_partial 'side_links'
+  rescue ActionView::ActionViewError
+    # partial was not found, don't add any links
+  end
 end

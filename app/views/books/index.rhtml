@@ -1,7 +1,3 @@
-<% content_for :extra_side_links do %>
-  <%= link_to 'add book', new_book_path, :class => 'nav' %><br class="hide" />
-<% end %>
-
 <h1>Books in <%= h(@region.name) %></h1>
 
 <% inheriting_view 'items/index' do %>

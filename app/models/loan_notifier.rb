@@ -1,9 +1,10 @@
 class LoanNotifier < ActionMailer::Base
   def request_notification(loan)
-    setup_email(loan.borrower)
+    setup_email(loan.item.owner)
+    @from = "{loan.borrower.email}"
     @subject    += 'Loan Request'
     @owner = "#{loan.item.owner.login}"
-    @borrower = "#{loan.item.borrower.login}"
+    @borrower = "#{loan.borrower.login}"
     @title = "#{loan.item.title}"
     @author = "#{loan.item.author_first} #{loan.item.author_last}"
     @body[:url]  = "http://localhost:3000/#{loan.item.type.downcase}/#{loan.item.id}"
@@ -11,8 +12,9 @@ class LoanNotifier < ActionMailer::Base
   end
 
   def approved_notification(loan)
-    setup_email(loan.item.owner)
+    setup_email(loan.borrower)
     @subject    += 'Loan Approved'
+    @from = "#{loan.item.owner.email}"
     @title = "#{loan.item.title}"
     @author = "#{loan.item.author_first} #{loan.item.author_last}"
     @body[:url]  = "http://localhost:3000/#{loan.item.type.downcase}/#{loan.item.id}"
@@ -20,8 +22,9 @@ class LoanNotifier < ActionMailer::Base
   end
 
   def rejected_notification(loan)
-    setup_email(loan.item.owner)
+    setup_email(loan.borrower)
     @subject    += 'Loan Not Approved'
+    @from = "#{loan.item.owner.email}"
     @title = "#{loan.item.title}"
     @author = "#{loan.item.author_first} #{loan.item.author_last}"
     @body[:url]  = "http://localhost:3000/#{loan.item.type.downcase}/#{loan.item.id}"

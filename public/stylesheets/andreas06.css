@@ -278,11 +278,10 @@ margin: 20px 10px 10px 10px;
 clear:both;
 color:#a0a0a0;
 font-size:0.9em;
-height:26px;
 margin-top:20px;
 padding:1px;
 text-align:right;
-width:730px;
+max-width:730px
 }
 
 #footer a{

@@ -278,11 +278,10 @@ margin: 20px 10px 10px 10px;
 clear:both;
 color:#a0a0a0;
 font-size:0.9em;
-height:26px;
 margin-top:20px;
 padding:1px;
 text-align:right;
-width:730px;
+max-width:730px
 }
 
 #footer a{
@@ -416,4 +415,24 @@ text-align:center;
 
 .hide{
 display:none;
+}
+
+/* rails flashes */
+.flash {
+  border: 1px solid #a0a0a0;
+  padding: 1em;
+  width: 80%;
+}
+
+.flash strong {
+  color:#808080;
+  size: 0.8em;
+}
+
+.flash.notice {
+  background: #262;
+}
+
+.flash.error {
+  background: #622;
 }

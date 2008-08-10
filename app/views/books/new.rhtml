@@ -4,7 +4,7 @@
       <td><label for="isbn">ISBN</label></td>
       <td>
         <%= text_field_tag 'item[isbn]', @item.isbn, :id => 'isbn' %>
-        <button onclick="window.location='isbnLookup/' + document.getElementById('isbn').value; return false;">Lookup</button>
+        <%= submit_tag 'Lookup', :name => "submit" %>
       </td>
     </tr>
   <% end %>
@@ -22,6 +22,6 @@
   <% end %>
 
   <% content_for :submit_button do %>
-    <%= submit_tag 'Add Book' %>
+    <%= submit_tag 'Add Book', :name => "submit" %>
   <% end %>
 <% end %>

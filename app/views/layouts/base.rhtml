@@ -21,8 +21,8 @@
 		<a class="activenavitab" href="/">Welcome</a><span class="hide"> | </span>
 
 		<!-- <a class="navitab" href="newstuff.php">What's New!</a><span class="hide"> | </span> -->
-		<a <%= link_to 'books', books_path, :class => 'navitab' %><span class="hide"> | </span>
-		<a <%= link_to 'video', videos_path, :class => 'navitab' %><span class="hide"> | </span>
+		<%= link_to 'books', books_path, :class => 'navitab' %><span class="hide"> | </span>
+		<%= link_to 'video', videos_path, :class => 'navitab' %><span class="hide"> | </span>
 		<!-- <a class="navitab" href="search.php?type=music">Music</a><span class="hide"> | </span> -->
 		<a class="navitab" href="/contact">find out more</a><span class="hide"> | </span>
 		<p class="hide"><a href="#top">Back to top</a></p>
@@ -54,19 +54,26 @@
 
 			<a id="main"></a>
 			<div id="contentalt">
-
 				<div class="main">
 					<% if flash[:notice] %>
-						<p style="color: green"><%= flash[:notice].untaint %></p>
+            <div class="flash notice">
+              <strong>Notice:</strong>
+              <p><%= flash[:notice].untaint %></p>
+            </div>
 					<% elsif flash[:error] %>
-						<p style="color: red"><%= flash[:error].untaint %></p>
+            <div class="flash error">
+              <strong>Error:</strong>
+              <p><%= flash[:error].untaint %></p>
+            </div>
 					<% end %>
 
 					<%= yield  %>
+
 					<p class="hide"><a href="#top">Back to top</a></p>
 				</div>
 			</div>
-			<div id="footer"> Copy away mofos | Design by <a href="http://andreasviklund.com">Andreas Viklund</a></div>
+
+			<div id="footer">Copy away mofos | Design by <a href="http://andreasviklund.com">Andreas Viklund</a></div>
 		</div>
 	</div>
 </div>

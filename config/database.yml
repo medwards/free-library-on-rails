@@ -6,6 +6,8 @@ development:
   host: localhost
   username: flor
   password: flor_pass
+  # Uncomment the socket line if you are on Debian-based distro
+  # socket: /var/run/mysqld/mysqld.sock
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.

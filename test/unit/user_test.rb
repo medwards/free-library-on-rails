@@ -49,4 +49,9 @@ class UserTest < Test::Unit::TestCase
     assert_equal 2, @medwards.lent_and_pending.length
     assert_equal 2, @bct.lent_and_pending.length
   end
+
+  def test_tag_counts
+    assert_equal([ ['politics', 2], ['spain', 1 ] ], @bct.tag_counts)
+    assert_equal([ ], @medwards.tag_counts)
+  end
 end

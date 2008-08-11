@@ -41,8 +41,17 @@ class User < ActiveRecord::Base
   has_many :borrowed, :class_name => 'Item', :through => :borrowings,
     :source => :item, :conditions => "status = 'lent'"
 
+  # gets all the tags this user has used and how many times they've used them
+  # sorted with most occurances first
+  def tag_counts
+    ItemTagging.count(:conditions => { 'items.owner_id' => self },
+                      :include => [:item, :tag],
+                      :group => 'name',
+                      :order => 'COUNT(*) DESC')
+  end
+
   # users are generally displayed with their login
-    def to_s; login; end
+  def to_s; login; end
 
   # Activates the user in the database.
   def activate

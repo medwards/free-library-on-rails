@@ -436,3 +436,16 @@ display:none;
 .flash.error {
   background: #622;
 }
+
+.tag-counts {
+  list-style-type: none;
+}
+
+.tag-counts li {
+  float: left;
+  padding: 0 0.5em;
+}
+
+.tag-counts .selected {
+  font-weight: bold;
+}

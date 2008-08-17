@@ -21,7 +21,32 @@
 
   <tr>
     <td><label for="tags">Tags</label></td>
-    <td><input id="tags" name="tags" value="<%= h @tags.map { |t| t.to_s }.join(', ') %>" /></td>
+    <td>
+      <% str_tags = @tags.map { |t| t.to_s } %>
+
+      <input id="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;"/>
+
+      <% new_tags = str_tags - @tag_counts.map { |t,c| t }
+      puts new_tags.inspect
+        if not new_tags.empty? %>
+        <h2>New Tags</h2>
+
+        <ul class="tag-counts">
+          <% new_tags.each do |tag| %>
+            <li class="selected"><%= h(tag) %></li>
+          <% end %>
+        </ul>
+
+      <% end %>
+
+      <h2 style="clear:both">Existing Tags</h2>
+
+      <ul class="tag-counts">
+        <% @tag_counts.each do |tag, count| %>
+          <li <%= 'class="selected"' if str_tags.member? tag %>><%= h(tag) %> (<%= count %>)</li>
+        <% end %>
+      </ul>
+    </td>
   </tr>
 
   </table>

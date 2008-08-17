@@ -18,6 +18,8 @@ class ItemsController < ApplicationController
 
     @tags = params[:tags]
     @tags ||= []
+
+    @tag_counts = self.current_user.tag_counts
   end
 
   def create

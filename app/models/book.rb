@@ -37,6 +37,9 @@ class Book < Item
 
 	xml = REXML::Document.new(open(url))
 
+	rescue URI::InvalidURIError, OpenURI::HTTPError
+	    raise NoSuchISBN
+
 	bookdata = xml.elements['//BookData[1]']
 
 	raise NoSuchISBN unless bookdata
@@ -62,7 +65,11 @@ class Book < Item
 	book = self.new
 
 	book.isbn = isbn
+	
 	doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn, 'User-Agent' => 'FLORa'))
+	rescue URI::InvalidURIError, OpenURI::HTTPError
+	    raise NoSuchISBN
+	
 
 	book.title = doc.at("//h2[@class='title']").inner_text
 
@@ -81,6 +88,6 @@ class Book < Item
 
 	book.tag_with doc.at("//div[@class='bookinfo_sectionwrap']").inner_text
 	
-	return book
+	book
     end
 end

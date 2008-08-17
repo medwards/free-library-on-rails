@@ -15,10 +15,8 @@ class Book < Item
 
 			isbndb_book = nil, google_book = nil
 
-			threads << Thread.new { isbndb_book = self.new_from_isbndb(isbn) }
-			threads << Thread.new { google_book = self.new_from_google_books(isbn) }
-
-			threads.each { |aThread|  aThread.join }
+			isbndb_book = self.new_from_isbndb(isbn)
+			google_book = self.new_from_google_books(isbn)
 
 			book = isbndb_book
 			if(book.isbn != nil and book.isbn != google_book.isbn)
@@ -92,7 +90,12 @@ class Book < Item
 		open("public/images/items/books/" << isbn << ".jpg", "wb").write(open(image.attributes['src']).read)
 	end
 
-	review = doc.at("//div[@id='synopsistext']").inner_text
+	synopsis = doc.at("//div[@id='synopsistext']")
+
+	if synopsis
+		review = synopsis.inner_text
+	end
+
 	review ||= doc.search("//div[@class='snippet']").sort_by { |x| x.inner_html.size }[0].inner_text
 	book.description = review
 

@@ -23,7 +23,7 @@ class Book < Item
 			google_book = self.new_from_google_books(isbn)
 
 			book = isbndb_book
-			if(book.isbn != nil and book.isbn != google_book.isbn)
+			if(book.isbn != nil and book.isbn != google_book.isbn and File.exists?(google_book.cover_filename))
 				File.rename(google_book.cover_filename, book.cover_filename)
 			end
 
@@ -97,11 +97,8 @@ class Book < Item
 		synopsis = doc.at("//div[@id='synopsistext']")
 
 		if synopsis
-			review = synopsis.inner_text
+                        book.description = synopsis.inner_text
 		end
-
-		review ||= doc.search("//div[@class='snippet']").sort_by { |x| x.inner_html.size }[0].inner_text
-		book.description = review
 
 		book.tag_with doc.at("//div[@class='bookinfo_sectionwrap']").inner_text
 

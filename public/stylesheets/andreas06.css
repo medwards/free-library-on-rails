@@ -463,3 +463,8 @@ display:none;
 	color: white;
 	font-size: 1.2em;
 }
+
+#isbn-validation {
+	border: 1px solid #ccc;
+	padding: 0.2em 1em;
+}

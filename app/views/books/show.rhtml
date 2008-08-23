@@ -5,4 +5,10 @@
       <td><%= h @item.author_first %> <%= h @item.author_last %></td>
     </tr>
   <% end %>
+
+  <% content_for :additional_description do %>
+    <% if(@item.isbn != nil and File.exists?(@item.cover_filename) %>
+      <img align="right" alt="Cover Photo" src="/images/items/books/<%= h @item.isbn + '.jpg')) %>
+    <% end %>
+  <% end %>
 <% end %>

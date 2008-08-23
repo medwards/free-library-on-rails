@@ -11,7 +11,7 @@ class BooksController < ItemsController
 
   def isbnLookup isbn
     # CLEAN the ISBN... they can be a fucking mess even when copied properly
-    # begin cleanISBN; rescue invalidIsbnError flash; redirect; end
+		isbn.gsub!(/[^0-9Xx]/, '')
 
     begin
       @item = Book.new_from_isbn(isbn)

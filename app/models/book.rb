@@ -6,10 +6,10 @@ require 'hpricot'
 class NoSuchISBN < Exception; end
 
 class Book < Item
-    ISBNDB_KEY = 'PJ6X926W'
-    ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
+		ISBNDB_KEY = 'PJ6X926W'
+		ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
 
-    def self.new_from_isbn(isbn)
+		def self.new_from_isbn(isbn)
 			# spin off threads that will do metadata lookups on multiple services?
 			threads = []
 
@@ -31,7 +31,7 @@ class Book < Item
 			book.tag_with(google_book.tags)
 
 			book
-    end
+		end
 
 	def self.new_from_isbndb(isbn)
 		book = self.new
@@ -64,43 +64,43 @@ class Book < Item
 		book
 	end
 
-    # as of 2008-08-02, this doesn't work. google seems to block based on User-Agent.
-    def self.new_from_google_books(isbn)
-	book = self.new
+	# as of 2008-08-02, this doesn't work. google seems to block based on User-Agent.
+	def self.new_from_google_books(isbn)
+		book = self.new
 
-	book.isbn = isbn
+		book.isbn = isbn
 
-	begin
-		doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn, 'User-Agent' => 'FLORa'))
-	rescue URI::InvalidURIError, OpenURI::HTTPError
-		raise NoSuchISBN
+		begin
+			doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn, 'User-Agent' => 'FLORa'))
+		rescue URI::InvalidURIError, OpenURI::HTTPError
+			raise NoSuchISBN
+		end
+
+		book.title = doc.at("//h2[@class='title']").inner_text
+
+		book.author_last = doc.at("//span[@class='addmd']").inner_html[3..-1]
+		#authorblock = doc.at("//span[@class='addmd']").inner_html.split(", ")
+		#book.author_last = authorblock[0][3..-1]
+		#book.author_first = authorblock[1]
+
+		image = doc.at("//img[@class='Preview this book']")
+		image ||= doc.at("//img[@title='Front Cover']")
+
+		if image
+			open("public/images/items/books/" << isbn << ".jpg", "wb").write(open(image.attributes['src']).read)
+		end
+
+		synopsis = doc.at("//div[@id='synopsistext']")
+
+		if synopsis
+			review = synopsis.inner_text
+		end
+
+		review ||= doc.search("//div[@class='snippet']").sort_by { |x| x.inner_html.size }[0].inner_text
+		book.description = review
+
+		book.tag_with doc.at("//div[@class='bookinfo_sectionwrap']").inner_text
+
+		book
 	end
-
-	book.title = doc.at("//h2[@class='title']").inner_text
-
-	book.author_last = doc.at("//span[@class='addmd']").inner_html[3..-1]
-	#authorblock = doc.at("//span[@class='addmd']").inner_html.split(", ")
-	#book.author_last = authorblock[0][3..-1]
-	#book.author_first = authorblock[1]
-
-	image = doc.at("//img[@class='Preview this book']")
-	image ||= doc.at("//img[@title='Front Cover']")
-
-	if image
-		open("public/images/items/books/" << isbn << ".jpg", "wb").write(open(image.attributes['src']).read)
-	end
-
-	synopsis = doc.at("//div[@id='synopsistext']")
-
-	if synopsis
-		review = synopsis.inner_text
-	end
-
-	review ||= doc.search("//div[@class='snippet']").sort_by { |x| x.inner_html.size }[0].inner_text
-	book.description = review
-
-	book.tag_with doc.at("//div[@class='bookinfo_sectionwrap']").inner_text
-	
-	book
-    end
 end

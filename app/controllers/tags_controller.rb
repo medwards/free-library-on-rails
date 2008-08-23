@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
   def index
-    @tags = Tag.find :all, :order => 'name'
+    @tags = Tag.only_used
   end
 
   def show

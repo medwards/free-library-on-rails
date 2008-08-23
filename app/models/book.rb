@@ -9,6 +9,10 @@ class Book < Item
 		ISBNDB_KEY = 'PJ6X926W'
 		ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
 
+		def cover_filename
+			'public/images/items/books/' + self.isbn + '.jpg'
+		end
+
 		def self.new_from_isbn(isbn)
 			# spin off threads that will do metadata lookups on multiple services?
 			threads = []
@@ -20,7 +24,7 @@ class Book < Item
 
 			book = isbndb_book
 			if(book.isbn != nil and book.isbn != google_book.isbn)
-				File.rename('public/images/items/books/' + google_book.isbn + '.jpg', 'public/images/items/books/' + book.isbn + '.jpg')
+				File.rename(google_book.cover_filename, book.cover_filename)
 			end
 
 			book.isbn ||= google_book.isbn
@@ -87,7 +91,7 @@ class Book < Item
 		image ||= doc.at("//img[@title='Front Cover']")
 
 		if image
-			open("public/images/items/books/" << isbn << ".jpg", "wb").write(open(image.attributes['src']).read)
+			open(book.cover_filename, "wb").write(open(image.attributes['src']).read)
 		end
 
 		synopsis = doc.at("//div[@id='synopsistext']")

@@ -100,7 +100,7 @@ class Book < Item
                         book.description = synopsis.inner_text
 		end
 
-		book.tag_with doc.at("//div[@class='bookinfo_sectionwrap']").inner_text
+		book.tag_with doc.search("div[@id='keywords']").at("td").inner_text
 
 		book
 	end

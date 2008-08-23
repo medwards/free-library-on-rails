@@ -447,20 +447,21 @@ display:none;
 	color: #ccc;
 }
 
-.tag-counts .count01 {
-	color: white;
+.tag-counts .count01, .tag-counts .count03, .tag-counts .count05 {
   font-weight: bold;
+	color: white;
+}
+
+.tag-counts .count01 {
 	font-size: 0.8em;
 }
 
-.tag-counts .count03 {
-  font-weight: bold;
-	color: white;
+.tag-counts .selected {
+	font-weight: bold;
+	color: #262;
 }
 
 .tag-counts .selected, .tag-counts .count05 {
-  font-weight: bold;
-	color: white;
 	font-size: 1.2em;
 }
 

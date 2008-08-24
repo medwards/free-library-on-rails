@@ -22,6 +22,12 @@ class Book < Item
 			isbndb_book = self.new_from_isbndb(isbn)
 			google_book = self.new_from_google_books(isbn)
 
+			if !(isbndb_book or google_book)
+				raise NoSuchISBN
+			end
+
+			isbndb_book ||= self.new
+
 			book = isbndb_book
 			if(book.isbn != nil and book.isbn != google_book.isbn and File.exists?(google_book.cover_filename))
 				File.rename(google_book.cover_filename, book.cover_filename)
@@ -45,12 +51,12 @@ class Book < Item
 		begin
 			xml = REXML::Document.new(open(url))
 		rescue URI::InvalidURIError, OpenURI::HTTPError
-			raise NoSuchISBN
+			return nil
 		end
 
 		bookdata = xml.elements['//BookData[1]']
 
-		raise NoSuchISBN unless bookdata
+		return nil unless bookdata
 
 		book.isbn = bookdata.attributes['isbn']
 
@@ -77,7 +83,7 @@ class Book < Item
 		begin
 			doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn, 'User-Agent' => 'FLORa'))
 		rescue URI::InvalidURIError, OpenURI::HTTPError
-			raise NoSuchISBN
+			return nil
 		end
 
 		book.title = doc.at("//h2[@class='title']").inner_text
@@ -97,7 +103,7 @@ class Book < Item
 		synopsis = doc.at("//div[@id='synopsistext']")
 
 		if synopsis
-                        book.description = synopsis.inner_text
+			book.description = synopsis.inner_text
 		end
 
 		book.tag_with doc.search("div[@id='keywords']").at("td").inner_text

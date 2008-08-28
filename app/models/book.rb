@@ -106,7 +106,13 @@ class Book < Item
 			book.description = synopsis.inner_text
 		end
 
-		book.tag_with doc.search("div[@id='keywords']").at("td").inner_text
+		keywords_div = doc.search("div[@id='keywords']")
+		if keywords_div
+			keywords = keywords_div.at("td")
+			if keywords
+				book.tag_with keywords.inner_text
+			end
+		end
 
 		book
 	end

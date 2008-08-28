@@ -86,12 +86,18 @@ class Book < Item
 			return nil
 		end
 
-		book.title = doc.at("//h2[@class='title']").inner_text
-
-		book.author_last = doc.at("//span[@class='addmd']").inner_html[3..-1]
-		#authorblock = doc.at("//span[@class='addmd']").inner_html.split(", ")
-		#book.author_last = authorblock[0][3..-1]
-		#book.author_first = authorblock[1]
+		title = doc.at("//h2[@class='title']")
+		if title
+			book.title = title.inner_text
+		end
+		
+		authorblock = doc.at("//span[@class='addmd']")
+		if authorblock
+			authorblock = authorblock.inner_html.split(", ")
+			authorblock = authorblock[0].reverse.split(' ', 2)
+			book.author_last = authorblock[0].reverse
+			book.author_first = authorblock[1].reverse[3..-1]
+        end
 
 		image = doc.at("//img[@class='Preview this book']")
 		image ||= doc.at("//img[@title='Front Cover']")

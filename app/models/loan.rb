@@ -24,6 +24,7 @@ class Loan < ActiveRecord::Base
 
     self.item.current_loan = self
     self.item.save!
+    callback :after_lent
   end
 
   def returned!

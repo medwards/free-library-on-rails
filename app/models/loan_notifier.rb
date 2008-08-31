@@ -14,6 +14,7 @@ class LoanNotifier < ActionMailer::Base
   def approved_notification(loan)
     setup_email(loan.borrower)
     @subject    += 'Loan Approved'
+    @owner = "#{loan.item.owner.login}"
     @from = "#{loan.item.owner.email}"
     @title = "#{loan.item.title}"
     @author = "#{loan.item.author_first} #{loan.item.author_last}"

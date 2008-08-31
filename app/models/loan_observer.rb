@@ -1,9 +1,9 @@
 class LoanObserver < ActiveRecord::Observer
-  def after_create_request(loan)
+  def after_create(loan)
     LoanNotifier.deliver_request_notification(loan)
   end
 
-  def after_approved(loan)
+  def after_lent(loan)
     LoanNotifier.deliver_approved_notification(loan)
   end
 

@@ -78,6 +78,6 @@ class ItemsController < ApplicationController
 		@item.destroy
 
 		# XXX this has behaved weird anecdotally... come back to it and test
-		redirect_to :action => "new"
+		redirect_to user_path(self.current_user.login)
 	end
 end

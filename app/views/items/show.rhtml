@@ -43,5 +43,7 @@
 
 <h2>Description</h2>
 
-<% default_content_for :additional_description do %><% end %>
-<%= paragraphize @item.description %>
+<div class="description">
+	<% default_content_for :additional_description do %><% end %>
+	<%= paragraphize @item.description %>
+</div>

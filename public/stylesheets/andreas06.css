@@ -469,3 +469,8 @@ display:none;
 	border: 1px solid #ccc;
 	padding: 0.2em 1em;
 }
+
+.cover_photo {
+	border: 1px solid white;
+	margin: 5px;
+}

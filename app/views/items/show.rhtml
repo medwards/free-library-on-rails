@@ -12,14 +12,6 @@
   <% default_content_for :additional_fields do %><% end %>
 </table>
 
-<% if current_user %>
-  <% if Loan.already_requested(current_user, @item) %>
-    You have already requested to borrow this item.
-  <% else %>
-    <%= button_to 'request loan', loans_path(:item_id => @item) %>
-  <% end %>
-<% end %>
-
 <% if @item.owned_by? session[:user] %>
   <p><%= link_to 'edit', edit_polymorphic_path(@item) %></p>
 	<p><%= button_to 'delete', {}, { :method => :delete, :confirm => "Are you sure you want to delete this item?" } %></p>
@@ -39,6 +31,12 @@
         </li>
       <% end %>
     </ul>
+  <% end %>
+<% elsif current_user %>
+  <% if Loan.already_requested(current_user, @item) %>
+    You have already requested to borrow this item.
+  <% else %>
+    <%= button_to 'request loan', loans_path(:item_id => @item) %>
   <% end %>
 <% end %>
 

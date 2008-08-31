@@ -9,6 +9,10 @@
     <td><%= @item.taggings.map do |t|
       link_to(h(t), tag_path(h(t.to_s)))
     end.join ', ' %></td></tr>
+	<% if current_user %>
+	<tr><th>distance:</th>
+		<td><%= distance(@item.owner.distance_from(current_user)) %></td></tr>
+	<% end %>
   <% default_content_for :additional_fields do %><% end %>
 </table>
 

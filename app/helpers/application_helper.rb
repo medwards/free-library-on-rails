@@ -50,4 +50,9 @@ module ApplicationHelper
 	rescue ActionView::ActionViewError
 		# partial was not found, don't add any links
 	end
+
+	# turn a distance in km into something human-readable
+	def distance km
+		"%0.1f km" % km
+	end
 end

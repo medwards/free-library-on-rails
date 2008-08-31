@@ -474,3 +474,7 @@ display:none;
 	border: 1px solid white;
 	margin: 5px;
 }
+
+.description {
+	text-align: justify;
+}

@@ -1,6 +1,8 @@
 class LoanObserver < ActiveRecord::Observer
 	def after_create(loan)
-		LoanNotifier.deliver_request_notification(loan)
+		if loan.status == 'Requested'
+			LoanNotifier.deliver_request_notification(loan)
+		end
 	end
 
 	def after_lent(loan)

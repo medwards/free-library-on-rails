@@ -1,25 +1,25 @@
 class ItemsController < ApplicationController
-  before_filter :login_required, :only => [ :new, :create, :destroy, :edit, :update ]
+	before_filter :login_required, :only => [ :new, :create, :destroy, :edit, :update ]
 
-  def itemclass; Item end
+	def itemclass; Item end
 
-  def index
-    @items = region.items.find(:all, :conditions => { :type => itemclass.to_s })
-  end
+	def index
+		@items = region.items.find(:all, :conditions => { :type => itemclass.to_s })
+	end
 
-  def show
-    @item = itemclass.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    four_oh_four
-  end
+	def show
+		@item = itemclass.find(params[:id])
+	rescue ActiveRecord::RecordNotFound
+		four_oh_four
+	end
 
-  def new
-    @item = itemclass.new(params[:item])
+	def new
+		@item = itemclass.new(params[:item])
 
-    @tags = params[:tags]
-    @tags ||= []
+		@tags = params[:tags]
+		@tags ||= []
 
-    @tag_counts = self.current_user.tag_counts
+		@tag_counts = self.current_user.tag_counts
 
 		# the number of times the most-used tag has been used
 		@max_count = 0.0
@@ -29,55 +29,55 @@ class ItemsController < ApplicationController
 
 		# we want them in alphabetical order
 		@tag_counts.sort!
-  end
+	end
 
-  def create
-    @item = itemclass.new(params[:item])
+	def create
+		@item = itemclass.new(params[:item])
 
-    @item.created = Time.now
-    @item.owner = self.current_user
+		@item.created = Time.now
+		@item.owner = self.current_user
 
-    @item.save!
+		@item.save!
 
-    @item.tag_with params[:tags]
+		@item.tag_with params[:tags]
 
-    redirect_to :controller => itemclass.to_s.tableize, :action => 'show', :id => @item
-  end
+		redirect_to :controller => itemclass.to_s.tableize, :action => 'show', :id => @item
+	end
 
-  def edit
-    @item = itemclass.find(params[:id])
+	def edit
+		@item = itemclass.find(params[:id])
 
-    unless @item.owned_by? self.current_user
-      redirect_to polymorphic_path(@item)
-    end
-  rescue ActiveRecord::RecordNotFound
-    four_oh_four
-  end
+		unless @item.owned_by? self.current_user
+			redirect_to polymorphic_path(@item)
+		end
+	rescue ActiveRecord::RecordNotFound
+		four_oh_four
+	end
 
-  def update
-    @item = itemclass.find(params[:id])
+	def update
+		@item = itemclass.find(params[:id])
 
-    unless @item.owned_by? self.current_user
-      unauthorized 'not authorized to edit this item'; return
-    end
+		unless @item.owned_by? self.current_user
+			unauthorized 'not authorized to edit this item'; return
+		end
 
-    itemclass.update(params[:id], params[:item])
+		itemclass.update(params[:id], params[:item])
 
-    @item.tag_with params[:tags]
+		@item.tag_with params[:tags]
 
-    redirect_to polymorphic_path(@item)
-  end
+		redirect_to polymorphic_path(@item)
+	end
 
-  def destroy
-    @item = Item.find(params[:id])
+	def destroy
+		@item = Item.find(params[:id])
 
-    unless @item.owned_by? self.current_user
-      unauthorized 'not authorized to edit this item'; return
-    end
+		unless @item.owned_by? self.current_user
+			unauthorized 'not authorized to edit this item'; return
+		end
 
-    @item.destroy
+		@item.destroy
 
-    # XXX this has behaved weird anecdotally... come back to it and test
-    redirect_to :action => "new"
-  end
+		# XXX this has behaved weird anecdotally... come back to it and test
+		redirect_to :action => "new"
+	end
 end

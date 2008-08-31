@@ -97,7 +97,7 @@ class Book < Item
 			authorblock = authorblock[0].reverse.split(' ', 2)
 			book.author_last = authorblock[0].reverse
 			book.author_first = authorblock[1].reverse[3..-1]
-        end
+				end
 
 		image = doc.at("//img[@class='Preview this book']")
 		image ||= doc.at("//img[@title='Front Cover']")

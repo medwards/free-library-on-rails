@@ -1,5 +1,5 @@
 <% if @items.empty? %>
-	<p>No <%= @controller.itemclass.to_s.tableize %> found in this region.</p>
+	<p>No <%= @controller.itemclass.to_s.downcase.pluralize %> found in this region.</p>
 <% else %>
 	<table>
 		<tr>

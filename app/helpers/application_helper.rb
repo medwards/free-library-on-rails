@@ -5,6 +5,11 @@ module ApplicationHelper
 		return h(input)
 	end
 
+	# turn linebreaks into paragraphs
+	def paragraphize(text)
+		return "\n<p>" + h(text).gsub(/(\r?\n)+/, "</p>\n<p>") + "</p>"
+	end
+
 	def default_content_for(name, &block)
 		# used to define source content for view inheritance
 		name = name.kind_of?(Symbol) ? ":#{name}" : name

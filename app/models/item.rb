@@ -10,7 +10,7 @@ class Item < ActiveRecord::Base
 	has_many :taggings, :class_name => 'ItemTagging'
 
 	validates_presence_of :title, :created, :owner_id
-
+	
 	def loaned?
 		!self.current_loan.nil?
 	end
@@ -46,6 +46,10 @@ class Item < ActiveRecord::Base
 		if tags.is_a? String
 			tags = tags.strip.split(TAG_SEPARATOR)
 		end
+		
+		tags = tags.delete_if { |tag|
+			AppConfig.TAG_BLACKLIST.include? tag
+        }
 
 		return if not tags or tags.empty?
 

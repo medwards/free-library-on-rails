@@ -1,0 +1,5 @@
+production:
+  TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
+
+development:
+  TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]

@@ -6,42 +6,42 @@ require 'hpricot'
 class NoSuchISBN < Exception; end
 
 class Book < Item
-		ISBNDB_KEY = 'PJ6X926W'
-		ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
+	ISBNDB_KEY = 'PJ6X926W'
+	ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
 
-		def cover_filename
-			'public/images/items/books/' + self.isbn + '.jpg'
+	def cover_filename
+		'public/images/items/books/' + self.isbn + '.jpg'
+	end
+
+	def self.new_from_isbn(isbn)
+		# spin off threads that will do metadata lookups on multiple services?
+		threads = []
+
+		isbndb_book = nil, google_book = nil
+
+		isbndb_book = self.new_from_isbndb(isbn)
+		google_book = self.new_from_google_books(isbn)
+
+		if !(isbndb_book or google_book)
+			raise NoSuchISBN
 		end
 
-		def self.new_from_isbn(isbn)
-			# spin off threads that will do metadata lookups on multiple services?
-			threads = []
+		isbndb_book ||= self.new
 
-			isbndb_book = nil, google_book = nil
-
-			isbndb_book = self.new_from_isbndb(isbn)
-			google_book = self.new_from_google_books(isbn)
-
-			if !(isbndb_book or google_book)
-				raise NoSuchISBN
-			end
-
-			isbndb_book ||= self.new
-
-			book = isbndb_book
-			if(book.isbn != nil and book.isbn != google_book.isbn and File.exists?(google_book.cover_filename))
-				File.rename(google_book.cover_filename, book.cover_filename)
-			end
-
-			book.isbn ||= google_book.isbn
-			book.title ||= google_book.title
-			book.description ||= google_book.description
-			book.author_first ||= google_book.author_first
-			book.author_last ||= google_book.author_last
-			book.tag_with(google_book.tags)
-
-			book
+		book = isbndb_book
+		if(book.isbn != nil and book.isbn != google_book.isbn and File.exists?(google_book.cover_filename))
+			File.rename(google_book.cover_filename, book.cover_filename)
 		end
+
+		book.isbn ||= google_book.isbn
+		book.title ||= google_book.title
+		book.description ||= google_book.description
+		book.author_first ||= google_book.author_first
+		book.author_last ||= google_book.author_last
+		book.tag_with(google_book.tags)
+
+		book
+	end
 
 	def self.new_from_isbndb(isbn)
 		book = self.new

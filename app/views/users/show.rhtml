@@ -1,4 +1,7 @@
 <h1><%=h @user.login %></h1>
+<% if @user.about %>
+	<p class="description"><%= h @user.about %></p>
+<% end %>
 
 <table>
   <tr><th>type</th><th>title</th></tr>

@@ -31,6 +31,12 @@
       <td><label for="user_cellphone">Cellphone:</label></td>
       <td><%= f.text_field :cellphone %></td>
     </tr>
+	<tr>
+	  <td colspan="2" align="center"><label for="user_about">Write a little about yourself</label></td>
+	</tr>
+	<tr>
+	  <td colspan="2"><%= f.text_area :about %></td>
+    </tr>
   </table>
 
   <p><%= submit_tag 'Update' %></p>

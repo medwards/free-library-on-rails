@@ -3,8 +3,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # The priority is based upon order of creation: first created -> highest priority.
 
-  # resource routes (map HTTP verbs to controller actions automatically)
-  map.resources :items
+  map.resources :items, :collection => { :search => :get }
   map.resources :books
   map.resources :videos
 

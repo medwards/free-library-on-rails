@@ -10,6 +10,15 @@ module ApplicationHelper
 		return "\n<p>" + h(text).gsub(/(\r?\n)+/, "</p>\n<p>") + "</p>"
 	end
 
+	# highlight the text of a search result
+	def highlight(text, query)
+		return text unless query
+
+		regexp = Regexp.new('(' + Regexp.escape(query) + ')', Regexp::IGNORECASE)
+
+		text.gsub(regexp, '<span class="highlight">\1</span>').untaint
+	end
+
 	def default_content_for(name, &block)
 		# used to define source content for view inheritance
 		name = name.kind_of?(Symbol) ? ":#{name}" : name

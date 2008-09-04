@@ -80,4 +80,14 @@ class ItemsController < ApplicationController
 		# XXX this has behaved weird anecdotally... come back to it and test
 		redirect_to user_path(self.current_user.login)
 	end
+
+	def search
+		@query = params[:q]
+
+		q = "%#{@query}%"
+
+		@title_results = Item.find :all, :conditions => [ 'title LIKE ?', q ]
+		@author_results = Item.find :all, :conditions => [ 'author_first LIKE ? OR author_last LIKE ?', q, q ]
+		@description_results = Item.find :all, :conditions => [ 'description LIKE ?', q ]
+	end
 end

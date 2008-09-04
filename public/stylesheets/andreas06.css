@@ -478,3 +478,7 @@ display:none;
 .description {
 	text-align: justify;
 }
+
+.highlight {
+	color: yellow;
+}

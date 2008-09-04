@@ -1,0 +1,16 @@
+<h1>Search results for "<%=h @query %>"</h1>
+
+<h2>In Title</h2>
+
+<%= render :partial => 'items/item_table',
+			:locals => { :items => @title_results, :query => @query } %>
+
+<h2>In Author</h2>
+
+<%= render :partial => 'items/item_table',
+			:locals => { :items => @author_results, :query => @query } %>
+
+<h2>In Description</h2>
+
+<%= render :partial => 'items/item_table',
+			:locals => { :items => @description_results, :query => @query } %>

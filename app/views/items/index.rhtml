@@ -3,3 +3,5 @@
 <% else %>
 	<%= render :partial => 'items/item_table', :locals => { :items => @items } %>
 <% end %>
+
+<%= will_paginate @items %>

@@ -4,7 +4,8 @@ class ItemsController < ApplicationController
 	def itemclass; Item end
 
 	def index
-		@items = region.items.find(:all, :conditions => { :type => itemclass.to_s })
+		@items = region.items.paginate(:all, :page => params[:page],
+									   :conditions => { :type => itemclass.to_s })
 	end
 
 	def show

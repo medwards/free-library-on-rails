@@ -14,9 +14,20 @@ module ApplicationHelper
 	def highlight(text, query)
 		return text unless query
 
-		regexp = Regexp.new('(' + Regexp.escape(query) + ')', Regexp::IGNORECASE)
+		regexp = /(#{Regexp.escape(query)})/i
 
 		text.gsub(regexp, '<span class="highlight">\1</span>').untaint
+	end
+
+	# make excerpts for and highlight
+	def excerpt_and_highlight(text, query, span=5)
+		escaped = Regexp.escape(query)
+
+		regexp = /.*?((\S+ ){0,#{span}}\S*#{escaped}\S*( \S+){0,#{span}}).*/mi
+
+		text.gsub!(regexp, '…\1…' )
+
+		return highlight(text, query)
 	end
 
 	def default_content_for(name, &block)
@@ -48,6 +59,7 @@ module ApplicationHelper
 		concat(render(options), bind)
 	end
 
+	# link to a user using their login
 	def user_link(user, *args)
 		link_to h(user.login), h(user_path(user.login)), *args
 	end

@@ -1,16 +1,27 @@
+<% including ||= [] %>
+
 <table>
 	<tr>
 		<th>title</th>
+		<th>author</th>
 		<th>owner</th>
 		<% if self.current_user %><th>distance</th><% end %>
 	</tr>
 	<% items.each do |item| %>
 		<tr>
-			<td><%= link_to highlight(h(item.title), query), polymorphic_path(item) %></td>
+			<td><%= link_to highlight(h(item.title), @query), polymorphic_path(item) %></td>
+			<td><%= highlight(h(item.author_first + ' ' + item.author_last), @query) %></td>
 			<td><%= user_link item.owner %></td>
 			<% if self.current_user %><td>
 				<%= distance item.owner.distance_from self.current_user %>
 			</td><% end %>
 		</tr>
+		<% if including.member? :description %>
+		  <tr>
+			<td colspan="3">
+			  <%= excerpt_and_highlight(item.description, @query) %>
+			</td>
+		  </tr>
+		<% end %>
 	<% end %>
 </table>

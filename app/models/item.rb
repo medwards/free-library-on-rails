@@ -46,7 +46,7 @@ class Item < ActiveRecord::Base
 		if tags.is_a? String
 			tags = tags.strip.split(TAG_SEPARATOR)
 		end
-		
+
 		tags = tags.delete_if { |tag|
 			AppConfig.TAG_BLACKLIST.include? tag
         }
@@ -74,6 +74,8 @@ class Item < ActiveRecord::Base
 	end
 
 	def self.find_by_tag tag
-		Tag.find_by_name(tag).items
+		tag = Tag.find_by_name(tag)
+
+		tag ? tag.items : []
 	end
 end

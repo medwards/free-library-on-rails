@@ -82,12 +82,20 @@ class ItemsController < ApplicationController
 		redirect_to user_path(self.current_user.login)
 	end
 
+	# plain ?param=value parameters:
+	#	q:		the search term
+	#	field:	fields to search
+	#	page:	pagination
 	def search
 		@query = params[:q]
 
 		# fields to search
 		@fields = params[:field]
-		@fields ||= [ 'title', 'author', 'description' ]
+		@fields ||= [ 'tags', 'title', 'author', 'description' ]
+
+		if @fields.member? 'tags'
+			@tag_results = itemclass.find_by_tag(@query).paginate(:page => params[:page], :per_page => 5)
+		end
 
 		q = "%#{@query}%"
 

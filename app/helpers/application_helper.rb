@@ -20,7 +20,7 @@ module ApplicationHelper
 	end
 
 	# make excerpts for and highlight
-	def excerpt_and_highlight(text, query, span=5)
+	def excerpt_and_highlight(text, query, span=10)
 		escaped = Regexp.escape(query)
 
 		regexp = /.*?((\S+ ){0,#{span}}\S*#{escaped}\S*( \S+){0,#{span}}).*/mi

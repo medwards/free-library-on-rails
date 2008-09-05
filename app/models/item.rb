@@ -43,6 +43,8 @@ class Item < ActiveRecord::Base
 	# replace existing taggings with the tags in an Array or a
 	# TAG_SEPARATOR separated string
 	def tag_with tags
+		return if tags.nil?
+
 		if tags.is_a? String
 			tags = tags.strip.split(TAG_SEPARATOR)
 		end

@@ -40,7 +40,7 @@ class ItemsController < ApplicationController
 
 		@item.save!
 
-		@item.tag_with params[:tags]
+		@item.tag_with params[:tags] if params[:tags]
 
 		redirect_to :controller => itemclass.to_s.tableize, :action => 'show', :id => @item
 	end

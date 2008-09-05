@@ -1,23 +1,29 @@
 <h1>Search results for "<%=h @query %>"</h1>
 
+<% if @title_results %>
 <h2>In Title</h2>
 
 <%= render :partial => 'items/item_table',
 		:locals => { :items => @title_results, :query => @query } %>
 
-<%= will_paginate @title_results %>
+<%= will_paginate @title_results, :params => { :field => 'title' } %>
+<% end %>
 
+<% if @author_results %>
 <h2>In Author</h2>
 
 <%= render :partial => 'items/item_table',
 		:locals => { :items => @author_results, :query => @query } %>
 
-<%= will_paginate @author_results %>
+<%= will_paginate @author_results, :params => { :field => 'author' } %>
+<% end %>
 
+<% if @description_results %>
 <h2>In Description</h2>
 
 <%= render :partial => 'items/item_table',
 		:locals => { :items => @description_results, :query => @query,
 			:including => [ :description ] } %>
 
-<%= will_paginate @description_results %>
+<%= will_paginate @description_results, :params => { :field => 'description' } %>
+<% end %>

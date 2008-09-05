@@ -85,10 +85,25 @@ class ItemsController < ApplicationController
 	def search
 		@query = params[:q]
 
+		# fields to search
+		@fields = params[:field]
+		@fields ||= [ 'title', 'author', 'description' ]
+
 		q = "%#{@query}%"
 
-		@title_results = Item.find :all, :conditions => [ 'title LIKE ?', q ]
-		@author_results = Item.find :all, :conditions => [ 'author_first LIKE ? OR author_last LIKE ?', q, q ]
-		@description_results = Item.find :all, :conditions => [ 'description LIKE ?', q ]
+		if @fields.member? 'title'
+			@title_results = itemclass.paginate :all, :page => params[:page], :order => :title,
+				:conditions => [ 'title LIKE ?', q ]
+		end
+
+		if @fields.member? 'author'
+			@author_results = itemclass.paginate :all, :page => params[:page], :order => :title,
+				:conditions => [ 'author_first LIKE ? OR author_last LIKE ?', q, q ]
+		end
+
+		if @fields.member? 'description'
+			@description_results = itemclass.paginate :all, :page => params[:page], :order => :title,
+				:conditions => [ 'description LIKE ?', q ]
+		end
 	end
 end

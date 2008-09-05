@@ -3,3 +3,6 @@ production:
 
 development:
   TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
+
+test:
+  TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]

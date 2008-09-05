@@ -4,8 +4,8 @@ ActionController::Routing::Routes.draw do |map|
   # The priority is based upon order of creation: first created -> highest priority.
 
   map.resources :items, :collection => { :search => :get }
-  map.resources :books
-  map.resources :videos
+  map.resources :books, :collection => { :search => :get }
+  map.resources :videos, :collection => { :search => :get }
 
   map.resources :users, :requirements => { :id => %r([^/;,?]+) }
 

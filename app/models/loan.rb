@@ -8,6 +8,8 @@ class Loan < ActiveRecord::Base
 	belongs_to :item
 	belongs_to :borrower, :class_name => 'User'
 
+	define_callbacks :after_lent
+
 	def approved?
 		['approved', 'lent', 'returned'].member? self.status
 	end

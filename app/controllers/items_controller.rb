@@ -94,7 +94,7 @@ class ItemsController < ApplicationController
 		@fields ||= [ 'tags', 'title', 'author', 'description' ]
 
 		if @fields.member? 'tags'
-			@tag_results = itemclass.find_by_tag(@query).paginate(:page => params[:page], :per_page => 5)
+			@tag_results = itemclass.find_by_tag(@query).paginate(:page => params[:page])
 		end
 
 		q = "%#{@query}%"

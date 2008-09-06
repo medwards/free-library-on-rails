@@ -24,10 +24,52 @@
     <td>
       <% str_tags = @tags.map { |t| t.to_s } %>
 
-      <input id="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;"/>
+      <input id="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;">
 
     </td>
   </tr>
+
+<script type="application/javascript">
+function addTag(tag) {
+	$("tags").setValue($("tags").getValue() + "," + tag);
+
+	listTag(tag);
+
+	alert($("tags").serialize());
+}
+
+function selectedTags() {
+	return $("tags").getValue().split(",");
+}
+
+function listTag(tag) {
+	var li = new Element("li").update(tag);
+	$("tagList").insert(li);
+}
+
+Event.observe(window, 'load', function() {
+	$("tags").style.display = "none";
+
+	var tagList = new Element("ul", { 'id': 'tagList' });
+
+	var newTag = new Element("input");
+	var addTagEl = new Element("span", { 'class': 'add-tag' }).update("+");
+
+	$("tags").up().insert(newTag);
+	$("tags").up().insert(addTagEl);
+	$("tags").up().insert(tagList);
+
+	addTagEl.observe('click', function() {
+		addTag($(newTag).getValue());
+		$(newTag).clear();
+	});
+
+	var selTags = selectedTags();
+	for(var i = 0; i < selTags.length; i++) {
+		listTag(selTags[i]);
+	}
+});
+</script>
 
   </table>
 

@@ -443,12 +443,12 @@ display:none;
 
 .tag-counts li {
 	display: inline;
-  padding: 0 0.5em;
+	padding: 0 0.5em;
 	color: #ccc;
 }
 
 .tag-counts .count01, .tag-counts .count03, .tag-counts .count05 {
-  font-weight: bold;
+	font-weight: bold;
 	color: white;
 }
 
@@ -482,4 +482,28 @@ display:none;
 .highlight {
 	color: yellow;
 	font-weight :bold;
+}
+
+.add-tag, .remove-tag {
+	font-size: 1.6em;
+	font-weight: bold;
+	cursor: pointer;
+	padding: 0.5em;
+}
+
+.add-tag {
+	color: green;
+}
+
+.remove-tag {
+	color: red;
+}
+
+#tagList {
+	list-style-type: none;
+}
+
+#tagList li {
+	width: 50%;
+	float: left;
 }

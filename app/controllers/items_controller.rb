@@ -18,17 +18,6 @@ class ItemsController < ApplicationController
 
 		@tags = params[:tags]
 		@tags ||= []
-
-		@tag_counts = self.current_user.tag_counts
-
-		# the number of times the most-used tag has been used
-		@max_count = 0.0
-		unless @tag_counts.empty?
-			@max_count = @tag_counts.first[1].to_f
-		end
-
-		# we want them in alphabetical order
-		@tag_counts.sort!
 	end
 
 	def create

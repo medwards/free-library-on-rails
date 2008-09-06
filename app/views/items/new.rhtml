@@ -26,44 +26,6 @@
 
       <input id="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;"/>
 
-      <% new_tags = str_tags - @tag_counts.map { |t,c| t }
-        if not new_tags.empty? %>
-        <h2>New Tags</h2>
-
-        <ul class="tag-counts">
-          <% new_tags.each do |tag| %>
-            <li class="selected"><%= h(tag) %></li>
-          <% end %>
-        </ul>
-
-      <% end %>
-
-      <h2 style="clear:both">Existing Tags</h2>
-
-      <ul class="tag-counts">
-				<% @tag_counts.each do |tag, count|
-							classes = []
-
-							if str_tags.member? tag
-								classes << 'selected'
-							end
-
-							# ratio of times this tag was used to the number of times
-							# the most-used tag was used
-							ratio = count / @max_count
-
-							if ratio > 0.5
-								classes << 'count05'
-							elsif ratio > 0.3
-								classes << 'count03'
-							elsif ratio > 0.1
-								classes << 'count01'
-							end
-			%>
-
-          <li <%= ('class="' + classes.join(' ') + '"') unless classes.empty? %>><%= h(tag) %> (<%= count %>)</li>
-        <% end %>
-      </ul>
     </td>
   </tr>
 

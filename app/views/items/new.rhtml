@@ -31,11 +31,25 @@
 
 <script type="application/javascript">
 function addTag(tag) {
-	$("tags").setValue($("tags").getValue() + "," + tag);
+	if(tag == "")
+		return;
+
+	var selTags = selectedTags();
+	if(selTags.indexOf(tag) > -1)
+		// we've already selected that tag
+		return;
+
+	selTags.push(tag);
+
+	$("tags").setValue(selTags.join(","));
 
 	listTag(tag);
+}
 
-	alert($("tags").serialize());
+function removeTag(tag) {
+	var removed = selectedTags().without(tag).join(",")
+
+	$("tags").setValue(removed)
 }
 
 function selectedTags() {
@@ -43,12 +57,21 @@ function selectedTags() {
 }
 
 function listTag(tag) {
-	var li = new Element("li").update(tag);
+	var removeTagEl = new Element("span", { 'class': 'remove-tag' }).update("×");
+
+	removeTagEl.observe('click', function() {
+		removeTag(tag);
+		li.remove();
+	});
+
+	var li = new Element("li").update(removeTagEl);
+	li.insert(tag);
+
 	$("tagList").insert(li);
 }
 
 Event.observe(window, 'load', function() {
-	$("tags").style.display = "none";
+	$("tags").hide();
 
 	var tagList = new Element("ul", { 'id': 'tagList' });
 

@@ -15,9 +15,9 @@ function addTag(tag) {
 }
 
 function removeTag(tag) {
-	var removed = selectedTags().without(tag).join(",")
+	var removed = selectedTags().without(tag).join(",");
 
-	$("tags").setValue(removed)
+	$("tags").setValue(removed);
 }
 
 function selectedTags() {

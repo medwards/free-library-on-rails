@@ -29,16 +29,18 @@ class Book < Item
 		isbndb_book ||= self.new
 
 		book = isbndb_book
-		if(book.isbn != nil and book.isbn != google_book.isbn and File.exists?(google_book.cover_filename))
-			File.rename(google_book.cover_filename, book.cover_filename)
-		end
+		if google_book != nil
+			if(book.isbn != nil and book.isbn != google_book.isbn and File.exists?(google_book.cover_filename))
+				File.rename(google_book.cover_filename, book.cover_filename)
+			end
 
-		book.isbn ||= google_book.isbn
-		book.title ||= google_book.title
-		book.description ||= google_book.description
-		book.author_first ||= google_book.author_first
-		book.author_last ||= google_book.author_last
-		book.tag_with(google_book.tags)
+			book.isbn ||= google_book.isbn
+			book.title ||= google_book.title
+			book.description ||= google_book.description
+			book.author_first ||= google_book.author_first
+			book.author_last ||= google_book.author_last
+			book.tag_with(google_book.tags)
+		end
 
 		book
 	end

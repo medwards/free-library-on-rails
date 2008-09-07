@@ -5,3 +5,5 @@
   <li><%= link_to h(tag.name), tag_path(h(tag.name)) %></li>
 <% end %>
 </ul>
+
+<%= will_paginate @tags %>

@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
 	def index
-		@tags = Tag.only_used
+		@tags = Tag.only_used.paginate(:page => params[:page])
 	end
 
 	def show

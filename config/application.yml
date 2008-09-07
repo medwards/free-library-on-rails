@@ -1,8 +1,9 @@
-production:
-  TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
-
 development:
   TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
+  ISBNDB_KEY: PJ6X926W
+
+production:
+  development
 
 test:
-  TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
+  development

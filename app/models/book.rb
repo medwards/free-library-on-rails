@@ -6,8 +6,7 @@ require 'hpricot'
 class NoSuchISBN < Exception; end
 
 class Book < Item
-	ISBNDB_KEY = 'PJ6X926W'
-	ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + ISBNDB_KEY
+	ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + AppConfig.ISBNDB_KEY
 
 	def cover_filename
 		'public/images/items/books/' + self.isbn + '.jpg'

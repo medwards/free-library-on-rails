@@ -9,8 +9,13 @@
 	</tr>
 	<% items.each do |item| %>
 		<tr>
-			<td><%= link_to highlight(h(item.title), @query), polymorphic_path(item) %></td>
-			<td><%= highlight(h(item.author_first + ' ' + item.author_last), @query) %></td>
+			<td <%= 'colspan="2"' unless item.is_a? Book %>>
+				<%= link_to highlight(h(item.title), @query), polymorphic_path(item) %>
+			</td>
+			<% if item.is_a? Book %>
+				<td><%= highlight(h(item.author_first + ' ' + item.author_last), @query) %></td>
+			<% end %>
+
 			<td><%= user_link item.owner %></td>
 			<% if self.current_user %><td>
 				<%= distance item.owner.distance_from self.current_user %>

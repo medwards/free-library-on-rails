@@ -1,4 +1,30 @@
+<% if @item.owned_by? session[:user] %>
+	<div class="itemActions">
+	<%= link_to 'edit', edit_polymorphic_path(@item) %>
+	<%= button_to 'delete', {}, { :method => :delete, :confirm => "Are you sure you want to delete this item?" } %>
+	</div>
+
+  <% if @item.current_loan %>
+    <p>Currently loaned to <%= user_link @item.current_loan.borrower %>.
+      <%= button_to 'returned', loan_path(@item.current_loan), :method => :put %></p>
+  <% end %>
+<% end %>
+
 <h1><%=h @item.title %></h1>
+
+<% if @item.owned_by? session[:user] and not @item.requests.empty? %>
+	<div class="requests">
+		<p>Requested by:</p>
+		<ul>
+		  <% @item.requests.each do |req| %>
+			<li>
+			  <%= h req.borrower.login %>
+			  <%= render :partial => 'loans/approval', :locals => { :req => req } %>
+			</li>
+		  <% end %>
+		</ul>
+	</div>
+<% end %>
 
 <table>
   <tr><th>type of item:</th>
@@ -16,31 +42,9 @@
   <% default_content_for :additional_fields do %><% end %>
 </table>
 
-<% if @item.owned_by? session[:user] %>
-  <p><%= link_to 'edit', edit_polymorphic_path(@item) %></p>
-	<p><%= button_to 'delete', {}, { :method => :delete, :confirm => "Are you sure you want to delete this item?" } %></p>
-
-  <% if @item.current_loan %>
-    <p>Currently loaned to <%= user_link @item.current_loan.borrower %>.
-      <%= button_to 'returned', loan_path(@item.current_loan), :method => :put %></p>
-  <% end %>
-
-  <% unless @item.requests.empty? %>
-    <p>Requested by:</p>
-    <ul>
-      <% @item.requests.each do |req| %>
-        <li>
-          <%= h req.borrower.login %>
-          <%= render :partial => 'loans/approval', :locals => { :req => req } %>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-<% end %>
-
 <% if current_user %>
   <% if Loan.already_requested(current_user, @item) %>
-    You have already requested to borrow this item.
+	  <p>You have already requested to borrow this item.</p>
   <% else %>
     <%= button_to 'request loan', loans_path(:item_id => @item) %>
   <% end %>

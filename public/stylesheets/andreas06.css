@@ -507,3 +507,20 @@ display:none;
 	width: 50%;
 	float: left;
 }
+
+.itemActions {
+	margin-top: 1ex;
+	float: right;
+}
+
+.itemActions .button-to, .itemActions .button-to div {
+	display: inline;
+}
+
+.itemActions .button-to {
+	padding: 1em;
+}
+
+.requests {
+	float: right;
+}

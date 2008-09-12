@@ -10,7 +10,7 @@
   <% end %>
 <% end %>
 
-<h1><%=h @item.title %></h1>
+<h1><%= image_tag("icons/#{h @item.type}.png") %> <%=h @item.title %></h1>
 
 <% if @item.owned_by? session[:user] and not @item.requests.empty? %>
 	<div class="requests">
@@ -27,8 +27,6 @@
 <% end %>
 
 <table>
-  <tr><th>type of item:</th>
-    <td><%=h @item.type %></td></tr>
   <tr><th>owner:</th>
     <td><%= user_link @item.owner %></td></tr>
   <tr><th>tags:</th>

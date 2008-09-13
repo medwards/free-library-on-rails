@@ -1,9 +1,9 @@
-development:
+development: &defaults
   TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
   ISBNDB_KEY: PJ6X926W
 
 production:
-  development
+  <<: *defaults
 
 test:
-  development
+  <<: *defaults

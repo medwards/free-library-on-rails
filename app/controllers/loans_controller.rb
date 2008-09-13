@@ -15,7 +15,7 @@ class LoansController < ApplicationController
 
 		@loan = Loan.create_request(self.current_user, @item)
 
-		if @item.owner == self.current_user
+		if @item.owner == self.current_user and params[:return_date]
 			return_date = Date.parse(params[:return_date])
 			memo = params[:memo]
 

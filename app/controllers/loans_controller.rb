@@ -13,9 +13,16 @@ class LoansController < ApplicationController
 	def create
 		@item = Item.find(params[:item_id])
 
-		Loan.create_request(self.current_user, @item)
+		@loan = Loan.create_request(self.current_user, @item)
 
-		flash[:notice] = "Loan request sent."
+		if @item.owner == self.current_user
+			return_date = Date.parse(params[:return_date])
+			memo = params[:memo]
+
+			@loan.lent!(return_date, memo)
+		else
+			flash[:notice] = "Loan request sent."
+		end
 
 		redirect_to polymorphic_path(@item)
 	end
@@ -32,7 +39,9 @@ class LoansController < ApplicationController
 				flash[:error] = "Can't loan an item that is already loaned."
 			else
 				return_date = Date.parse(params[:return_date])
-				@loan.lent!(return_date)
+				memo = params[:memo]
+
+				@loan.lent!(return_date, memo)
 				flash[:notice] = "Request approved."
 			end
 		elsif @loan.status == "lent"

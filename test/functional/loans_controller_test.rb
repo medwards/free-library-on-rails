@@ -112,4 +112,24 @@ class LoansControllerTest < Test::Unit::TestCase
     book = Book.find(lhd)
     assert_nil book.current_loan
   end
+
+  def test_loan_to_self
+    htc = items(:htc)
+
+    login_as 'bct'
+
+    assert_difference(Loan, :count, 1) do
+      post :create, :item_id => htc.id, :return_date => '2012-12-21', :memo => 'lent to dad'
+    end
+
+    assert_redirected_to :controller => 'books', :action => 'show', :id => htc.id.to_s
+
+	book = Book.find(htc)
+
+	# loan was automatically made
+    loan = book.current_loan
+
+	assert_not_nil loan
+    assert_equal "lent", loan.status
+  end
 end

@@ -9,9 +9,7 @@
        type = item.class.to_s.downcase %>
     <tr>
       <td><%=h type %></td>
-      <td><%= link_to h(item.title), { :controller => type,
-                                       :action => :show,
-                                       :id => item.id } %></td>
+      <td><%= link_to highlight(h(item.title), @query), polymorphic_path(item) %></td>
     </tr>
   <% end %>
 </table>

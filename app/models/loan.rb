@@ -21,6 +21,7 @@ class Loan < ActiveRecord::Base
 
 	def lent!(return_date, memo = nil)
 		self.return_date = return_date
+		self.memo = memo
 		self.status = 'lent'
 		save!
 

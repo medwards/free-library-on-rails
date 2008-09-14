@@ -3,23 +3,21 @@
       <%= link_to image_tag("icons/edit.gif", :title => "edit"), edit_polymorphic_path(@item) %>
       <%= link_to image_tag("icons/delete.gif", :title => "delete"), {}, { :method => :delete, :confirm => "Are you sure you want to delete this item?" } %>
 	</div>
-
-  <% if @item.current_loan %>
-    <p>Currently loaned to <%= user_link @item.current_loan.borrower %>.
-      <%= button_to 'returned', loan_path(@item.current_loan), :method => :put %></p>
-  <% end %>
 <% end %>
 
 <h1><%= image_tag("icons/#{h @item.type}.png") %> <%=h @item.title %></h1>
 
 <% if @item.owned_by? session[:user] and not @item.requests.empty? %>
 	<div class="requests">
+		<%= calendar_date_select_includes 'silver' %>
 		<p>Requested by:</p>
 		<ul>
 		  <% @item.requests.each do |req| %>
 			<li>
-			  <%= h req.borrower.login %>
-			  <%= render :partial => 'loans/approval', :locals => { :req => req } %>
+			  <%= user_link req.borrower %>
+			  <% unless @item.current_loan %>
+				  <%= render :partial => 'loans/approval', :locals => { :req => req } %>
+			  <% end %>
 			</li>
 		  <% end %>
 		</ul>
@@ -40,7 +38,31 @@
   <% default_content_for :additional_fields do %><% end %>
 </table>
 
-<% if current_user %>
+<% if @item.owned_by? session[:user] %>
+	<div class="currentLoan">
+		<h2>Current Loan</h2>
+
+	<% if @item.current_loan %>
+		<p>Currently loaned to <%= user_link @item.current_loan.borrower %>.</p>
+		<% unless @item.current_loan.memo.empty? %><p>Memo: <%= h @item.current_loan.memo %></p><% end %>
+		<%= button_to 'returned', loan_path(@item.current_loan), :method => :put %>
+	<% else %>
+	<% form_tag loans_path, :method => 'post' do -%>
+		<fieldset>
+			<legend>loan to yourself</legend>
+			<input type="hidden" name="item_id" value="<%=h @item.id %>">
+			<label>Due Back:
+				<%= calendar_date_select_tag 'return_date', '',
+					:buttons => false,
+					:format => :iso_date,
+					:valid_date_check => "date > (new Date()).stripTime()" %></label><br>
+			<label>Memo: <%= text_field_tag 'memo' %></label><br>
+			<%= submit_tag 'loan' %>
+		</fieldset>
+	<% end %>
+	<% end %>
+	</div>
+<% elsif current_user %>
   <% if Loan.already_requested(current_user, @item) %>
 	  <p>You have already requested to borrow this item.</p>
   <% else %>

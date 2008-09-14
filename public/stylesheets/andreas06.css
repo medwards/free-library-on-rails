@@ -528,3 +528,8 @@ display:none;
 .requests {
 	float: right;
 }
+
+.currentLoan .button-to {
+	padding-top: 1em;
+	padding-left: 1em;
+}

@@ -1,139 +1,139 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BooksControllerTest < Test::Unit::TestCase
-  include AuthenticatedTestHelper
+	include AuthenticatedTestHelper
 
-  def setup
-    @controller = BooksController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+	def setup
+		@controller = BooksController.new
+		@request    = ActionController::TestRequest.new
+		@response   = ActionController::TestResponse.new
+	end
 
-  def test_routing
-    assert_routing 'items/1', :controller => 'items', :action => 'show', :id => '1'
-    assert_routing 'books/1', :controller => 'books', :action => 'show', :id => '1'
+	def test_routing
+		assert_routing 'items/1', :controller => 'items', :action => 'show', :id => '1'
+		assert_routing 'books/1', :controller => 'books', :action => 'show', :id => '1'
 
-    assert_routing 'books/new', :controller => 'books', :action => 'new'
-  end
+		assert_routing 'books/new', :controller => 'books', :action => 'new'
+	end
 
-  def test_show
-    get :show, :id => items(:lhd)
-    assert_response :success
+	def test_show
+		get :show, :id => items(:lhd)
+		assert_response :success
 
-    assert_match /Left Hand of Darkness/, @response.body
-  end
+		assert_match /Left Hand of Darkness/, @response.body
+	end
 
-  # should be able to GET the create form
-  def test_new
-    login_as 'bct'
-    get :new
+	# should be able to GET the create form
+	def test_new
+		login_as 'bct'
+		get :new
 
-    assert_response :success
-  end
+		assert_response :success
+	end
 
-  # unauthenticated users get sent to the login form
-  def test_unauth_new
-    get :new
+	# unauthenticated users get sent to the login form
+	def test_unauth_new
+		get :new
 
-    assert_response 302
-  end
+		assert_response 302
+	end
 
-  def test_create
-    old_count = Item.count
+	def test_create
+		old_count = Item.count
 
-    login_as 'bct'
+		login_as 'bct'
 
-    # the number of items in the database should increase after a POST
-    assert_difference(Item, :count, 1) do
-      post :create, :item => {
-                              :title => 'Iron Council'
-                              },
-                    :tags => 'political, fiction'
-    end
+		# the number of items in the database should increase after a POST
+		assert_difference(Item, :count, 1) do
+		  post :create, :item => {
+								  :title => 'Iron Council'
+								  },
+						:tags => 'political, fiction'
+		end
 
-    new_book = Book.find_by_title('Iron Council')
+		new_book = Book.find_by_title('Iron Council')
 
-    assert_equal ['fiction', 'political'], new_book.tags.sort
+		assert_equal ['fiction', 'political'], new_book.tags.sort
 
-    assert_redirected_to :controller => 'books', :action => 'show', :id => new_book
+		assert_redirected_to :controller => 'books', :action => 'show', :id => new_book
 
-    # you should be able to GET the new item
-    get :show, :id => new_book
-    assert_response :success
+		# you should be able to GET the new item
+		get :show, :id => new_book
+		assert_response :success
 
-    assert_match /Iron Council/, @response.body
-  end
+		assert_match /Iron Council/, @response.body
+	end
 
-  # you can't create an item unless you're logged in
-  def test_unauthenticated_create
-    assert_difference(Item, :count, 0) do
-      post :create, :item => {
-                              :title => 'Iron Council'
-                              }
-    end
+	# you can't create an item unless you're logged in
+	def test_unauthenticated_create
+		assert_difference(Item, :count, 0) do
+		  post :create, :item => {
+								  :title => 'Iron Council'
+								  }
+		end
 
-    assert_response 302
-  end
+		assert_response 302
+	end
 
-  # you can destroy your items
-  def test_destroy
-    login_as 'bct'
+	# you can destroy your items
+	def test_destroy
+		login_as 'bct'
 
-    item = items(:htc)
+		item = items(:htc)
 
-    assert_difference(Item, :count, -1) do
-      delete :destroy, :id => item
-    end
+		assert_difference(Item, :count, -1) do
+		  delete :destroy, :id => item
+		end
 
-    # it's gone now
-    get :show, :id => item
+		# it's gone now
+		get :show, :id => item
 
-    assert_response 404
-  end
+		assert_response 404
+	end
 
-  # you can't destroy another user's item
-  def test_unauthorized_destroy
-    login_as 'bct'
+	# you can't destroy another user's item
+	def test_unauthorized_destroy
+		login_as 'bct'
 
-    item = items(:lhd)
+		item = items(:lhd)
 
-    assert_difference(Item, :count, 0) do
-      delete :destroy, :id => item
-    end
+		assert_difference(Item, :count, 0) do
+		  delete :destroy, :id => item
+		end
 
-    assert_response 401
-  end
+		assert_response 401
+	end
 
-  def test_edit
-    login_as 'bct'
+	def test_edit
+		login_as 'bct'
 
-    htc = items(:htc)
+		htc = items(:htc)
 
-    get :edit, :id => htc
-    assert_response :success
+		get :edit, :id => htc
+		assert_response :success
 
-    put :update, :id => htc, :item => { :title => 'something new' }, :tags => 'new ,tags'
+		put :update, :id => htc, :item => { :title => 'something new' }, :tags => 'new ,tags'
 
-    assert_redirected_to :controller => 'books', :action => 'show', :id => htc
+		assert_redirected_to :controller => 'books', :action => 'show', :id => htc
 
-    item = Book.find(htc)
-    assert_equal 'something new', item.title
-    assert_equal ['new', 'tags'], item.tags.sort
-  end
+		item = Book.find(htc)
+		assert_equal 'something new', item.title
+		assert_equal ['new', 'tags'], item.tags.sort
+	end
 
-  def test_unauthorized_edit
-    login_as 'bct'
+	def test_unauthorized_edit
+		login_as 'bct'
 
-    lhd = items(:lhd)
+		lhd = items(:lhd)
 
-    get :edit, :id => lhd
-    assert_redirected_to :controller => 'books', :action => 'show', :id => lhd
+		get :edit, :id => lhd
+		assert_redirected_to :controller => 'books', :action => 'show', :id => lhd
 
-    put :update, :id => lhd, :item => { :title => 'haxored' }, :tags => 'pwned lol'
-    assert_response 401
+		put :update, :id => lhd, :item => { :title => 'haxored' }, :tags => 'pwned lol'
+		assert_response 401
 
-    lhd = Book.find(lhd)
-    assert_equal 'The Left Hand of Darkness', lhd.title
-    assert_equal [], lhd.tags.sort
-  end
+		lhd = Book.find(lhd)
+		assert_equal 'The Left Hand of Darkness', lhd.title
+		assert_equal [], lhd.tags.sort
+	end
 end

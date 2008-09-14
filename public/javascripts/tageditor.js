@@ -27,12 +27,13 @@ function selectedTags() {
 function listTag(tag) {
 	var removeTagEl = new Element("span", { 'class': 'remove-tag' }).update("×");
 
+	var li = new Element("li").update(removeTagEl);
+
 	removeTagEl.observe('click', function() {
 		removeTag(tag);
 		li.remove();
 	});
 
-	var li = new Element("li").update(removeTagEl);
 	li.insert(tag);
 
 	$("tagList").insert(li);

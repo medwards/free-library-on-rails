@@ -29,6 +29,10 @@ color:#ffffff;
 background-color:#d01A71;
 }
 
+a img {
+  border-width: 0px;
+}
+
 hr{
 height:1px;
 margin:10px 0;

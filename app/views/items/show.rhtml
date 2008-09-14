@@ -47,16 +47,19 @@
 		<% unless @item.current_loan.memo.empty? %><p>Memo: <%= h @item.current_loan.memo %></p><% end %>
 		<%= button_to 'returned', loan_path(@item.current_loan), :method => :put %>
 	<% else %>
+		<p>Not currently loaned.</p>
 	<% form_tag loans_path, :method => 'post' do -%>
 		<fieldset>
 			<legend>loan to yourself</legend>
 			<input type="hidden" name="item_id" value="<%=h @item.id %>">
-			<label>Due Back:
-				<%= calendar_date_select_tag 'return_date', '',
+			<table>
+				<tr><td>Due Back:</td>
+				<td><%= calendar_date_select_tag 'return_date', '',
 					:buttons => false,
 					:format => :iso_date,
-					:valid_date_check => "date > (new Date()).stripTime()" %></label><br>
-			<label>Memo: <%= text_field_tag 'memo' %></label><br>
+					:valid_date_check => "date > (new Date()).stripTime()" %></td></tr>
+			<tr><td>Memo:</td> <td><%= text_field_tag 'memo' %></td></tr>
+			</table>
 			<%= submit_tag 'loan' %>
 		</fieldset>
 	<% end %>

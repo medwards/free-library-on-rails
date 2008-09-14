@@ -55,6 +55,8 @@ module ApplicationHelper
 		# If we're inheriting a partial, lend our local context to that partial.
 		options[:locals] = eval("local_assigns", bind) if options[:partial]
 
+		options[:use_full_path] = true
+
 		# Render our parent view.
 		concat(render(options), bind)
 	end

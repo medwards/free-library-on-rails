@@ -144,9 +144,9 @@ CalendarDateSelect.prototype = {
   },
   initHeaderDiv: function() {
     var header_div = this.header_div;
-    this.close_button = header_div.build("a", { innerHTML: "<img src=\"/images/calendar_date_select/close.gif\" />", href:"#", onclick:function () { this.close(); return false; }.bindAsEventListener(this), className: "close" });
-    this.next_month_button = header_div.build("a", { innerHTML: "<img src=\"/images/calendar_date_select/month_forward.gif\" />", href:"#", onclick:function () { this.navMonth(this.date.getMonth() + 1 ); return false; }.bindAsEventListener(this), className: "next" });
-    this.prev_month_button = header_div.build("a", { innerHTML: "<img src=\"/images/calendar_date_select/month_backward.gif\" />", href:"#", onclick:function () { this.navMonth(this.date.getMonth() - 1 ); return false; }.bindAsEventListener(this), className: "prev" });
+    this.close_button = header_div.build("a", { innerHTML: "x", href:"#", onclick:function () { this.close(); return false; }.bindAsEventListener(this), className: "close" });
+    this.next_month_button = header_div.build("a", { innerHTML: "&gt;", href:"#", onclick:function () { this.navMonth(this.date.getMonth() + 1 ); return false; }.bindAsEventListener(this), className: "next" });
+    this.prev_month_button = header_div.build("a", { innerHTML: "&lt;", href:"#", onclick:function () { this.navMonth(this.date.getMonth() - 1 ); return false; }.bindAsEventListener(this), className: "prev" });
     
     if (this.options.get("month_year")=="dropdowns") {
       this.month_select = new SelectBox(header_div, $R(0,11).map(function(m){return [Date.months[m], m]}), {className: "month", onchange: function () { this.navMonth(this.month_select.getValue()) }.bindAsEventListener(this)}); 

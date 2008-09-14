@@ -3,7 +3,9 @@
     <legend>loan length</legend>
     <label>One week <%= radio_button_tag 'return_date', (Date.today + 1.week).to_s %></label>
     <label>Two weeks <%= radio_button_tag 'return_date', (Date.today + 2.weeks).to_s %></label>
-    <label>One month <%= radio_button_tag 'return_date', (Date.today + 1.month).to_s %></label>
+    <label>One month <%= radio_button_tag 'return_date', (Date.today + 1.month).to_s %></label><br />
+    <%= calendar_date_select_tag "return_date", "", :buttons => false, :format => :iso_date, :valid_date_check => "date > (new Date()).stripTime()" %><br />
+    <%= text_field_tag 'memo' %> Memo 
   </fieldset>
   <%= submit_tag 'approve request' %>
 <% end %>

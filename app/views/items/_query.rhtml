@@ -1,0 +1,8 @@
+<div style="text-align: right;">
+  <% form_tag :action => 'search' do  %>
+    <%= text_field_tag 'q' %>
+    <%= select_tag 'field', options_for_select( { 'tags' => 'tags', 'title' => 'title', 'author' => 'author', 'description' => 'description'}) %>
+    <%= submit_tag 'Search' %>
+  <% end %>
+</div>
+

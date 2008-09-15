@@ -4,12 +4,16 @@
   <p>You are not borrowing anything and have not made any requests.</p>
 <% else %>
   <table>
-    <tr><th>Title</th><th>Owner</th><th>Status</th></tr>
+    <tr><th>Title</th><th>Owner</th><th>Status</th><th>Due Back</th></tr>
   <% @borrowed_and_pending.each do |l| %>
     <tr>
-      <td><%=h l.item.title %></td>
+      <td><%= link_to (h l.item.title), l.item %></td>
       <td><%=h l.item.owner.login %></td>
       <td><%=h l.status%></td>
+      <td><% if l.return_date? %>
+            <%=h l.return_date.strftime("%Y/%m/%d") %>
+          <% end %>
+      </td>
       <% if l.status == 'requested' %>
         <td><%= button_to 'cancel', loan_path(l),
           :method => :delete, :confirm => 'Cancel this loan request?' %></td>
@@ -25,12 +29,16 @@
   <p>Nobody has borrowed or requested anything.</p>
 <% else %>
   <table>
-    <tr><th>Title</th><th>Borrower</th><th>Status</th></tr>
+    <tr><th>Title</th><th>Borrower</th><th>Status</th><th>Due Back</td></tr>
   <% @lent_and_pending.each do |l| %>
     <tr>
-      <td><%=h l.item.title %></td>
+      <td><%= link_to (h l.item.title), l.item %></td>
       <td><%=h l.borrower.login %></td>
       <td><%=h l.status %></td>
+      <td><% if l.return_date? %>
+            <%=h l.return_date.strftime("%Y/%m/%d") %> 
+          <% end %>
+      </td>
       <% if l.status == 'lent' %>
         <td><%= button_to 'returned', loan_path(l), :method => :put %></td>
       <% else %>

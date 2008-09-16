@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
 
 	def index
 		@items = region.items.paginate(:all, :page => params[:page],
+									   :order => 'title',
 									   :conditions => { :type => itemclass.to_s })
 	end
 

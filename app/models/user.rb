@@ -25,7 +25,10 @@ class User < ActiveRecord::Base
 
 	belongs_to :region
 
-	has_many :owned, :class_name => 'Item', :foreign_key => :owner_id
+	has_many :owned,
+		:class_name => 'Item',
+		:foreign_key => :owner_id,
+		:order => 'title'
 
 	# this user's past and present borrowings
 	has_many :borrowings, :foreign_key => :borrower_id, :class_name => 'Loan'

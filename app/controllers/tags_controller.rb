@@ -8,6 +8,6 @@ class TagsController < ApplicationController
 
 		return four_oh_four unless @tag
 
-		@items = @tag.items
+		@items = @tag.items.paginate(:page => params[:page])
 	end
 end

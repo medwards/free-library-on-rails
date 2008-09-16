@@ -1,7 +1,9 @@
 <h1>Items tagged with <%= h(@tag.name) %></h1>
 
-<table>
-  <% @items.each do |i| %>
-    <tr><td><%= link_to h(i.title), h(polymorphic_path(i)) %></td></tr>
-  <% end %>
-</table>
+<% if @items.empty? %>
+	<p>No items found with this tag.</p>
+<% else %>
+	<%= render :partial => 'items/item_table', :locals => { :items => @items } %>
+<% end %>
+
+<%= will_paginate @items %>

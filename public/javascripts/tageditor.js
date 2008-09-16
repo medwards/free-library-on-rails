@@ -21,7 +21,7 @@ function removeTag(tag) {
 }
 
 function selectedTags() {
-	return $("tags").getValue().split(",");
+	return $("tags").getValue().split(",").reject(function(t) { return t.empty();});
 }
 
 function listTag(tag) {

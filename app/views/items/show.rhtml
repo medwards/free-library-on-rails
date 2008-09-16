@@ -44,7 +44,7 @@
 
 	<% if @item.current_loan %>
 		<p>Currently loaned to <%= user_link @item.current_loan.borrower %>.</p>
-		<% unless @item.current_loan.memo.empty? %><p>Memo: <%= h @item.current_loan.memo %></p><% end %>
+		<% if @item.current_loan.memo %><p>Memo: <%= h @item.current_loan.memo %></p><% end %>
 		<%= button_to 'returned', loan_path(@item.current_loan), :method => :put %>
 	<% else %>
 		<p>Not currently loaned.</p>

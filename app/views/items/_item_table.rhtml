@@ -18,7 +18,7 @@
 
 			<td><%= user_link item.owner %></td>
 			<% if self.current_user %><td>
-				<%= distance item.owner.distance_from self.current_user %>
+				<%= distance item.owner.distance_from(self.current_user) %>
 			</td><% end %>
 		</tr>
 		<% if including.member? :description %>

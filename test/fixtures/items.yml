@@ -4,11 +4,15 @@ lhd:
   current_loan: loan
   created: 2008-04-16
   title: The Left Hand of Darkness
+  author_first: Ursula K.
+  author_last: Le Guin
 htc:
   owner: bct
   type: Book
   created: 2008-04-18
   title: Homage to Catalonia
+  author_first: George
+  author_last: Orwell
 sg:
   owner: bct
   type: Video

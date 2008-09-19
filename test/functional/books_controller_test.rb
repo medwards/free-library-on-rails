@@ -136,4 +136,20 @@ class BooksControllerTest < Test::Unit::TestCase
 		assert_equal 'The Left Hand of Darkness', lhd.title
 		assert_equal [], lhd.tags.sort
 	end
+
+	def test_search_title
+		get :search, :q => 'catalonia homage', :field => 'title'
+
+		assert_response :success
+
+		assert_match /Homage to Catalonia/, @response.body
+	end
+
+	def test_search_author
+		get :search, :q => 'guin ursula', :field => 'author'
+
+		assert_response :success
+
+		assert_match /The Left Hand of Darkness/, @response.body
+	end
 end

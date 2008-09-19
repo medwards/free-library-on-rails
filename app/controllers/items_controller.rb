@@ -87,21 +87,34 @@ class ItemsController < ApplicationController
 			@tag_results = itemclass.find_by_tag(@query).paginate(:page => params[:page])
 		end
 
-		q = "%#{@query}%"
+		terms = @query.split(' ')
+		wildcards = terms.map { |t| "%#{t}%" }
 
 		if @fields.member? 'title'
-			@title_results = itemclass.paginate :all, :page => params[:page], :order => :title,
-				:conditions => [ 'title LIKE ?', q ]
+			t_cond = (['title LIKE ?'] * wildcards.length).join(' AND ')
+
+			@title_results = itemclass.paginate :all,
+				:page => params[:page],
+				:order => :title,
+				:conditions => [t_cond, *wildcards]
 		end
 
 		if @fields.member? 'author'
-			@author_results = itemclass.paginate :all, :page => params[:page], :order => :title,
-				:conditions => [ 'author_first LIKE ? OR author_last LIKE ?', q, q ]
+			a_cond = (['author_first LIKE ? OR author_last LIKE ?'] * wildcards.length).join(' AND ')
+
+			@author_results = itemclass.paginate :all,
+				:page => params[:page],
+				:order => :title,
+				:conditions => [a_cond, *(wildcards.map{ |x| [x] * 2 }.flatten)]
 		end
 
 		if @fields.member? 'description'
-			@description_results = itemclass.paginate :all, :page => params[:page], :order => :title,
-				:conditions => [ 'description LIKE ?', q ]
+			d_cond = (['description LIKE ?'] * wildcards.length).join(' AND ')
+
+			@description_results = itemclass.paginate :all,
+				:page => params[:page],
+				:order => :title,
+				:conditions => [d_cond, *wildcards]
 		end
 	end
 end

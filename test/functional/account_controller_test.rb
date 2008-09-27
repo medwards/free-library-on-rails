@@ -44,12 +44,65 @@ class AccountControllerTest < Test::Unit::TestCase
 		login_as 'bct'
 
 		assert_difference(User, :count, 0) do
-		  post :update, :user => { :cellphone => '7807086602' }
+		  post :update, :user => { :cellphone => '7807086602', :email => 'new-bct@example.org' }
 		end
 
 		assert_response 302
 
-		assert_equal '7807086602', User.find_by_login('bct').cellphone
+		bct = User.find_by_login('bct')
+		assert_equal '7807086602', bct.cellphone
+		assert_equal 'new-bct@example.org', bct.email
+	end
+
+	def test_update_password_no_confirm
+		login_as 'bct'
+
+		bct = User.find_by_login('bct')
+		orig = bct.crypted_password
+
+		assert_difference(User, :count, 0) do
+		  post :update, :user => { :password => 'test' }
+		end
+
+		assert_response 302
+
+		# password was not updated
+		bct = User.find_by_login('bct')
+		assert_equal orig, bct.crypted_password
+	end
+
+	def test_update_password_bad_confirm
+		login_as 'bct'
+
+		bct = User.find_by_login('bct')
+		orig = bct.crypted_password
+
+		assert_difference(User, :count, 0) do
+		  post :update, :user => { :password => 'test', :password_confirmation => 'oops' }
+		end
+
+		assert_response 302
+
+		# password was not updated
+		bct = User.find_by_login('bct')
+		assert_equal orig, bct.crypted_password
+	end
+
+	def test_update_password
+		# correct confirmation included
+		login_as 'bct'
+
+		bct = User.find_by_login('bct')
+		orig = bct.crypted_password
+
+		assert_difference(User, :count, 0) do
+		  post :update, :user => { :password => 'test', :password_confirmation => 'test' }
+		end
+
+		assert_response 302
+
+		bct = User.find_by_login('bct')
+		assert bct.authenticated?('test')
 	end
 
 	def test_update_unauthenticated

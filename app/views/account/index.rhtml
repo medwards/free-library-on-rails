@@ -3,6 +3,11 @@
 <% form_for :user, :url => { :action => 'update' } do |f| -%>
   <table>
     <tr>
+      <td><label for="email">Email:</label></td>
+      <td><%= f.text_field :email %></td>
+    </tr>
+
+    <tr>
       <td><label for="user_address">Address:</label></td>
       <td><%= f.text_field :address %></td>
     </tr>
@@ -44,4 +49,21 @@
   </table>
 
   <p><%= submit_tag 'Update' %></p>
+<% end -%>
+
+<h2>Change password</h2>
+
+<% form_tag :action => 'update' do -%>
+	<table>
+		<tr>
+			<td><label for="password">New Password:</label></td>
+			<td><input type="password" name="user[password]" id="password"></td>
+		</tr>
+		<tr>
+			<td><label for="password_confirmation">Again:</label></td>
+			<td><input type="password" name="user[password_confirmation]" id="password_confirmation"></td>
+		</tr>
+	</table>
+
+	<p><%= submit_tag 'Update' %></p>
 <% end -%>

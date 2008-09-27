@@ -16,11 +16,14 @@ class AccountController < ApplicationController
 
 		# XXX user-specifiable attributes should be whitelisted, not
 		# blacklisted with attr_protected like they are now
-		@user.update_attributes!(params[:user])
+		if not @user.update_attributes(params[:user])
+			error_list = "<ul><li>" + @user.errors.full_messages.join('</li><li>') + "</li></ul>"
+			flash[:error] = "Couldn't update your settings: "
+		else
+			flash[:notice] = 'Updated your settings.'
+		end
 
 		redirect_to :action => 'index'
-
-		flash[:notice] = 'Updated your settings.'
 	end
 
 	def login

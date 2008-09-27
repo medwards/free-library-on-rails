@@ -142,6 +142,8 @@ class User < ActiveRecord::Base
 			self.latitude = 0
 			self.longitude = 0
 
+			return unless self.postalcode
+
 			googleKey = "ABQIAAAAtMckXwUuUit3GcU7fqrjfhQ-fLx3XxcGMYuMv93Lb2-UXt48NxQJ0Yah9JBOEjCrA8dHFLPTAfhB3w"
 			url = "http://maps.google.com/maps/geo?q=#{URI.escape self.postalcode}&output=csv&key=#{googleKey}"
 

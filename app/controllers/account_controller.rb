@@ -20,6 +20,8 @@ class AccountController < ApplicationController
 			error_list = "<ul><li>" + @user.errors.full_messages.join('</li><li>') + "</li></ul>"
 			flash[:error] = "Couldn't update your settings: "
 		else
+			@user.tag_with params[:tags] if params[:tags]
+
 			flash[:notice] = 'Updated your settings.'
 		end
 

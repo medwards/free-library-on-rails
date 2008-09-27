@@ -65,6 +65,7 @@ class AccountControllerTest < Test::Unit::TestCase
 		end
 
 		assert_response 302
+		assert @response.flash[:error]
 
 		# password was not updated
 		bct = User.find_by_login('bct')
@@ -82,6 +83,7 @@ class AccountControllerTest < Test::Unit::TestCase
 		end
 
 		assert_response 302
+		assert @response.flash[:error]
 
 		# password was not updated
 		bct = User.find_by_login('bct')
@@ -100,6 +102,7 @@ class AccountControllerTest < Test::Unit::TestCase
 		end
 
 		assert_response 302
+		assert @response.flash[:notice]
 
 		bct = User.find_by_login('bct')
 		assert bct.authenticated?('test')
@@ -111,7 +114,7 @@ class AccountControllerTest < Test::Unit::TestCase
 		assert_response 302
 	end
 
-	  # try to change attributes that shouldn't be changeable
+	# try to change attributes that shouldn't be changeable
 	def test_update_protected_attributes
 		login_as 'bct'
 
@@ -124,6 +127,7 @@ class AccountControllerTest < Test::Unit::TestCase
 								 :login                     => 'somebody-else'
 							  }
 
+		# the update should succeed but nothing should change
 		assert_response 302
 
 		bct = User.find_by_login('bct')
@@ -135,5 +139,20 @@ class AccountControllerTest < Test::Unit::TestCase
 		assert_equal Time.parse('2008-04-01'), bct.activated_at
 
 		assert((Time.now - bct.updated_at).abs < 5)
+	end
+
+	def test_tag
+		login_as 'bct'
+
+		assert_difference(User, :count, 0) do
+		  post :update, :tags => 'funny hats, celery'
+		end
+
+		assert_response 302
+		assert @response.flash[:notice]
+
+		bct = User.find_by_login('bct')
+		assert bct.tags.member?('funny hats')
+		assert bct.tags.member?('celery')
 	end
 end

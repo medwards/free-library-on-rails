@@ -1,54 +1,65 @@
 <h1>Your settings</h1>
 
 <% form_for :user, :url => { :action => 'update' } do |f| -%>
-  <table>
-    <tr>
-      <td><label for="email">Email:</label></td>
-      <td><%= f.text_field :email %></td>
-    </tr>
+	<table>
+		<tr>
+			<td><label for="email">Email:</label></td>
+			<td><%= f.text_field :email %></td>
+		</tr>
 
-    <tr>
-      <td><label for="user_address">Address:</label></td>
-      <td><%= f.text_field :address %></td>
-    </tr>
+		<tr>
+			<td><label for="user_address">Address:</label></td>
+			<td><%= f.text_field :address %></td>
+		</tr>
 
-    <tr>
-      <td><label for="user_city">City:</label></td>
-      <td><%= f.text_field :city %></td>
-    </tr>
+		<tr>
+			<td><label for="user_city">City:</label></td>
+			<td><%= f.text_field :city %></td>
+		</tr>
 
-    <tr>
-      <td><label for="user_postalcode">Postal Code:</label></td>
-      <td><%= f.text_field :postalcode %></td>
-    </tr>
+		<tr>
+			<td><label for="user_postalcode">Postal Code:</label></td>
+			<td><%= f.text_field :postalcode %></td>
+		</tr>
 
-    <tr>
-      <td><label for="user_longitude">Longitude:</label></td>
-      <td><%= f.text_field :longitude %></td>
-    </tr>
+		<tr>
+			<td><label for="user_longitude">Longitude:</label></td>
+			<td><%= f.text_field :longitude %></td>
+		</tr>
 
-    <tr>
-      <td><label for="user_latitude">Latitude:</label></td>
-      <td><%= f.text_field :latitude %></td>
-    </tr>
+		<tr>
+			<td><label for="user_latitude">Latitude:</label></td>
+			<td><%= f.text_field :latitude %></td>
+		</tr>
 
-    <tr>
-      <td><label for="user_cellphone">Cellphone:</label></td>
-      <td><%= f.text_field :cellphone %></td>
-    </tr>
-    <tr>
-      <td><label for="user_cellphone_provider">Cellphone Provider:</label></td>
-      <td><%= select_tag "user_cellphone_provider", options_for_select({ "Aliant" => "aliant", "Bell Mobility" => "bellmobility", "Fido Canada" => "fido-canada", "Manitoba Telecom" => "manitobatelecom", "NorthernTel" => "northerntel", "Rogers" => "rogers", "SaskTel" => "sasktel", "Telebec" => "telebec", "Telus Mobility" => "telus" }, @user.cellphone_provider), :name => "user[cellphone_provider]" %></td>
-    </tr>
-	<tr>
-	  <td colspan="2" align="center"><label for="user_about">Write a little about yourself</label></td>
-	</tr>
-	<tr>
-	  <td colspan="2"><%= f.text_area :about %></td>
-    </tr>
-  </table>
+		<tr>
+			<td><label for="user_cellphone">Cellphone:</label></td>
+			<td><%= f.text_field :cellphone %></td>
+		</tr>
+		<tr>
+			<td><label for="user_cellphone_provider">Cellphone Provider:</label></td>
+			<% options = options_for_select({
+				"Aliant" => "aliant",
+				"Bell Mobility" => "bellmobility",
+				"Fido Canada" => "fido-canada",
+				"Manitoba Telecom" => "manitobatelecom",
+				"NorthernTel" => "northerntel",
+				"Rogers" => "rogers",
+				"SaskTel" => "sasktel",
+				"Telebec" => "telebec",
+				"Telus Mobility" => "telus" }, @user.cellphone_provider)  %>
+			<td><%= select_tag "user_cellphone_provider", options, :name => "user[cellphone_provider]" %></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><label for="user_about">Write a little about yourself</label></td>
+		</tr>
+		<tr>
+			<td colspan="2"><%= f.text_area :about %></td>
+		</tr>
 
-  <p><%= submit_tag 'Update' %></p>
+	</table>
+
+	<p><%= submit_tag 'Update' %></p>
 <% end -%>
 
 <h2>Change password</h2>

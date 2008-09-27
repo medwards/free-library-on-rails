@@ -1,10 +1,10 @@
 tagging1:
-  item: htc
+  thing: htc
   tag: politics
 tagging2:
-  item: htc
+  thing: htc
   tag: spain
 # soylent green is political :3
 tagging3:
-  item: sg
+  thing: sg
   tag: politics

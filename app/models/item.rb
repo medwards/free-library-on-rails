@@ -7,10 +7,11 @@ class Item < ActiveRecord::Base
 	has_many :requests, :class_name => 'Loan',
 		:conditions => "status NOT IN ('lent', 'returned', 'rejected')"
 
-	has_many :taggings, :class_name => 'ItemTagging'
+	def self.tagging_class; ItemTagging; end
+	include Taggable
 
 	validates_presence_of :title, :created, :owner_id
-	
+
 	def loaned?
 		!self.current_loan.nil?
 	end
@@ -35,44 +36,6 @@ class Item < ActiveRecord::Base
 		end
 
 		self.owner_id == user
-	end
-
-	# separate tags with commas and optional whitespace
-	TAG_SEPARATOR = /\s*,\s*/
-
-	# replace existing taggings with the tags in an Array or a
-	# TAG_SEPARATOR separated string
-	def tag_with tags
-		return if tags.nil?
-
-		if tags.is_a? String
-			tags = tags.strip.split(TAG_SEPARATOR)
-		end
-
-		tags = tags.delete_if { |tag|
-			AppConfig.TAG_BLACKLIST.include? tag
-        }
-
-		return if not tags or tags.empty?
-
-		ItemTagging.find_all_by_item_id(self).each do |t|
-			t.destroy
-		end
-
-		tags.uniq.each do |tag|
-			if not self.tags.member? tag
-				tagging = ItemTagging.new
-				tagging.tag = Tag.find_or_create_by_name tag
-				tagging.item = self
-
-				self.taggings << tagging
-			end
-		end
-	end
-
-	# an Item's tags, as an Array of Strings
-	def tags
-		taggings.map { |t| t.to_s }
 	end
 
 	def self.find_by_tag tag

@@ -54,4 +54,21 @@ class UserTest < Test::Unit::TestCase
     assert_equal([ ['politics', 2], ['spain', 1 ] ], @bct.tag_counts)
     assert_equal([ ], @medwards.tag_counts)
   end
+
+  def test_tagging
+	  bct = users(:bct)
+
+	  tags = bct.tags.sort
+
+	  assert_equal ['engineering', 'science'], tags
+
+	  # tags can be added
+	  bct.tag_with ['decentralization']
+
+	  # users can be fonud by tag
+	  tagged_with = User.find_by_tag('decentralization')
+
+	  assert_equal 1, tagged_with.length
+	  assert_equal bct, tagged_with[0]
+  end
 end

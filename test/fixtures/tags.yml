@@ -2,3 +2,9 @@ politics:
   name: politics
 spain:
   name: spain
+cigarettes:
+  name: cigarettes
+science:
+  name: science
+engineering:
+  name: engineering

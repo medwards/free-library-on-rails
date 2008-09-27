@@ -11,14 +11,12 @@ class ItemTest < Test::Unit::TestCase
   def test_tagging
     htc = items(:htc)
 
-    tags = htc.taggings.map { |t| t.to_s }.sort
+    tags = htc.tags.sort
 
     assert_equal ['politics', 'spain'], tags
 
     # tags can be added
     htc.tag_with ['nonfiction']
-
-    assert_equal 3, htc.taggings.length
 
     # items can be found by tag
     tagged_with = Item.find_by_tag('nonfiction')

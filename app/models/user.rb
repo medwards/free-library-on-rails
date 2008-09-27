@@ -44,9 +44,6 @@ class User < ActiveRecord::Base
 	has_many :borrowed, :class_name => 'Item', :through => :borrowings,
 		:source => :item, :conditions => "status = 'lent'"
 
-	def self.tagging_class; UserTagging; end
-	include Taggable
-
 	# gets all the tags this user has used and how many times they've used them
 	# sorted with most occurances first
 	def tag_counts
@@ -54,6 +51,16 @@ class User < ActiveRecord::Base
 											:include => [:thing, :tag],
 											:group => 'name',
 											:order => 'COUNT(*) DESC')
+	end
+
+	# specificall for tagging users
+	def self.tagging_class; UserTagging; end
+	include Taggable
+
+	def self.find_by_tag tag
+		tag = Tag.find_by_name(tag)
+
+		tag ? tag.users : []
 	end
 
 	# users are generally displayed with their login

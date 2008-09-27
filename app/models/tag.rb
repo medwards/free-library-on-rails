@@ -3,6 +3,8 @@ class Tag < ActiveRecord::Base
 
 	has_many :item_taggings
 	has_many :items, :through => :item_taggings, :order => 'title', :source => :thing
+
+	has_many :user_taggings
 	has_many :users, :through => :user_taggings, :order => 'login', :source => :thing
 
 	# a list of the tags in the database that are used at least once *for items*

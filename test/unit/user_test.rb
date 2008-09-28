@@ -21,6 +21,14 @@ class UserTest < Test::Unit::TestCase
     assert_in_delta 2975, @pierre.distance_from(@bct), 5
   end
 
+	def test_find_local
+		near = @bct.find_nearby_users(3)
+		assert_equal [@medwards], near
+
+		far = @bct.find_nearby_users(3000)
+		assert_equal [@medwards, @pierre], far
+	end
+
   def test_region
     edmonton = Region.find_by_name('Edmonton')
     montreal = Region.find_by_name('Montréal')

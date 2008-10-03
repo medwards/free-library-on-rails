@@ -17,6 +17,19 @@ class LoanTest < Test::Unit::TestCase
     assert loan.approved?
   end
 
+  def test_rejected
+    loan = loans(:request)
+
+    assert !loan.rejected?
+
+    loan.rejected!
+
+    assert_equal 'rejected', loan.status
+    assert_nil loan.item.current_loan
+
+    assert loan.rejected?
+  end
+
   def test_request
     pierre = users(:pierre)
     sg = items(:sg)

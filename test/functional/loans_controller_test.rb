@@ -59,6 +59,23 @@ class LoansControllerTest < Test::Unit::TestCase
 		assert_equal loan, book.current_loan
 	end
 
+	def test_reject
+		request = loans(:request)
+		htc = items(:htc)
+
+		login_as 'bct'
+
+		put :update, :id => request, :status => 'rejected'
+		assert_redirected_to :controller => 'books', :action => 'show', :id => htc.id.to_s
+
+		# loan was rejected
+		loan = Loan.find(request)
+		assert_equal 'rejected', loan.status
+
+		book = Book.find(htc)
+		assert_nil book.current_loan
+	end
+
 	def test_approve_already_lent
 		loan = loans(:loan)
 		request = loans(:lhd_req)

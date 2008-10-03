@@ -13,3 +13,8 @@
 		<%= submit_tag 'approve' %>
 	</fieldset>
 <% end %>
+
+<% form_tag loan_path(req), :method => 'put' do -%>
+	<input type="hidden" name="status" value="rejected">
+	<%= submit_tag 'deny' %>
+<% end %>

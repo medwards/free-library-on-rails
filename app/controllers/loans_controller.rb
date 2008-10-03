@@ -35,7 +35,9 @@ class LoansController < ApplicationController
 				unauthorized "you don't have permission to approve this loan"; return
 			end
 
-			if @loan.item.loaned?
+			if params[:status] == 'rejected'
+				@loan.rejected!
+			elsif @loan.item.loaned?
 				flash[:error] = "Can't loan an item that is already loaned."
 			else
 				return_date = Date.parse(params[:return_date])

@@ -19,6 +19,15 @@ class Loan < ActiveRecord::Base
 		save!
 	end
 
+	def rejected?
+		self.status == 'rejected'
+	end
+
+	def rejected!
+		self.status = 'rejected'
+		save!
+	end
+
 	def lent!(return_date, memo = nil)
 		self.return_date = return_date
 		self.memo = memo

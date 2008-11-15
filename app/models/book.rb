@@ -7,9 +7,14 @@ class NoSuchISBN < Exception; end
 
 class Book < Item
 	ISBNDB_ROOT = 'http://isbndb.com/api/books.xml?access_key=' + AppConfig.ISBNDB_KEY
+	COVER_IMG_DIR = 'public/images/items/books/'
+
+	def has_cover_image?
+		self.isbn and File.exists? self.cover_filename
+	end
 
 	def cover_filename
-		'public/images/items/books/' + self.isbn + '.jpg'
+		COVER_IMG_DIR + self.isbn + '.jpg'
 	end
 
 	def self.new_from_isbn(isbn)
@@ -75,17 +80,54 @@ class Book < Item
 		book
 	end
 
-	# as of 2008-08-02, this doesn't work. google seems to block based on User-Agent.
+	# fetches the google books page for an ISBN and parses it
+	# returns nil on an error
+	def self.get_google_books_page(isbn)
+		begin
+			url = 'http://books.google.com/books?vid=ISBN' << isbn
+			Hpricot(open(url, 'User-Agent' => 'FLORa'))
+		rescue URI::InvalidURIError, OpenURI::HTTPError
+			nil
+		end
+	end
+
+	# attempts to fetch a cover image for this book from Google Books. saves it
+	# to COVER_IMG_DIR.
+	#
+	# 'doc' is a parsed (Hpricot) version of the book's Google Books page,
+	# it will be fetched if not passed in.
+	#
+	# returns the original URL of the image or nil
+	def fetch_cover_image(doc = nil)
+		unless doc
+			return unless self.isbn
+			doc = Book.get_google_books_page(self.isbn)
+
+			# couldn't find the page, just return without error.
+			return unless doc
+		end
+
+		image = doc.at("//img[@title='Preview this book']")
+		image ||= doc.at("//img[@title='Front Cover']")
+		image ||= doc.at("//img[@title='Title Page']")
+
+		if image
+			url = image.attributes['src']
+
+			# download and save the image
+			open(self.cover_filename, "wb").write(open(url).read)
+
+			url
+		end
+	end
+
 	def self.new_from_google_books(isbn)
 		book = self.new
 
 		book.isbn = isbn
 
-		begin
-			doc = Hpricot(open('http://books.google.com/books?vid=ISBN' << isbn, 'User-Agent' => 'FLORa'))
-		rescue URI::InvalidURIError, OpenURI::HTTPError
-			return nil
-		end
+		doc = self.get_google_books_page(isbn)
+		return nil unless doc
 
 		title = doc.at("//h2[@class='title']")
 		if title
@@ -100,12 +142,7 @@ class Book < Item
 			book.author_first = authorblock[1].reverse[3..-1]
 		end
 
-		image = doc.at("//img[@class='Preview this book']")
-		image ||= doc.at("//img[@title='Front Cover']")
-
-		if image
-			open(book.cover_filename, "wb").write(open(image.attributes['src']).read)
-		end
+		book.fetch_cover_image
 
 		synopsis = doc.at("//div[@id='synopsistext']")
 

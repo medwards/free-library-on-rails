@@ -4,6 +4,12 @@
       <th>author:</th>
       <td><%= h @item.author_first %> <%= h @item.author_last %></td>
     </tr>
+	<% if @item.lcc_number %>
+		<tr>
+		  <th>LCC:</th>
+		  <td><%= h @item.lcc_number %></td>
+		</tr>
+	<% end %>
   <% end %>
 
   <% content_for :additional_description do %>

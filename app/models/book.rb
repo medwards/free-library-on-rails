@@ -49,16 +49,21 @@ class Book < Item
 		book
 	end
 
+	def self.get_isbndb_data(isbn, results = [:subjects, :texts, :authors, :details])
+		rstr = results.map { |r| '&results=' + r.to_s }.join
+		url = ISBNDB_ROOT + rstr + '&index1=isbn&value1=' + isbn
+
+		begin
+			REXML::Document.new(open(url))
+		rescue URI::InvalidURIError, OpenURI::HTTPError
+			nil
+		end
+	end
+
 	def self.new_from_isbndb(isbn)
 		book = self.new
 
-		url = ISBNDB_ROOT + '&results=subjects&results=texts&results=authors&index1=isbn&value1=' + isbn
-
-		begin
-			xml = REXML::Document.new(open(url))
-		rescue URI::InvalidURIError, OpenURI::HTTPError
-			return nil
-		end
+		xml = self.get_isbndb_data(isbn)
 
 		bookdata = xml.elements['//BookData[1]']
 
@@ -72,10 +77,13 @@ class Book < Item
 		# I think this just gets the first Person --bct
 		author = bookdata.elements['Authors/Person']
 		if author
-				book.author_last, book.author_first = author.text.split(', ', 2)
+			book.author_last, book.author_first = author.text.split(', ', 2)
 		end
 
 		bookdata.elements.to_a('Subjects/Subject').each { |subject| book.tag_with subject.text.to_s.gsub(' -- ', ', ')}
+
+		details = xml.elements['//Details[1]']
+		book.lcc_number = details.attributes['lcc_number'].text
 
 		book
 	end

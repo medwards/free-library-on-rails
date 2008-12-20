@@ -9,6 +9,13 @@
     </tr>
 
 		<%= javascript_include_tag 'isbnvalidation' %>
+
+    <tr>
+      <td><label for="lcc_number">LCC</label></td>
+      <td>
+        <%= text_field_tag 'item[lcc_number]', @item.lcc_number, :id => 'lcc_number' %>
+      </td>
+    </tr>
   <% end %>
 
   <% content_for :additional_fields do %>

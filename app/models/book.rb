@@ -83,7 +83,7 @@ class Book < Item
 		bookdata.elements.to_a('Subjects/Subject').each { |subject| book.tag_with subject.text.to_s.gsub(' -- ', ', ')}
 
 		details = xml.elements['//Details[1]']
-		book.lcc_number = details.attributes['lcc_number'].text
+		book.lcc_number = details.attributes['lcc_number']
 
 		book
 	end

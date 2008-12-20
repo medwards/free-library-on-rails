@@ -43,6 +43,7 @@ class BooksController < ItemsController
 				:title =>        @item.title,
 				:description =>	 @item.description,
 				:isbn =>         @item.isbn,
+				:lcc_number =>	 @item.lcc_number,
 				:author_last =>	 @item.author_last,
 				:author_first => @item.author_first
 			},

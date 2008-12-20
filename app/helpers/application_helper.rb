@@ -34,7 +34,7 @@ module ApplicationHelper
 		# used to define source content for view inheritance
 		name = name.kind_of?(Symbol) ? ":#{name}" : name
 		out = eval("yield #{name}", block.binding)
-		concat(out || capture(&block), block.binding)
+		concat(out || capture(&block))
 	end
 
 	def inheriting_view(options = {}, &block)
@@ -58,7 +58,7 @@ module ApplicationHelper
 		options[:use_full_path] = true
 
 		# Render our parent view.
-		concat(render(options), bind)
+		concat(render(options))
 	end
 
 	# link to a user using their login
@@ -69,7 +69,7 @@ module ApplicationHelper
 	# display controller-specific sidebar links, if they exist
 	# (they're stored in views/[controller]/_side_links.rhtml)
 	def controller_side_links
-		render_partial 'side_links'
+		render :partial => 'side_links'
 	rescue ActionView::ActionViewError
 		# partial was not found, don't add any links
 	end

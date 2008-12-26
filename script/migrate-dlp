@@ -1,0 +1,133 @@
+#!/usr/bin/env ruby
+
+# converts the Distributed Library Project's database schema to one that we can
+# use with the Free Library on Rails.
+#
+# ./script/migrate-dlp [DLP dump file]
+#
+# this is only built to work with MySQL.
+#
+# a number of things are not preserved, including:
+#	- user feedback
+#	- the status of unverified users
+#	- the status of existing loans
+#	- interests
+#	- lists
+#	- music and videos
+#	- reviews
+#
+require File.dirname(__FILE__) + '/../config/environment'
+
+db_config = ActiveRecord::Base.configurations[RAILS_ENV]
+db_user = db_config['username']
+db_pass = db_config['password']
+db_name = db_config['database']
+
+# back up the existing database
+bufile = "#{RAILS_ROOT}/tmp/db-dump-#{Time.now.to_i}.sql"
+puts "your data will be backed up to #{bufile}, but run at your own risk, etc."
+print "(hit enter to begin)"
+$stdin.gets
+
+system "mysqldump --user=#{db_user} --password=#{db_pass} #{db_name} > #{bufile}"
+
+dump_file = ARGV[0]
+if dump_file
+	# add the DLP tables into the live database
+	system "mysql --user=#{db_user} --password=#{db_pass} #{db_name} < #{dump_file}"
+end
+
+# set up ORM
+class DlpUser < ActiveRecord::Base
+	set_table_name 'dlp_user'
+	has_one :dlp_user_bio, :foreign_key => 'id'
+	has_one :dlp_user_optional, :foreign_key => 'id'
+end
+class DlpUserBio < ActiveRecord::Base
+	set_table_name 'dlp_userbio'
+	belongs_to :dlp_user, :foreign_key => 'id'
+end
+class DlpUserOptional < ActiveRecord::Base
+	set_table_name 'dlp_useroptional'
+	belongs_to :dlp_user, :foreign_key => 'id'
+end
+
+class DlpVideo < ActiveRecord::Base
+	set_table_name 'dlp_video'
+end
+class DlpMusic < ActiveRecord::Base
+	set_table_name 'dlp_music'
+end
+class DlpBook < ActiveRecord::Base
+	set_table_name "dlp_library"
+end
+
+# --- begin migration ---
+
+class DropBoringTables < ActiveRecord::Migration
+	def self.up
+		drop_table :dlp_categories
+		drop_table :dlp_feedback
+
+		drop_table :dlp_list_interests
+		drop_table :dlp_list_items
+		drop_table :dlp_lists
+
+		drop_table :dlp_reviews
+
+		drop_table :dlp_interests
+		drop_table :dlp_userinterests
+
+		drop_table :dlp_version
+	end
+end
+
+DropBoringTables.migrate :up
+
+DlpUser.find(:all).each do |dlp_user|
+	user = User.find_by_login(dlp_user.username)
+
+	# ignore old user data if they've already created an account on the new site
+	next if user
+
+	bio = nil
+	begin
+		bio = DlpUserBio.find(dlp_user.id).bio
+	rescue
+	end
+
+	user = User.new :email => dlp_user.email,
+			:address => dlp_user.address,
+			:city => dlp_user.town,
+			:postalcode => dlp_user.zipcode,
+			:latitude => dlp_user.lat,
+			:longitude => dlp_user.lon,
+			:about => bio
+
+	# these are protected attributes that can't be mass assigned
+	user.login = dlp_user.username
+	user.activated_at = dlp_user.created
+
+	# generate a new password and save the new user
+	user.reset_password!
+	puts '---'
+	puts user.login
+	puts user.password
+
+	# email the user their new password XXX
+end
+
+DlpBook.find(:all).each do |dlp_book|
+	puts 'adding ' + dlp_book.title
+	dlp_owner = DlpUser.find(dlp_book.user_id)
+
+	owner = User.find_by_login(dlp_owner.username)
+
+	Book.create! :title => dlp_book.title,
+		:author_last => dlp_book.authorlast,
+		:author_first => dlp_book.authorfirst,
+		:description => dlp_book.review,
+		:isbn => dlp_book.isbn,
+		:owner => owner,
+		:created => dlp_book.created
+end

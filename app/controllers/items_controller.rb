@@ -21,8 +21,13 @@ class ItemsController < ApplicationController
 	def itemclass; Item end
 
 	def index
+		if(params[:order] != nil and (params[:order] == 'author_last' or params[:order] == 'author_first' or params[:order] == 'owner_id'))
+			@order = params[:order]
+        else
+			@order = 'title'
+        end
 		@items = region.items.paginate(:all, :page => params[:page],
-									   :order => 'title',
+									   :order => @order,
 									   :conditions => { :type => itemclass.to_s })
 	end
 

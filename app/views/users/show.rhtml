@@ -13,13 +13,5 @@
 </table>
 <% end %>
 
-<table>
-  <tr><th>type</th><th>title</th></tr>
-  <% @user.owned.each do |item|
-       type = item.class.to_s.downcase %>
-    <tr>
-      <td><%=h type %></td>
-      <td><%= link_to highlight(h(item.title), @query), polymorphic_path(item) %></td>
-    </tr>
-  <% end %>
-</table>
+<%= render :partial => 'items/item_table', :locals => { :items => @items } %>
+<%= will_paginate @items %>

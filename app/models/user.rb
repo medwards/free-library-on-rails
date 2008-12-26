@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
 											:order => 'COUNT(*) DESC')
 	end
 
-	# specificall for tagging users
+	# specifically for tagging users
 	def self.tagging_class; UserTagging; end
 	include Taggable
 
@@ -74,10 +74,12 @@ class User < ActiveRecord::Base
 		self.save!
 	end
 
-	# Authenticates a user by their login name and unencrypted password.	Returns the user or nil.
+	# Authenticates a user by their login name and unencrypted password.
+	# Returns the user or nil.
 	def self.authenticate(login, password)
 		# hide records with a nil activated_at
-		u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
+		u = find :first,
+			:conditions => ['login = ? and activated_at IS NOT NULL', login]
 
 		if u and u.authenticated?(password)
 			u
@@ -89,36 +91,61 @@ class User < ActiveRecord::Base
 		@activated
 	end
 
-	# Encrypts some data with the salt.
-	def self.encrypt(password, salt)
-		Digest::SHA1.hexdigest("--#{salt}--#{password}--")
-	end
-
+	# --- password management ---
 	# Encrypts the password with the user salt
 	def encrypt(password)
 		self.class.encrypt(password, salt)
+	end
+
+	# "encrypts" some data
+	def self.encrypt(x, y)
+		Digest::SHA1.hexdigest("--#{y}--#{x}--")
+	end
+
+	# replace the user's password with a randomly generated one.
+	# the calling function needs to send it to the user somehow.
+	def reset_password!
+		puts self.login
+		self.password = pseudorandom_string[1..16]
+		self.password_confirmation = self.password
+
+		puts self.login
+		save!
+		self.password
 	end
 
 	def authenticated?(password)
 		crypted_password == encrypt(password)
 	end
 
+	# before filter called on every save
+	def encrypt_password
+		return if password.blank?
+		if new_record?
+			self.salt = self.class.encrypt('login', Time.now)
+		end
+		self.crypted_password = encrypt(password)
+	end
+
 	def remember_token?
 		remember_token_expires_at && Time.now.utc < remember_token_expires_at
 	end
 
-	# These create and unset the fields required for remembering users between browser closes
+	# These create and unset the fields required for remembering users between
+	# browser closes
 	def remember_me
 		self.remember_token_expires_at = 2.weeks.from_now.utc
-		self.remember_token						 = encrypt("#{email}--#{remember_token_expires_at}")
+		self.remember_token			   = encrypt("#{email}--#{remember_token_expires_at}")
 		save(false)
 	end
 
 	def forget_me
 		self.remember_token_expires_at = nil
-		self.remember_token						 = nil
+		self.remember_token			   = nil
 		save(false)
 	end
+
+	# --- geolocation stuff ---
 
 	# average great-circle radius according to Wikipedia
 	EARTH_RADIUS = 6372.795
@@ -141,11 +168,13 @@ class User < ActiveRecord::Base
 		))
 	end
 
-	# the haversine function
+	# the haversine function.
+	# trig is boring.
 	def hav angle
 		Math.sin(angle/2.0) ** 2
 	end
 
+	# find users within a given distance of the current one.
 	def find_nearby_users(max_distance)
 		# directly copied from the DLP's Great Circle SQL
 		distance_sql = <<END
@@ -183,19 +212,16 @@ END
 			}
 		end
 
-		# before filter
-		def encrypt_password
-			return if password.blank?
-			self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
-			self.crypted_password = encrypt(password)
-		end
-
 		def password_required?
 			crypted_password.blank? || !password.blank?
 		end
 
-		# If you're going to use activation, uncomment this too
 		def make_activation_code
-			self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+			self.activation_code = pseudorandom_string
+		end
+
+		# this is a pretty wacky method, I think i like it
+		def pseudorandom_string
+			Digest::SHA1.hexdigest(Time.now.to_s.split(//).sort_by {rand}.join)
 		end
 end

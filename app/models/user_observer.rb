@@ -15,12 +15,6 @@
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
 
+# this used to do notifications but I moved them into account_controller.rb
 class UserObserver < ActiveRecord::Observer
-	def after_create(user)
-		UserNotifier.deliver_signup_notification(user)
-	end
-
-	def after_save(user)
-		UserNotifier.deliver_activation(user) if user.recently_activated?
-	end
 end

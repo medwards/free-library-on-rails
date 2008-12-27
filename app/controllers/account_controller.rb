@@ -81,6 +81,8 @@ class AccountController < ApplicationController
 		flash[:notice] = "Thanks for signing up! " \
 			"We sent you an email with instructions on how to continue."
 
+		UserNotifier.deliver_signup_notification(@user)
+
 		redirect_back_or_default(:controller => 'welcome', :action => 'index')
 	rescue ActiveRecord::RecordInvalid
 		render :action => 'signup'
@@ -101,6 +103,7 @@ class AccountController < ApplicationController
 
 		@user = User.find_by_activation_code(activator)
 		if @user and @user.activate
+			UserNotifier.deliver_activation(@user)
 			redirect_back_or_default(:controller => 'account', :action => 'login')
 			flash[:notice] = "Your account has been activated. Please login."
 		else

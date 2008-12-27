@@ -85,7 +85,6 @@ class User < ActiveRecord::Base
 
 	# Activates the user in the database.
 	def activate
-		@activated = true
 		self.activated_at = Time.now.utc
 		self.activation_code = nil
 		self.save!
@@ -101,11 +100,6 @@ class User < ActiveRecord::Base
 		if u and u.authenticated?(password)
 			u
 		end
-	end
-
-	# Returns true if the user has just been activated.
-	def recently_activated?
-		@activated
 	end
 
 	# --- password management ---

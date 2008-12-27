@@ -60,4 +60,9 @@ class Item < ActiveRecord::Base
 
 		tag ? tag.items : []
 	end
+
+	# overridden by Item subclasses
+	def has_cover_image?
+		false
+	end
 end

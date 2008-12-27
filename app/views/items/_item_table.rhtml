@@ -2,6 +2,7 @@
 
 <table class="items">
 	<tr>
+		<th>cover</th>
 		<th>title</th>
 		<th>author</th>
 		<th>owner</th>
@@ -9,6 +10,11 @@
 	</tr>
 	<% items.each do |item| %>
 		<tr>
+			<td><% if item.has_cover_image? %>
+					<img align="right" alt="Cover Photo" class="cover_photo" src="/images/items/books/<%= h item.isbn %>.jpg" />
+				<% end %>
+			</td>
+
 			<td <%= 'colspan="2"' unless item.is_a? Book %>>
 				<%= link_to highlight(h(item.title), @query), polymorphic_path(item) %>
 			</td>
@@ -23,7 +29,7 @@
 		</tr>
 		<% if including.member? :description %>
 		  <tr>
-			<td colspan="3">
+			<td colspan="4">
 			  <%= excerpt_and_highlight(item.description, @query) %>
 			</td>
 		  </tr>

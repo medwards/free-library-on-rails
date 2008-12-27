@@ -116,11 +116,9 @@ class User < ActiveRecord::Base
 	# replace the user's password with a randomly generated one.
 	# the calling function needs to send it to the user somehow.
 	def reset_password!
-		puts self.login
 		self.password = pseudorandom_string[1..16]
 		self.password_confirmation = self.password
 
-		puts self.login
 		save!
 		self.password
 	end

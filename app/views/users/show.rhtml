@@ -1,7 +1,7 @@
 <h1><%=h @user.login %></h1>
 
 <% if @user.about %>
-	<p class="description"><%= h @user.about %></p>
+	<p class="description"><%= paragraphize @user.about %></p>
 <% end %>
 
 <% unless @user.tags.empty? %>

@@ -62,8 +62,12 @@ class DlpBook < ActiveRecord::Base
 	set_table_name "dlp_library"
 end
 
-# --- begin migration ---
+class DlpInterest < ActiveRecord::Base; end
+class DlpUserInterest < ActiveRecord::Base
+	set_table_name 'dlp_userinterests'
+end
 
+# --- begin migration ---
 old_user_ids = {}
 
 DlpUser.find(:all).each do |dlp_user|
@@ -141,6 +145,14 @@ DlpVideo.find(:all).each do |dlp_video|
 		:description => dlp_video.review,
 		:owner => owner,
 		:created => dlp_video.created
+end
+
+puts '-- user interests --'
+DlpUserInterest.find(:all).each do |dlp_ui|
+	user = old_user_ids[dlp_ui.id]
+	interest = DlpInterest.find(dlp_ui.interestid).interest
+
+	user.add_tag interest
 end
 
 # drop all the dlp_ tables

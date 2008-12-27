@@ -70,6 +70,8 @@ end
 # --- begin migration ---
 old_user_ids = {}
 
+# this is outside the transaction since we can handle duplicate users
+# and we don't want to send duplicate password change messages
 DlpUser.find(:all).each do |dlp_user|
 	# ignore old user data if they've already created an account on the new site
 
@@ -120,6 +122,7 @@ DlpUser.find(:all).each do |dlp_user|
 	old_user_ids[dlp_user.id] = user
 end
 
+ActiveRecord::Base.transaction do
 puts '-- books --'
 DlpBook.find(:all).each do |dlp_book|
 	puts 'adding ' + dlp_book.title
@@ -186,3 +189,4 @@ class DropBoringTables < ActiveRecord::Migration
 end
 
 DropBoringTables.migrate :up
+end # end transaction

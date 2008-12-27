@@ -28,6 +28,13 @@ class UserNotifier < ActionMailer::Base
 		@body[:url]  = "http://freelibrary.ca/"
 	end
 
+	def migration_password_change(user)
+		setup_email(user)
+
+		@subject += "Free Library password change"
+		@body[:url] = "http://freelibrary.ca/"
+	end
+
 	protected
 	def setup_email(user)
 		@recipients  = "#{user.email}"

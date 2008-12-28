@@ -2,9 +2,10 @@
 <html>
 
 <head>
-  <%= stylesheet_link_tag 'andreas06' %>
-  <%= javascript_include_tag :defaults %>
-  <%= calendar_date_select_includes "freelibrary" %>
+	<%= stylesheet_link_tag 'andreas06' %>
+	<%= javascript_include_tag :defaults %>
+	<%= calendar_date_select_includes "freelibrary" %>
+	<link rel="icon" href="<%= url_for '/favicon.ico' %>">
 </head>
 
 <body>
@@ -20,14 +21,14 @@
 
 	<div id="navitabs">
 		<h2 class="hide">Site menu:</h2>
-		<a class="activenavitab" href="/">Welcome</a><span class="hide"> | </span>
+		<a class="activenavitab" href="<%= url_for '/' %>">Welcome</a><span class="hide"> | </span>
 
 		<!-- <a class="navitab" href="newstuff.php">What's New!</a><span class="hide"> | </span> -->
 		<%= link_to 'books', books_path, :class => 'navitab' %><span class="hide"> | </span>
 		<%= link_to 'video', videos_path, :class => 'navitab' %><span class="hide"> | </span>
 		<!-- <a class="navitab" href="search.php?type=music">Music</a><span class="hide"> | </span> -->
-<%= link_to 'tags', tags_path, :class => 'navitab' %><span class="hide"> | </span>
-        <a class="navitab" href="/about">find out more</a><span class="hide"> | </span>
+		<%= link_to 'tags', tags_path, :class => 'navitab' %><span class="hide"> | </span>
+		<a class="navitab" href="<%= url_for '/about' %>">find out more</a><span class="hide"> | </span>
 		<p class="hide"><a href="#top">Back to top</a></p>
 	</div>
 	<div id="wrap1">

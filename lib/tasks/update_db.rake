@@ -50,9 +50,4 @@ namespace :update do
 		puts "#{no_isbn} had no ISBN"
 		puts "got #{found} new images, couldn't find #{not_found}"
 	end
-
-	desc "Attempt to fetch Library of Congress ids for books that don't have them."
-	task :loc do
-		# XXX to be written...
-	end
 end

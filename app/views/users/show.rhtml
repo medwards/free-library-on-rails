@@ -4,7 +4,7 @@
 	<p class="description"><%= paragraphize @user.about %></p>
 <% end %>
 
-<% unless @user.tags.empty? %>
+<% unless @user.taggings.empty? %>
 <table>
 	<tr><th>Tags:</th>
     <td><%= @user.taggings.map do |t|

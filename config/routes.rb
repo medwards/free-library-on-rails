@@ -34,8 +34,9 @@ ActionController::Routing::Routes.draw do |map|
   # Keep in mind you can assign values other than :controller and :action
 
   # The Big GET /
-  map.root :controller => "welcome"
-  map.connect "about", :controller => "welcome", :action => "about"
+  map.root :controller => 'welcome'
+  map.connect 'about', :controller => 'welcome', :action => 'about'
+  map.connect 'new', :controller => 'welcome', :action => 'new_things'
 
   # Install the default routes as the lowest priority.
   #   I try to avoid falling back on these -- bct

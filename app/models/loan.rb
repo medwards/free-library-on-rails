@@ -47,6 +47,7 @@ class Loan < ActiveRecord::Base
 	def rejected!
 		self.status = 'rejected'
 		save!
+		callback :after_rejected
 	end
 
 	def lent!(return_date, memo = nil)

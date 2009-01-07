@@ -51,7 +51,6 @@ class LoanNotifier < ActionMailer::Base
 	def rejected_notification(loan)
 		setup_email(loan.borrower)
 		@subject   += 'Loan Not Approved'
-		@from		= loan.owner.email
 
 		@owner		= loan.owner.login
 		@borrower	= loan.borrower.login

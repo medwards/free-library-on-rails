@@ -25,9 +25,6 @@ class LoanNotifier < ActionMailer::Base
 		@recipients = loan.owner.email
 		@from		= loan.borrower.email
 		@subject   += 'Loan Request'
-
-		@item_url	= polymorphic_path(loan.item, :only_path => false)
-		@loans_url	= loans_path(:only_path => false)
 	end
 
 	def approved_notification(loan)
@@ -35,18 +32,12 @@ class LoanNotifier < ActionMailer::Base
 		@recipients = loan.borrower.email
 		@from		= loan.owner.email
 		@subject   += 'Loan Approved'
-
-		@item_url	= polymorphic_path(loan.item, :only_path => false)
-		@loans_url	= loans_path(:only_path => false)
 	end
 
 	def rejected_notification(loan)
 		setup_email(loan)
 		@recipients = loan.borrower.email
 		@subject   += 'Loan Not Approved'
-
-		@item_url	= polymorphic_path(loan.item, :only_path => false)
-		@loans_url	= loans_path(:only_path => false)
 	end
 
 	protected
@@ -55,10 +46,14 @@ class LoanNotifier < ActionMailer::Base
 		@subject	= "[Free Library] "
 		@sent_on	= Time.now
 
-		@owner		= loan.owner.login
-		@borrower	= loan.borrower.login
+		@body[:owner]		= loan.owner.login
+		@body[:borrower]	= loan.borrower.login
 
-		@item		= "\"#{loan.item.title}\" by " +
+		@body[:item]		= "\"#{loan.item.title}\" by " +
 			"#{loan.item.author_first} #{loan.item.author_last}"
+
+		# FIXME: don't hardcode urls, blah blah blah
+		@body[:item_url]	= 'http://freelibrary.ca' + polymorphic_path(loan.item)
+		@body[:loans_url]	= 'http://freelibrary.ca' + loans_path
 	end
 end

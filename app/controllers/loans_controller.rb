@@ -47,29 +47,14 @@ class LoansController < ApplicationController
 	def update
 		@loan = Loan.find(params[:id])
 
+		unless @loan.item.owner == self.current_user
+			unauthorized "you don't have permission to modify this loan"; return
+		end
+
 		if @loan.status == "requested"
-			unless @loan.item.owner == self.current_user
-				unauthorized "you don't have permission to approve this loan"; return
-			end
-
-			if params[:status] == 'rejected'
-				@loan.rejected!
-			elsif @loan.item.loaned?
-				flash[:error] = "Can't loan an item that is already loaned."
-			else
-				return_date = Date.parse(params[:return_date])
-				memo = params[:memo]
-
-				@loan.lent!(return_date, memo)
-				flash[:notice] = "Request approved."
-			end
+			update_requested
 		elsif @loan.status == "lent"
-			unless @loan.item.owner == self.current_user
-				unauthorized "you don't have permission to mark this item as returned"; return
-			end
-
-			@loan.returned!
-			flash[:notice] = "Return acknowledged."
+			update_lent
 		end
 
 		redirect_back_or_to polymorphic_path(@loan.item)
@@ -89,5 +74,41 @@ class LoansController < ApplicationController
 		@loan.destroy
 
 		redirect_to :action => 'index'
+	end
+
+	private
+	def update_requested
+		if params[:status] == 'rejected'
+			@loan.rejected!
+		elsif @loan.item.loaned?
+			flash[:error] = "Can't loan an item that is already loaned."
+		else
+			if params[:return_date].empty?
+				flash[:error] = 'You need to enter a return date.'
+				return
+			end
+
+			begin
+				return_date = Date.parse(params[:return_date])
+			rescue ArgumentError
+				flash[:error] = 'Not a valid return date.'
+				return
+			end
+
+			if return_date <= Date.today
+				flash[:error] = "Can't have a return date in the past."
+				return
+			end
+
+			memo = params[:memo]
+
+			@loan.lent!(return_date, memo)
+			flash[:notice] = "Request approved."
+		end
+	end
+
+	def update_lent
+		@loan.returned!
+		flash[:notice] = "Return acknowledged."
 	end
 end

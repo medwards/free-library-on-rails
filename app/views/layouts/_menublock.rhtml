@@ -1,0 +1,15 @@
+<p class="menublock">
+	<% if current_user %>
+		<%= user_link current_user, :class => 'nav' %><br class="hide" />
+		<%= link_to 'loans', loans_url, :class => 'nav' %><br class="hide" />
+		<%= link_to 'edit profile', url_for('/account'), :class => 'nav' %><br class="hide" />
+	<% else %>
+		<%= link_to 'log in', url_for('/account/login'), :class => 'nav' %><br class="hide" />
+		<%= link_to 'new account', url_for('/account/signup'), :class=> 'nav' %><br class="hide" />
+	<% end %>
+	<%= controller_side_links %>
+	<% if current_user %>
+		<%= link_to 'log out', url_for('/account/logout'), :class=> 'nav' %>
+	<% end %>
+	<a class="hide" href="#top">Back to top</a>
+</p>

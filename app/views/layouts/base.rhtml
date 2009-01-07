@@ -21,55 +21,40 @@
 
 	<div id="navitabs">
 		<h2 class="hide">Site menu:</h2>
-		<a class="activenavitab" href="<%= url_for '/' %>">Welcome</a><span class="hide"> | </span>
+		<%= navitab 'Welcome', url_for('/'), true %>
+		<%= navitab "What's New!", url_for('/new'), false %>
 
-		<!-- <a class="navitab" href="newstuff.php">What's New!</a><span class="hide"> | </span> -->
-		<%= link_to 'books', books_path, :class => 'navitab' %><span class="hide"> | </span>
-		<%= link_to 'video', videos_path, :class => 'navitab' %><span class="hide"> | </span>
-		<!-- <a class="navitab" href="search.php?type=music">Music</a><span class="hide"> | </span> -->
-		<%= link_to 'tags', tags_path, :class => 'navitab' %><span class="hide"> | </span>
-		<a class="navitab" href="<%= url_for '/about' %>">find out more</a><span class="hide"> | </span>
+		<%= navitab 'Books', books_path, false %>
+		<%= navitab 'Videos', videos_path, false %>
+
+		<%= navitab 'Tags', tags_path, false %>
+
+		<%= navitab 'Find Out More', url_for('/about'), false %>
 		<p class="hide"><a href="#top">Back to top</a></p>
 	</div>
 	<div id="wrap1">
 		<div id="wrap2">
-
-
 			<div id="leftside">
 				<a id="sectionmenu"></a>
 				<p class="soft">
 				</p>
 				<h1>e.f.l.</h1>
-				<p class="menublock">
-					<% if current_user %>
-						<%= user_link current_user, :class => 'nav' %><br class="hide" />
-                        <%= link_to 'loans', {:controller => 'loans'}, :class=> 'nav' %><br class="hide" />
-                        <%= link_to 'edit profile', {:controller => 'account'}, :class =>'nav' %><br class="hide" />
-					<% else %>
-						<%= link_to 'log in', {:controller => 'account', :action => 'login'}, :class=> 'nav' %><br class="hide" />
-						<%= link_to 'new account', {:controller => 'account', :action => 'signup'}, :class=> 'nav' %><br class="hide" />
-					<% end %>
-					<%= controller_side_links %>
-					<% if current_user %>
-						<%= link_to 'log out', {:controller => 'account', :action => 'logout'}, :class=> 'nav' %>
-					<% end %>
-					<a class="hide" href="#top">Back to top</a>
-				</p>
+				<%= render :partial => 'layouts/menublock' %>
 			</div>
 
 			<a id="main"></a>
 			<div id="contentalt">
 				<div class="main">
 					<% if flash[:notice] %>
-            <div class="flash notice">
-              <strong>Notice:</strong>
-              <p><%= flash[:notice].untaint %></p>
-            </div>
+						<div class="flash notice">
+							<strong>Notice:</strong>
+							<p><%= flash[:notice].untaint %></p>
+						</div>
 					<% elsif flash[:error] %>
-            <div class="flash error">
-              <strong>Error:</strong>
-              <p><%= flash[:error].untaint %></p>
-            </div>
+						<div class="flash error">
+							<strong>Error:</strong>
+							<p><%= flash[:error].untaint %></p>
+						</div>
 					<% end %>
 
 					<%= yield  %>

@@ -35,7 +35,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # The Big GET /
   map.root :controller => "welcome"
-  map.connet "about", :controller => "welcome", :action => "about"
+  map.connect "about", :controller => "welcome", :action => "about"
 
   # Install the default routes as the lowest priority.
   #   I try to avoid falling back on these -- bct

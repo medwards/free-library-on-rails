@@ -21,10 +21,11 @@ class LoanNotifier < ActionMailer::Base
 	default_url_options[:host] = 'freelibrary.ca'
 
 	def request_notification(loan)
-		setup_email(loan.item.owner)
+		setup_email(loan.owner)
 		@from		= loan.borrower.email
 		@subject   += 'Loan Request'
-		@owner		= loan.item.owner.login
+
+		@owner		= loan.owner.login
 		@borrower	= loan.borrower.login
 		@item		= "#{loan.item.title} by " +
 			"#{loan.item.author_first} #{loan.item.author_last}"
@@ -35,23 +36,30 @@ class LoanNotifier < ActionMailer::Base
 
 	def approved_notification(loan)
 		setup_email(loan.borrower)
-		@subject		+= 'Loan Approved'
-		@owner = "#{loan.item.owner.login}"
-		@from = "#{loan.item.owner.email}"
-		@title = "#{loan.item.title}"
-		@author = "#{loan.item.author_first} #{loan.item.author_last}"
-		@body[:url]  = "http://localhost:3000/#{loan.item.type.downcase}/#{loan.item.id}"
-		@body[:url2]	= "http://localhost:3000/loans"
+		@from		= loan.owner.email
+		@subject   += 'Loan Approved'
+
+		@owner		= loan.owner.login
+		@borrower	= loan.borrower.login
+		@item		= "#{loan.item.title} by " +
+			"#{loan.item.author_first} #{loan.item.author_last}"
+
+		@item_url	= polymorphic_path(loan.item, :only_path => false)
+		@loans_url	= loans_path(:only_path => false)
 	end
 
 	def rejected_notification(loan)
 		setup_email(loan.borrower)
-		@subject		+= 'Loan Not Approved'
-		@from = "#{loan.item.owner.email}"
-		@title = "#{loan.item.title}"
-		@author = "#{loan.item.author_first} #{loan.item.author_last}"
-		@body[:url]  = "http://localhost:3000/#{loan.item.type.downcase}/#{loan.item.id}"
-		@body[:url2]	= "http://localhost:3000/loans"
+		@subject   += 'Loan Not Approved'
+		@from		= loan.owner.email
+
+		@owner		= loan.owner.login
+		@borrower	= loan.borrower.login
+		@item		= "#{loan.item.title} by " +
+			"#{loan.item.author_first} #{loan.item.author_last}"
+
+		@item_url	= polymorphic_path(loan.item, :only_path => false)
+		@loans_url	= loans_path(:only_path => false)
 	end
 
 	protected

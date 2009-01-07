@@ -1,6 +1,6 @@
 # Copyright 2009 Michael Edwards, Brendan Taylor
 # This file is part of free-library-on-rails.
-# 
+#
 # free-library-on-rails is free software: you can redistribute it
 # and/or modify it under the terms of the GNU Affero General Public
 # License as published by the Free Software Foundation, either
@@ -10,7 +10,7 @@
 # useful, but WITHOUT ANY WARRANTY; without even the implied
 # warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
@@ -25,7 +25,11 @@ class Loan < ActiveRecord::Base
 	belongs_to :item
 	belongs_to :borrower, :class_name => 'User'
 
-	define_callbacks :after_lent
+	define_callbacks :after_lent, :after_rejected
+
+	def owner
+		self.item.owner
+	end
 
 	def approved?
 		['approved', 'lent', 'returned'].member? self.status

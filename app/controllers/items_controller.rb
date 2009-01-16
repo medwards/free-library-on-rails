@@ -1,6 +1,6 @@
 # Copyright 2009 Michael Edwards, Brendan Taylor
 # This file is part of free-library-on-rails.
-# 
+#
 # free-library-on-rails is free software: you can redistribute it
 # and/or modify it under the terms of the GNU Affero General Public
 # License as published by the Free Software Foundation, either
@@ -10,7 +10,7 @@
 # useful, but WITHOUT ANY WARRANTY; without even the implied
 # warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
@@ -21,11 +21,14 @@ class ItemsController < ApplicationController
 	def itemclass; Item end
 
 	def index
+		@title = itemclass.to_s.pluralize
+
 		if(params[:order] != nil and (params[:order] == 'author_last' or params[:order] == 'author_first' or params[:order] == 'owner_id'))
 			@order = params[:order]
         else
 			@order = 'title'
         end
+
 		@items = region.items.paginate(:all, :page => params[:page],
 									   :order => @order,
 									   :conditions => { :type => itemclass.to_s })
@@ -33,11 +36,13 @@ class ItemsController < ApplicationController
 
 	def show
 		@item = itemclass.find(params[:id])
+		@title = @item.title
 	rescue ActiveRecord::RecordNotFound
 		four_oh_four
 	end
 
 	def new
+		@title = 'Creating New ' + itemclass.to_s
 		@item = itemclass.new(params[:item])
 
 		@tags = params[:tags]
@@ -59,6 +64,7 @@ class ItemsController < ApplicationController
 
 	def edit
 		@item = itemclass.find(params[:id])
+		@title = 'Editing ' + @item.title
 
 		unless @item.owned_by? self.current_user
 			redirect_to polymorphic_path(@item)

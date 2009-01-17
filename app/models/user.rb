@@ -206,6 +206,11 @@ END
 		super postalcode
 	end
 
+	def cellphone= cellphone
+		cellphone.gsub! /[^\d]/, ''
+		super cellphone
+	end
+
 	protected
 		# turn a postal code into latitude and longitude
 		def do_geocoding

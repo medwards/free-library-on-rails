@@ -367,6 +367,16 @@ display:none;
 	width: 100%;
 }
 
+.items td {
+	/* be nice to books without covers */
+	height: 200px;
+}
+
+.items .title {
+	font-size: 1.5em;
+	padding-left: 1em;
+}
+
 .fieldWithErrors input {
 	background: #d99;
 }

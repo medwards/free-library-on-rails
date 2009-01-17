@@ -16,31 +16,37 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class UserNotifier < ActionMailer::Base
+	include ActionController::UrlWriter
+	# FIXME this should go somewhere that's easy to configure
+	default_url_options[:host] = 'freelibrary.ca'
+
 	def signup_notification(user)
 		setup_email(user)
-		@subject		+= 'Free Library Account Request'
-		@body[:url]  = "http://localhost:3000/account/activate/#{user.activation_code}"
+		@subject	+= 'Free Library Account Request'
+		@body[:url]	+= "/account/activate/#{user.activation_code}"
 	end
 
 	def activation(user)
 		setup_email(user)
-		@subject		+= 'Your Free Library account has been activated!'
-		@body[:url]  = "http://freelibrary.ca/"
+		@subject	+= 'Your Free Library account has been activated!'
+		@body[:url]	+= '/'
 	end
 
+	# FIXME: this can be deleted since we're done with the migration
+	# (delete the script while you're at it)
 	def migration_password_change(user)
 		setup_email(user)
-
-		@subject += "Free Library password change"
-		@body[:url] = "http://freelibrary.ca/"
+		@subject	+= "Free Library password change"
+		@body[:url]	+= '/'
 	end
 
 	protected
 	def setup_email(user)
-		@recipients  = "#{user.email}"
-		@from				 = "admin@freelibrary.ca"
-		@subject		 = "[efl] "
-		@sent_on		 = Time.now
+		@recipients		= user.email
+		@from			= "admin@freelibrary.ca"
+		@subject		= "[efl] "
+		@sent_on		= Time.now
 		@body[:user] = user
+		@body[:url] = "http://freelibrary.ca"
 	end
 end

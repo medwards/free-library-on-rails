@@ -13,5 +13,9 @@
 </table>
 <% end %>
 
-<%= render :partial => 'items/item_table', :locals => { :items => @items } %>
+<% if @items.empty? %>
+	<p>This user hasn't listed any items yet.</p>
+<% else %>
+	<%= render :partial => 'items/item_table', :locals => { :items => @items } %>
+<% end %>
 <%= will_paginate @items %>

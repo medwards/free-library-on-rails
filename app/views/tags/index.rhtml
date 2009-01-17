@@ -1,9 +1,7 @@
 <h1>Tags</h1>
 
 <ul>
-<% @tags.each do |tag| %>
-  <li><%= link_to h(tag.name), tag_path(h(tag.name)) %></li>
+<% @tag_counts.each do |tag,count| %>
+	<li><%= link_to h(tag), tag_path(h(tag)) %> (<%=h count %>)</li>
 <% end %>
 </ul>
-
-<%= will_paginate @tags %>

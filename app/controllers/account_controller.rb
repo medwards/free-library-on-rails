@@ -1,6 +1,6 @@
 # Copyright 2009 Michael Edwards, Brendan Taylor
 # This file is part of free-library-on-rails.
-# 
+#
 # free-library-on-rails is free software: you can redistribute it
 # and/or modify it under the terms of the GNU Affero General Public
 # License as published by the Free Software Foundation, either
@@ -10,7 +10,7 @@
 # useful, but WITHOUT ANY WARRANTY; without even the implied
 # warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
@@ -26,6 +26,7 @@ class AccountController < ApplicationController
 		redirect_to(:action => 'signup') unless logged_in?
 
 		@user = current_user
+		@title = 'Editing Settings'
 	end
 
 	def update
@@ -47,6 +48,8 @@ class AccountController < ApplicationController
 
 	def login
 		unless request.post?
+			@title = 'Logging In'
+
 			# redirect to the last URL they were at after login
 			if request.referer
 				session[:return_to] = request.referer
@@ -80,6 +83,7 @@ class AccountController < ApplicationController
 	end
 
 	def signup
+		@title = 'Signing Up'
 		return unless request.post?
 
 		@user = User.new(params[:user])

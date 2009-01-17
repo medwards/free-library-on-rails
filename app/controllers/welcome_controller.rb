@@ -17,10 +17,12 @@
 
 class WelcomeController < ApplicationController
 	def index; end
-	def about; end
+	def about
+		@title = 'About the Site'
+	end
 
 	def new_things
-		@region = 
+		@title = 'Recently Added Items'
 		@new_items = Item.newest
 	end
 end

@@ -366,3 +366,7 @@ display:none;
 .items {
 	width: 100%;
 }
+
+.fieldWithErrors input {
+	background: #d99;
+}

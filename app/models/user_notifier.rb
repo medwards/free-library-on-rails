@@ -26,12 +26,6 @@ class UserNotifier < ActionMailer::Base
 		@body[:url]	+= "/account/activate/#{user.activation_code}"
 	end
 
-	def activation(user)
-		setup_email(user)
-		@subject	+= 'Your Free Library account has been activated!'
-		@body[:url]	+= '/'
-	end
-
 	protected
 	def setup_email(user)
 		@recipients		= user.email

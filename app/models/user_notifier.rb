@@ -32,14 +32,6 @@ class UserNotifier < ActionMailer::Base
 		@body[:url]	+= '/'
 	end
 
-	# FIXME: this can be deleted since we're done with the migration
-	# (delete the script while you're at it)
-	def migration_password_change(user)
-		setup_email(user)
-		@subject	+= "Free Library password change"
-		@body[:url]	+= '/'
-	end
-
 	protected
 	def setup_email(user)
 		@recipients		= user.email

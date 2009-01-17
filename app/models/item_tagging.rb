@@ -16,7 +16,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class ItemTagging < ActiveRecord::Base
-	belongs_to :thing, :class_name => 'Item'
+	belongs_to :thing, :class_name => 'Item', :foreign_key => 'thing_id'
 	belongs_to :tag
 
 	def to_s; tag.name; end

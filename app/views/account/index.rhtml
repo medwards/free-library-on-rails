@@ -1,5 +1,7 @@
 <h1>Your settings</h1>
 
+<%= javascript_include_tag 'accountsettings' %>
+
 <% form_for :user, :url => { :action => 'update' } do |f| -%>
 	<table>
 		<tr>
@@ -32,11 +34,12 @@
 			<td><%= f.text_field :latitude %></td>
 		</tr>
 
-		<tr>
+		<tr class="sms_input">
 			<td><label for="user_cellphone">Cellphone:</label></td>
 			<td><%= f.text_field :cellphone %></td>
 		</tr>
-		<tr>
+
+		<tr class="sms_input">
 			<td><label for="user_cellphone_provider">Cellphone Provider:</label></td>
 			<% options = options_for_select({
 				"Aliant" => "aliant",

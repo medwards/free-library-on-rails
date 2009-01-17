@@ -203,12 +203,6 @@ float:left;
 margin:3px 3px 3px;
 }
 
-img.coverart{
-float:right;
-border: 1px solid white;
-margin: 20px 10px 10px 10px;
-}
-
 #footer{
 clear:both;
 color:#a0a0a0;
@@ -305,11 +299,21 @@ display:none;
 
 .cover_photo {
 	border: 1px solid white;
-	margin: 5px;
 }
 
 .description {
+	max-width: 60em;
+}
+
+
+.description p {
 	text-align: justify;
+	max-width: 50em;
+}
+
+.description .cover_photo {
+	float: right;
+	margin-left: 4em;
 }
 
 .highlight {
@@ -365,6 +369,10 @@ display:none;
 
 .items {
 	width: 100%;
+}
+
+.items th {
+	text-align: center;
 }
 
 .items td {

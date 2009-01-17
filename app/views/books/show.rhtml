@@ -14,7 +14,7 @@
 
   <% content_for :additional_description do %>
     <% if @item.has_cover_image? %>
-      <img align="right" alt="Cover Photo" class="cover_photo" src="/images/items/books/<%= h @item.isbn %>.jpg" />
+      <img class="cover_photo" src="/images/items/books/<%= h @item.isbn %>.jpg" />
     <% end %>
   <% end %>
 <% end %>

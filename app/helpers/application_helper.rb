@@ -95,4 +95,8 @@ module ApplicationHelper
 	def distance km
 		"%0.1f km" % km
 	end
+
+	def cover_photo item
+		'<img class="cover_photo" src="/images/items/books/' + h(item.isbn) + '.jpg">'
+	end
 end

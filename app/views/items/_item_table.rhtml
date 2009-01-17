@@ -11,10 +11,8 @@
 	<% items.each do |item| %>
 		<tr>
 			<td><% if item.has_cover_image? %>
-					<a href="<%= polymorphic_path(item) %>">
-						<img class="cover_photo" src="/images/items/books/<%= h item.isbn %>.jpg">
-					</a>
-				<% end %></td>
+				<a href="<%= polymorphic_path(item) %>"><%= cover_photo(item) %></a>
+			<% end %></td>
 
 			<td class="title" <%= 'colspan="2"' unless item.is_a? Book %>>
 				<%= link_to highlight(h(item.title), @query), polymorphic_path(item) %>

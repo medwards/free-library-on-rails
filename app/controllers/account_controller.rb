@@ -46,7 +46,16 @@ class AccountController < ApplicationController
 	end
 
 	def login
-		return unless request.post?
+		unless request.post?
+			# redirect to the last URL they were at after login
+			if request.referer
+				session[:return_to] = request.referer
+			end
+
+			# go straight to the view
+			return
+		end
+
 		self.current_user = User.authenticate(params[:login], params[:password])
 
 		if logged_in?

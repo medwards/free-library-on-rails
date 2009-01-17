@@ -201,16 +201,21 @@ END
 			:conditions => "#{distance_sql} < #{max_distance} AND users.id != #{id}"
 	end
 
+	def postalcode= postalcode
+		@geocode = true
+		super postalcode
+	end
+
 	protected
 		# turn a postal code into latitude and longitude
 		def do_geocoding
-			self.latitude = 0
-			self.longitude = 0
+			# don't geocode unless we have a postal code and the
+			# postal code has been changed since the last save
+			return unless self.postalcode and @geocode
 
-			return unless self.postalcode
-
-			googleKey = "ABQIAAAAtMckXwUuUit3GcU7fqrjfhQ-fLx3XxcGMYuMv93Lb2-UXt48NxQJ0Yah9JBOEjCrA8dHFLPTAfhB3w"
-			url = "http://maps.google.com/maps/geo?q=#{URI.escape self.postalcode}&output=csv&key=#{googleKey}"
+			url = 'http://maps.google.com/maps/geo?q='
+			url += URI.escape self.postalcode
+			url += '&output=csv&key=' + AppConfig.GOOGLE_KEY
 
 			open(url) { |f|
 				f.each_line { |line|

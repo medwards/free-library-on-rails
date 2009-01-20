@@ -1,7 +1,7 @@
 <% if @item.owned_by? session[:user] %>
 	<div class="itemActions">
-      <%= link_to image_tag("icons/edit.gif", :title => "edit"), edit_polymorphic_path(@item) %>
-      <%= link_to image_tag("icons/delete.gif", :title => "delete"), {}, { :method => :delete, :confirm => "Are you sure you want to delete this item?" } %>
+		<%= link_to image_tag("icons/edit.gif", :title => "edit"), edit_polymorphic_path(@item) %>
+		<%= link_to image_tag("icons/delete.gif", :title => "delete"), {}, { :method => :delete, :confirm => "Are you sure you want to delete this item?" } %>
 	</div>
 <% end %>
 
@@ -12,30 +12,32 @@
 		<%= calendar_date_select_includes 'silver' %>
 		<p>Requested by:</p>
 		<ul>
-		  <% @item.requests.each do |req| %>
+		<% @item.requests.each do |req| %>
 			<li>
-			  <%= user_link req.borrower %>
-			  <% unless @item.current_loan %>
-				  <%= render :partial => 'loans/approval', :locals => { :req => req } %>
-			  <% end %>
+				<%= user_link req.borrower %>
+				<% unless @item.current_loan %>
+					<%= render :partial => 'loans/approval',
+								:locals => { :req => req } %>
+				<% end %>
 			</li>
-		  <% end %>
+		<% end %>
 		</ul>
 	</div>
 <% end %>
 
 <table>
-  <tr><th>owner:</th>
-    <td><%= user_link @item.owner %></td></tr>
-  <tr><th>tags:</th>
-    <td><%= @item.taggings.map do |t|
-      link_to(h(t), tag_path(h(t.to_s)))
-    end.join ', ' %></td></tr>
+	<tr><th>owner:</th>
+		<td><%= user_link @item.owner %></td></tr>
+	<tr><th>tags:</th>
+		<td><%= @item.taggings.map do |t|
+			link_to(h(t), tag_path(h(t.to_s)))
+		end.join ', ' %></td></tr>
 	<% if current_user %>
 	<tr><th>distance:</th>
 		<td><%= distance(@item.owner.distance_from(current_user)) %></td></tr>
 	<% end %>
-  <% default_content_for :additional_fields do %><% end %>
+
+	<% default_content_for :additional_fields do %><% end %>
 </table>
 
 <% if @item.owned_by? session[:user] %>
@@ -66,11 +68,11 @@
 	<% end %>
 	</div>
 <% elsif current_user %>
-  <% if Loan.already_requested(current_user, @item) %>
-	  <p>You have already requested to borrow this item.</p>
-  <% else %>
-    <%= button_to 'request loan', loans_path(:item_id => @item) %>
-  <% end %>
+	<% if Loan.already_requested(current_user, @item) %>
+		<p>You have already requested to borrow this item.</p>
+	<% else %>
+		<%= button_to 'request loan', loans_path(:item_id => @item) %>
+	<% end %>
 <% end %>
 
 <h2>Description</h2>

@@ -7,9 +7,9 @@
 <% unless @user.taggings.empty? %>
 <table>
 	<tr><th>Tags:</th>
-    <td><%= @user.taggings.map do |t|
-      link_to(h(t), tag_path(h(t.to_s)))
-    end.join ', ' %></td></tr>
+	<td><%= @user.taggings.map do |t|
+		link_to(h(t), tag_path(h(t.to_s)))
+	end.join ', ' %></td></tr>
 </table>
 <% end %>
 

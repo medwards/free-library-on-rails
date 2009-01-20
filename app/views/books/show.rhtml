@@ -1,20 +1,20 @@
 <% inheriting_view 'items/show' do %>
-  <% content_for :additional_fields do %>
-    <tr>
-      <th>author:</th>
-      <td><%= h @item.author_first %> <%= h @item.author_last %></td>
-    </tr>
-	<% if @item.lcc_number %>
+	<% content_for :additional_fields do %>
 		<tr>
-		  <th>LCC:</th>
-		  <td><%= h @item.lcc_number %></td>
+			<th>author:</th>
+			<td><%= h @item.author_first %> <%= h @item.author_last %></td>
 		</tr>
+		<% if @item.lcc_number %>
+			<tr>
+				<th>LCC:</th>
+				<td><%= h @item.lcc_number %></td>
+			</tr>
+		<% end %>
 	<% end %>
-  <% end %>
 
-  <% content_for :additional_description do %>
-	  <% if @item.has_cover_image? %>
-		  <%= cover_photo @item %>
-	  <% end %>
-  <% end %>
+	<% content_for :additional_description do %>
+		<% if @item.has_cover_image? %>
+			<%= cover_photo @item %>
+		<% end %>
+	<% end %>
 <% end %>

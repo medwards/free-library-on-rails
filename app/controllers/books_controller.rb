@@ -37,14 +37,14 @@ class BooksController < ItemsController
 				flash[:error] = "Lookup failed - Invalid EAN/Barcode"
 				redirect_to :action => "new", :item => { :isbn => isbn }
 				return
-            end
+			end
 		else
 			if isbn[9] == BooksController.isbn_checksum(isbn)
 				flash[:error] = "Lookup failed - Invalid ISBN"
 				redirect_to :action => "new", :item => { :isbn => isbn }
 				return
-            end
-        end
+			end
+		end
 
 		begin
 			@item = Book.new_from_isbn(isbn)

@@ -1,36 +1,42 @@
 <% inheriting_view 'items/new' do %>
-  <% content_for :utility_fields do %>
-    <tr>
-      <td><label for="isbn">ISBN</label></td>
-      <td>
-        <%= text_field_tag 'item[isbn]', @item.isbn, :id => 'isbn' %>
-        <%= submit_tag 'Lookup', :name => "submit" %>
-      </td>
-    </tr>
+<% content_for :utility_fields do %>
+	<tr>
+		<td><label for="isbn">ISBN</label></td>
+		<td>
+			<%= text_field_tag 'item[isbn]', @item.isbn, :id => 'isbn' %>
+			<%= submit_tag 'Lookup', :name => "submit" %>
+		</td>
+	</tr>
 
-		<%= javascript_include_tag 'isbnvalidation' %>
+	<%= javascript_include_tag 'isbnvalidation' %>
 
-    <tr>
-      <td><label for="lcc_number">LCC</label></td>
-      <td>
-        <%= text_field_tag 'item[lcc_number]', @item.lcc_number, :id => 'lcc_number' %>
-      </td>
-    </tr>
-  <% end %>
+	<tr>
+		<td><label for="lcc_number">LCC</label></td>
+		<td>
+			<%= text_field_tag 'item[lcc_number]',
+					@item.lcc_number,
+					:id => 'lcc_number' %>
+		</td>
+	</tr>
+<% end %>
 
-  <% content_for :additional_fields do %>
-    <tr>
-      <td><label for="author_first">Author's First Name</label></td>
-      <td><%= text_field_tag 'item[author_first]', @item.author_first, :id => 'author_first' %></td>
-    </tr>
+<% content_for :additional_fields do %>
+	<tr>
+		<td><label for="author_first">Author's First Name</label></td>
+		<td><%= text_field_tag 'item[author_first]',
+					@item.author_first,
+					:id => 'author_first' %></td>
+	</tr>
 
-    <tr>
-      <td><label for="author_last">Author's Last Name</label></td>
-      <td><%= text_field_tag 'item[author_last]', @item.author_last, :id => 'author_last' %></td>
-    </tr>
-  <% end %>
+	<tr>
+		<td><label for="author_last">Author's Last Name</label></td>
+		<td><%= text_field_tag 'item[author_last]',
+					@item.author_last,
+					:id => 'author_last' %></td>
+	</tr>
+<% end %>
 
-  <% content_for :submit_button do %>
-    <%= submit_tag 'Add Book', :name => "submit" %>
-  <% end %>
+<% content_for :submit_button do %>
+	<%= submit_tag 'Add Book', :name => "submit" %>
+<% end %>
 <% end %>

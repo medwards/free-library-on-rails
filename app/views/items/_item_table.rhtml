@@ -27,11 +27,9 @@
 			</td><% end %>
 		</tr>
 		<% if including.member? :description %>
-		  <tr>
-			<td colspan="4">
-			  <%= excerpt_and_highlight(item.description, @query) %>
-			</td>
-		  </tr>
+			<tr><td colspan="4">
+				<%= excerpt_and_highlight(item.description, @query) %>
+			</td></tr>
 		<% end %>
 	<% end %>
 </table>

@@ -3,38 +3,38 @@
 <%= error_messages_for :item %>
 
 <% form_for :item, :url => polymorphic_path(@item) do |f| -%>
-  <table>
+<table>
 
-  <% default_content_for :utility_fields do %><% end %>
+	<% default_content_for :utility_fields do %><% end %>
 
-  <tr>
-    <td><label for="item_title">Title</label></td>
-    <td><%= f.text_field :title %></td>
-  </tr>
+	<tr>
+		<td><label for="item_title">Title</label></td>
+		<td><%= f.text_field :title %></td>
+	</tr>
 
-  <% default_content_for :additional_fields do %><% end %>
+	<% default_content_for :additional_fields do %><% end %>
 
-  <tr>
-    <td><label for="item_description">Review</label></td>
-    <td><%= f.text_area :description %></td>
-  </tr>
+	<tr>
+		<td><label for="item_description">Review</label></td>
+		<td><%= f.text_area :description %></td>
+	</tr>
 
-  <tr>
-    <td><label for="tags">Tags</label></td>
-    <td>
-      <% str_tags = @tags.map { |t| t.to_s } %>
+	<tr>
+		<td><label for="tags">Tags</label></td>
+		<td>
+			<% str_tags = @tags.map { |t| t.to_s } %>
 
-      <input id="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;">
+			<input id="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;">
 
-    </td>
-  </tr>
+		</td>
+	</tr>
 
 	<%= javascript_include_tag 'tageditor' %>
-  </table>
+</table>
 
-  <p>
-    <% default_content_for :submit_button do %>
-      <%= submit_tag 'Add Item' %>
-    <% end %>
-  </p>
+<p>
+	<% default_content_for :submit_button do %>
+		<%= submit_tag 'Add Item' %>
+	<% end %>
+</p>
 <% end -%>

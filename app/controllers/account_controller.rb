@@ -21,7 +21,7 @@ class AccountController < ApplicationController
 
 	before_filter :login_required, :only => [ :update ]
 
-	# say something nice, you goof!  something sweet.
+	# say something nice, you goof! something sweet.
 	def index
 		redirect_to(:action => 'signup') unless logged_in?
 

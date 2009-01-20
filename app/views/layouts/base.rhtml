@@ -29,7 +29,7 @@
 		<h2 class="hide">Site menu:</h2>
 		<% uri = request.request_uri -%>
 		<%= navitab 'Welcome', url_for('/'), uri == '/' %>
-		<%= navitab "What's New!", url_for('/new'), uri.match(/^\/new/)  %>
+		<%= navitab "What's New!", url_for('/new'), uri.match(/^\/new/) %>
 
 		<%= navitab 'Books', books_path, uri.match(/\/books/) %>
 		<%= navitab 'Videos', videos_path, uri.match(/\/videos/) %>
@@ -61,7 +61,7 @@
 					</div>
 				<% end %>
 
-				<%= yield  %>
+				<%= yield %>
 
 				<p class="hide"><a href="#top">Back to top</a></p>
 			</div>

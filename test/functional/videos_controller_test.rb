@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class VideosControllerTest < Test::Unit::TestCase
+class VideosControllerTest < ActionController::TestCase
 	include AuthenticatedTestHelper
 
 	def setup

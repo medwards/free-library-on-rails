@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class LoanObserverTest < Test::Unit::TestCase
+class LoanObserverTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   def test_truth
     assert true

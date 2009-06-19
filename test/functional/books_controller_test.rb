@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BooksControllerTest < Test::Unit::TestCase
+class BooksControllerTest < ActionController::TestCase
 	include AuthenticatedTestHelper
 
 	def setup

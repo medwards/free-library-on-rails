@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RegionTest < Test::Unit::TestCase
+class RegionTest < ActiveSupport::TestCase
   def test_find_region_items
     edm = Region.find_by_subdomain('edmonton')
 

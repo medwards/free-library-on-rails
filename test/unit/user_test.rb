@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserTest < Test::Unit::TestCase
+class UserTest < ActiveSupport::TestCase
   def setup
     @bct      = User.find_by_login('bct')
     @medwards = User.find_by_login('medwards')

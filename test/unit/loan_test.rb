@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class LoanTest < Test::Unit::TestCase
+class LoanTest < ActiveSupport::TestCase
   def test_lent
     loan = loans(:request)
 

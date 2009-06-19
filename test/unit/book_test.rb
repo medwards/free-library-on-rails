@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BookTest < Test::Unit::TestCase
+class BookTest < ActiveSupport::TestCase
   def test_new_from_isbn
     shne = Book.new_from_isbn('0-385-66004-9')
 

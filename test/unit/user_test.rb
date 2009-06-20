@@ -59,8 +59,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_tag_counts
-    assert_equal([ ['politics', 2], ['spain', 1 ] ], @bct.tag_counts)
-    assert_equal([ ], @medwards.tag_counts)
+    assert_equal([ ['politics', 2], ['spain', 1 ] ], @bct.tag_counts.to_a)
+    assert_equal([ ], @medwards.tag_counts.to_a)
   end
 
   def test_tagging

@@ -51,7 +51,7 @@ module ApplicationHelper
 		# used to define source content for view inheritance
 		name = name.kind_of?(Symbol) ? ":#{name}" : name
 		out = eval("yield #{name}", block.binding)
-		concat(out || capture(&block), block.binding)
+		concat(out || capture(&block))
 	end
 
 	def inheriting_view(options = {}, &block)
@@ -75,7 +75,7 @@ module ApplicationHelper
 		options[:use_full_path] = true
 
 		# Render our parent view.
-		concat(render(options), bind)
+		concat(render(options))
 	end
 
 	# link to a user using their login

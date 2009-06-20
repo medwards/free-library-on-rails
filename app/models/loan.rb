@@ -25,8 +25,8 @@ class Loan < ActiveRecord::Base
 	belongs_to :item
 	belongs_to :borrower, :class_name => 'User'
 
-	# FIXME: commented out for rails 2.0.2
-	#define_callbacks :after_lent, :after_rejected
+	# this should be commented out for rails 2.0.2
+	define_callbacks :after_lent, :after_rejected
 
 	def owner
 		self.item.owner

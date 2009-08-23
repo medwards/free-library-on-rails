@@ -116,10 +116,11 @@ class AccountController < ApplicationController
 
 		@user = User.find_by_activation_code(activator)
 		if @user and @user.activate
-			redirect_back_or_default(:controller => 'account', :action => 'login')
 			flash[:notice] = "Your account has been activated. Please login."
+			redirect_back_or_default(:controller => 'account', :action => 'login')
 		else
-			flash[:notice] = "Unable to activate the account. Please check or enter manually."
+			flash[:notice] = "Unable to activate the account. Please check your activation URL."
+			redirect_to(:controller => 'account', :action=> 'login')
 		end
 	end
 end

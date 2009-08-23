@@ -1,6 +1,6 @@
 <h1>Add a new <%=h params[:controller].singularize %></h1>
 
-<%= error_messages_for :item %>
+<%= error_messages_for(:item).untaint %>
 
 <% form_for :item, :url => polymorphic_path(@item) do |f| -%>
 <table>

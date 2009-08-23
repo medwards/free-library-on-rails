@@ -1,6 +1,7 @@
 <h1>Create an Account</h1>
 
-<%= error_messages_for :user %>
+<%= error_messages_for(:user).untaint %>
+
 <% form_for :user do |f| -%>
 <p><label for="login">Login</label><br/>
 <%= f.text_field :login %></p>

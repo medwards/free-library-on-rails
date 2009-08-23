@@ -1,6 +1,6 @@
 <h1>editing <%= h @item.title %></h1>
 
-<% error_messages_for :item %>
+<% error_messages_for(:item).untaint %>
 
 <% form_for :item, :url => { :action => 'update' }, :html => { :method => 'put' } do |f| -%>
 <table>

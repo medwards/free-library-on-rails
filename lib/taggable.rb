@@ -42,19 +42,17 @@ module Taggable
 			tags = tags.strip.split(TAG_SEPARATOR)
 		end
 
-		tags = tags.delete_if { |tag|
-			AppConfig.TAG_BLACKLIST.include? tag
-        }
+		tags = tags.delete_if do |tag|
+			tag.empty? or AppConfig.TAG_BLACKLIST.include?(tag)
+		end
 
 		return if not tags or tags.empty?
 
 		# delete this thing's existing taggings
-		self.class.tagging_class.find_all_by_thing_id(self).each do |t|
-			t.destroy
-		end
+		self.class.tagging_class.destroy_all(:thing_id => self)
 
 		tags.uniq.each do |tag|
-			add_tag tag
+			self.add_tag tag
 		end
 	end
 
@@ -70,7 +68,7 @@ module Taggable
 	end
 
 	# an Item's tags, as an Array of Strings
-	def tags
-		taggings.map { |t| t.to_s }
+	def tags(use_cached = false)
+		taggings(use_cached).map { |t| t.to_s }
 	end
 end

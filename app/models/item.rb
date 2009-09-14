@@ -98,7 +98,7 @@ class Item < ActiveRecord::Base
 		terms = terms.map { |t| "%#{t}%" }
 
 		# set up condition strings
-		cond = (['author_first LIKE ? OR author_last LIKE ?'] * terms.length).join(' AND ')
+		cond = (['(author_first LIKE ? OR author_last LIKE ?)'] * terms.length).join(' AND ')
 
 		terms = terms.map { |x| [x] * 2 }.flatten
 

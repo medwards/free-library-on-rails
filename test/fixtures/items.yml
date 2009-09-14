@@ -6,6 +6,13 @@ lhd:
   title: The Left Hand of Darkness
   author_first: Ursula K.
   author_last: Le Guin
+lhd2:
+  owner: bct
+  type: Book
+  created: 2009-09-13
+  title: The Left Hand of Darkness
+  author_first: Ursula
+  author_last: K le Guin
 htc:
   owner: bct
   type: Book

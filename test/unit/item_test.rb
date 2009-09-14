@@ -63,4 +63,18 @@ class ItemTest < ActiveSupport::TestCase
 
 		assert Loan.find(:all, :conditions => {:item_id => lhd, :status => 'lent'}).empty?
 	end
+
+	def test_search_title
+		res = Item.paginated_search_title 1, ['catalonia', 'homage']
+
+		assert_equal 1, res.length
+		assert_match /Homage to Catalonia/, res.first.title
+	end
+
+	def test_search_author
+		res = Item.paginated_search_author 1, ['guin', 'ursula']
+
+		assert_equal 2, res.length
+		assert_match /The Left Hand of Darkness/, res.first.title
+	end
 end

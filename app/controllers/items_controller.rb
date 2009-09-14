@@ -97,6 +97,7 @@ class ItemsController < ApplicationController
 		@item.destroy
 
 		# XXX this has behaved weird anecdotally... come back to it and test
+		#		-- i haven't noticed anything weird here. obsolete comment? (bct, 2009-09)
 		redirect_to user_path(self.current_user.login)
 	end
 
@@ -116,33 +117,17 @@ class ItemsController < ApplicationController
 		end
 
 		terms = @query.split(' ')
-		wildcards = terms.map { |t| "%#{t}%" }
 
 		if @fields.member? 'title'
-			t_cond = (['title LIKE ?'] * wildcards.length).join(' AND ')
-
-			@title_results = itemclass.paginate :all,
-				:page => params[:page],
-				:order => :title,
-				:conditions => [t_cond, *wildcards]
+			@title_results = itemclass.paginated_search_title params[:page], terms
 		end
 
 		if @fields.member? 'author'
-			a_cond = (['author_first LIKE ? OR author_last LIKE ?'] * wildcards.length).join(' AND ')
-
-			@author_results = itemclass.paginate :all,
-				:page => params[:page],
-				:order => :title,
-				:conditions => [a_cond, *(wildcards.map{ |x| [x] * 2 }.flatten)]
+			@author_results = itemclass.paginated_search_author params[:page], terms
 		end
 
 		if @fields.member? 'description'
-			d_cond = (['description LIKE ?'] * wildcards.length).join(' AND ')
-
-			@description_results = itemclass.paginate :all,
-				:page => params[:page],
-				:order => :title,
-				:conditions => [d_cond, *wildcards]
+			@description_results = itemclass.paginated_search_description params[:page], terms
 		end
 	end
 end

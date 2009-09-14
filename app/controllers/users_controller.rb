@@ -23,4 +23,44 @@ class UsersController < ApplicationController
 
 		four_oh_four unless @user
 	end
+
+	def search
+		@user = User.find_by_login(params[:id])
+		@query = params[:q]
+
+		# fields to search
+		@fields = params[:field]
+		@fields ||= [ 'tags', 'title', 'author', 'description' ]
+
+		# TODO this needs the user_id condition, i'm too lazy to add it right now.
+		# if @fields.member? 'tags'
+		#	@tag_results = Item.find_by_tag(@query).paginate(:page => params[:page])
+		# end
+
+		extra_conditions = 'AND owner_id = ?'
+		extra_terms	= [@user]
+
+		terms = @query.split(' ')
+
+		if @fields.member? 'title'
+			@title_results = Item.paginated_search_title params[:page],
+														 terms,
+														 extra_conditions,
+														 extra_terms
+		end
+
+		if @fields.member? 'author'
+			@author_results = Item.paginated_search_author params[:page],
+														   terms,
+														   extra_conditions,
+														   extra_terms
+		end
+
+		if @fields.member? 'description'
+			@description_results = Item.paginated_search_description params[:page],
+																	 terms,
+																	 extra_conditions,
+																	 extra_terms
+		end
+	end
 end

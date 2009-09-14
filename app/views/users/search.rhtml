@@ -1,0 +1,5 @@
+<%= render :partial => 'items/query', :locals => { :submit_value => "Search #{h(@user)}" } %>
+
+<h1>Search results for ‟<%=h @query %>” belonging to <%= user_link @user %></h1>
+
+<%= render :partial => 'items/search' %>

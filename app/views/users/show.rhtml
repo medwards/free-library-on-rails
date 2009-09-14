@@ -1,3 +1,5 @@
+<%= render :partial => 'items/query', :locals => { :submit_value => "Search #{h(@user)}" } %>
+
 <h1><%=h @user.login %></h1>
 
 <% if @user.about %>

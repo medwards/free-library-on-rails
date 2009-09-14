@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :books, :collection => { :search => :get }
   map.resources :videos, :collection => { :search => :get }
 
+  map.connect 'users/:id/search', :controller => 'users', :action => 'search'
   map.resources :users, :requirements => { :id => %r([^/;,?]+) }
 
   map.resources :loans

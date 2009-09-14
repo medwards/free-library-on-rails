@@ -21,4 +21,12 @@ class UsersControllerTest < ActionController::TestCase
 		# should be able to get a list of owned books
 		assert_match /Homage to Catalonia/, @response.body
 	end
+
+	def test_search
+		get :search, :q => 'catalonia homage', :field => 'title', :id => 'bct'
+
+		assert_response :success
+
+		assert_match /Homage to Catalonia/, @response.body
+	end
 end

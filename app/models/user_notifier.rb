@@ -17,7 +17,10 @@
 
 class UserNotifier < ActionMailer::Base
 	include ActionController::UrlWriter
-	# FIXME this should go somewhere that's easy to configure
+
+	# FIXME these should go somewhere that's easy to configure
+	FROM_ADDRESS = "admin@freelibrary.ca"
+	SUBJECT_PREFIX = "[efl] "
 	default_url_options[:host] = 'freelibrary.ca'
 
 	def signup_notification(user)
@@ -26,11 +29,17 @@ class UserNotifier < ActionMailer::Base
 		@body[:url]	+= "/account/activate/#{user.activation_code}"
 	end
 
+	def password_reset_notification(user, new_password)
+		setup_email(user)
+		@subject += " Password Reset Request"
+		@body[:new_password] = new_password
+	end
+
 	protected
 	def setup_email(user)
 		@recipients		= user.email
-		@from			= "admin@freelibrary.ca"
-		@subject		= "[efl] "
+		@from			= FROM_ADDRESS
+		@subject		= SUBJECT_PREFIX
 		@sent_on		= Time.now
 		@body[:user] = user
 		@body[:url] = "http://freelibrary.ca"

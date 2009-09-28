@@ -50,8 +50,9 @@ class AccountController < ApplicationController
 		unless request.post?
 			@title = 'Logging In'
 
-			# redirect to the last URL they were at after login
-			if request.referer
+			# after login, redirect to the last URL they were at
+			# FIXME: it would be really nice not to have the special case for reset_password...
+			if request.referer and not request.referer.match /reset_password/
 				session[:return_to] = request.referer
 			end
 
@@ -99,6 +100,22 @@ class AccountController < ApplicationController
 		redirect_back_or_default(:controller => 'welcome', :action => 'index')
 	rescue ActiveRecord::RecordInvalid
 		render :action => 'signup'
+	end
+
+	def reset_password
+		if request.post?
+			user = User.find_by_email params[:email]
+
+			if user
+				user.reset_password!
+				flash[:notice] = 'An email has been sent containing your new password.'
+			else
+				flash[:error] = 'No user with that email address exists.'
+			end
+
+			session[:return_to] = nil
+			redirect_to :controller => 'account', :action=> 'login'
+		end
 	end
 
 	def logout

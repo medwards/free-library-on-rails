@@ -155,4 +155,27 @@ class AccountControllerTest < ActionController::TestCase
 		assert bct.tags.member?('funny hats')
 		assert bct.tags.member?('celery')
 	end
+
+	def test_reset_password
+		get :reset_password
+
+		assert_response 200
+
+		bct = User.find_by_login 'bct'
+		old_passwd = bct.crypted_password
+
+		post :reset_password, :email => bct.email
+		assert_redirected_to :controller => 'account', :action => 'login'
+		assert @response.flash[:notice], 'Notice was not given to the user.'
+
+		bct = User.find_by_login 'bct'
+		assert_not_equal old_passwd, bct.crypted_password
+	end
+
+	def test_reset_password_bad_email
+		post :reset_password, :email => 'some-email-that@doesnt-exist.example'
+
+		assert_redirected_to :controller => 'account', :action => 'login'
+		assert @response.flash[:error], 'User was not notified of error.'
+	end
 end

@@ -61,6 +61,8 @@ class User < ActiveRecord::Base
 	has_many :borrowed, :class_name => 'Item', :through => :borrowings,
 		:source => :item, :conditions => "status = 'lent'"
 
+	has_many :comments, :class_name => 'UserComment'
+
 	# gets all the tags this user has used and how many times they've used them
 	# sorted with most occurances first
 	def tag_counts
@@ -120,6 +122,9 @@ class User < ActiveRecord::Base
 		self.password_confirmation = self.password
 
 		save!
+
+		UserNotifier.deliver_password_reset_notification(self, self.password)
+
 		self.password
 	end
 

@@ -29,4 +29,12 @@ class UsersControllerTest < ActionController::TestCase
 
 		assert_match /Homage to Catalonia/, @response.body
 	end
+
+	def test_show_comments
+		get :show, :id => 'medwards'
+
+		assert_response :success
+
+		assert_match /A Rad Dude./, @response.body
+	end
 end

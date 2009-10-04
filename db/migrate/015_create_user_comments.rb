@@ -15,33 +15,17 @@
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
 
-class UserNotifier < ActionMailer::Base
-	include ActionController::UrlWriter
+class CreateUserComments < ActiveRecord::Migration
+  def self.up
+    create_table 'user_comments', :force => true do |t|
+      t.integer :user_id,   :null => false
+      t.integer :author_id, :null => false
+	  t.datetime :created,  :null => false
+	  t.text    :text,      :null => false
+    end
+  end
 
-	# FIXME these should go somewhere that's easy to configure
-	FROM_ADDRESS = "admin@freelibrary.ca"
-	SUBJECT_PREFIX = "[efl] "
-	default_url_options[:host] = 'freelibrary.ca'
-
-	def signup_notification(user)
-		setup_email(user)
-		@subject	+= 'Free Library Account Request'
-		@body[:url]	+= "/account/activate/#{user.activation_code}"
-	end
-
-	def password_reset_notification(user, new_password)
-		setup_email(user)
-		@subject += " Password Reset Request"
-		@body[:new_password] = new_password
-	end
-
-	protected
-	def setup_email(user)
-		@recipients		= user.email
-		@from			= FROM_ADDRESS
-		@subject		= SUBJECT_PREFIX
-		@sent_on		= Time.now
-		@body[:user] = user
-		@body[:url] = "http://freelibrary.ca"
-	end
+  def self.down
+    drop_table 'user_comments'
+  end
 end

@@ -388,3 +388,11 @@ display:none;
 .fieldWithErrors input {
 	background: #d99;
 }
+
+.comment {
+	margin-bottom: 1em;
+}
+
+.comment .byline {
+	padding-left: 2em;
+}

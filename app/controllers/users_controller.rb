@@ -63,4 +63,12 @@ class UsersController < ApplicationController
 																	 extra_terms
 		end
 	end
+
+	def comments
+		@user = User.find_by_login(params[:id])
+
+		@user.comments.create :author_id => current_user.id, :text => params[:text], :created => Time.now
+
+		redirect_to :action => :show
+	end
 end

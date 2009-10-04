@@ -15,6 +15,30 @@
 </table>
 <% end %>
 
+<% if current_user or not @user.comments.empty? %>
+	<h2>Comments</h2>
+<% end %>
+
+<% unless @user.comments.empty? %>
+	<% @user.comments.each do |c| %>
+		<div class="comment" style="margin-bottom: 1em;">
+			<p><%= paragraphize c.text %></p>
+			<p class="byline">-- <%= user_link(c.author) %> <%= c.created.strftime("%Y-%m-%d") %></p>
+		</div>
+	<% end %>
+<% end %>
+
+<% if current_user %>
+	<% form_tag comments_user_path(@user.login), :method => 'post' do %>
+		<label style="vertical-align: top">Write a comment:
+			<textarea name="text" rows="7" cols="30" ></textarea>
+		</label><br>
+		<input type="submit" value="Comment" style="margin-left: 3em; margin-top: 1em;">
+	<% end %>
+<% end %>
+
+<h2>Items</h2>
+
 <% if @items.empty? %>
 	<p>This user hasn't listed any items yet.</p>
 <% else %>

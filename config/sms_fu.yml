@@ -1,2 +1,13 @@
 config:
   from_address: no-reply@freelibrary.ca
+carriers:
+  # Canadian Carriers
+  aliant: @chat.wirefree.ca
+  bellmobility: @txt.bell.ca
+  fido-canada: @fido.ca
+  manitobatelecom: @text.mtsmobility.com
+  northerntel: @txt.northerntelmobility.com
+  rogers: @pcs.rogers.ca
+  sasktel: @sms.sasktel.ca
+  telebec: @txt.telebecmobilite.com
+  telus: @msg.telus.com

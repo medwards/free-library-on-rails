@@ -21,7 +21,11 @@ class LoanObserver < ActiveRecord::Observer
 		if loan.status == 'requested' and loan.borrower != loan.item.owner
 			LoanNotifier.deliver_request_notification(loan)
 			if loan.item.owner.cellphone?
-				deliver_sms(loan.item.owner.cellphone, loan.item.owner.cellphone_provider, "You have a loan request on the Edmonton Free Library")
+				begin
+					deliver_sms(loan.item.owner.cellphone, loan.item.owner.cellphone_provider, "You have a loan request on the Edmonton Free Library")
+				rescue Net::SMTPFatalError
+					# don't freak out if this fails
+				end
 			end
 		end
 	end

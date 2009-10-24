@@ -16,6 +16,9 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class AccountController < ApplicationController
+	# omit passwords from the logs
+	filter_parameter_logging :password
+
 	# If you want "remember me" functionality, add this before_filter to Application Controller
 	before_filter :login_from_cookie
 
@@ -90,12 +93,12 @@ class AccountController < ApplicationController
 		@user = User.new(params[:user])
 		@user.login = params[:user][:login]
 
+		UserNotifier.deliver_signup_notification(@user)
+
 		@user.save!
 
 		flash[:notice] = "Thanks for signing up! " \
 			"We sent you an email with instructions on how to continue."
-
-		UserNotifier.deliver_signup_notification(@user)
 
 		redirect_back_or_default(:controller => 'welcome', :action => 'index')
 	rescue ActiveRecord::RecordInvalid

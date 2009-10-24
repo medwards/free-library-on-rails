@@ -23,10 +23,10 @@ class TagsController < ApplicationController
 
 	def show
 		@tag = Tag.find_by_name(params[:id])
-		@title = "Browsing #{@tag.name} Tag"
 
 		return four_oh_four unless @tag
 
+		@title = "Browsing #{@tag.name} Tag"
 		@items = @tag.items.paginate(:page => params[:page])
 	end
 end

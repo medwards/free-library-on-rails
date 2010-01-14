@@ -396,3 +396,9 @@ display:none;
 .comment .byline {
 	padding-left: 2em;
 }
+
+.formats {
+	float: right;
+	list-style-type: none;
+	padding-right: 5em;
+}

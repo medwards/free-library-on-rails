@@ -15,13 +15,21 @@
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
 
+require 'csv'
+
 class UsersController < ApplicationController
 	def show
 		@user = User.find_by_login(params[:id])
-		@title = @user.login
+		four_oh_four and return unless @user
+
 		@items = @user.owned.paginate(:all, :page => params[:page], :order => 'title')
 
-		four_oh_four unless @user
+		respond_to do |format|
+			format.html do
+				@title = @user.login
+			end
+			format.csv { render :layout => false }
+		end
 	end
 
 	def search

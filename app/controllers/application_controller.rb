@@ -31,11 +31,13 @@ class ApplicationController < ActionController::Base
 	include AuthenticatedSystem
 
 	# Not Found
+	# You need to return after doing this.
 	def four_oh_four
 		render :file => './public/404.html', :status => 404
 	end
 
-	# throw up a raw 401 Unauthorized
+	# throw up a raw 401 Unauthorized.
+	# You need to return after doing this.
 	#
 	# you may want to redirect instead of using this
 	def unauthorized reason

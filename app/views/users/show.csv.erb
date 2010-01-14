@@ -1,5 +1,10 @@
 <%= CSV.generate_line ["Id", "Type", "Title", "Author First", "Author Last", "Added", "ISBN", "LCC", "Loaned?"] %>
 <%
 @items.each do |item|
-	%><%= CSV.generate_line [ item.id, item.type.untaint, item.title.untaint, item.author_first.untaint, item.author_last.untaint, item.created.iso8601, item.isbn.untaint, item.lcc_number.untaint, item.current_loan ? "due back #{item.current_loan.return_date.iso8601}" : "no" ] %>
+	%><%= CSV.generate_line([
+		item.id, item.type.untaint,
+		item.title.untaint, item.author_first.untaint,
+		item.author_last.untaint, item.created.iso8601, item.isbn.untaint,
+		item.lcc_number.untaint,
+		item.current_loan ? "due back #{item.current_loan.return_date.iso8601[0,10]}" : "no" ]) %>
 <%- end -%>

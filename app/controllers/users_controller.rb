@@ -22,13 +22,16 @@ class UsersController < ApplicationController
 		@user = User.find_by_login(params[:id])
 		four_oh_four and return unless @user
 
-		@items = @user.owned.paginate(:all, :page => params[:page], :order => 'title')
-
 		respond_to do |format|
 			format.html do
+				@items = @user.owned.paginate(:all, :page => params[:page], :order => 'title')
+
 				@title = @user.login
 			end
-			format.csv { render :layout => false }
+			format.csv do
+				@items = @user.owned :all, :order => 'id'
+				render :layout => false
+			end
 		end
 	end
 

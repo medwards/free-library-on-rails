@@ -1,1 +1,17 @@
 If you have questions about the license please email medwards@walledcity.ca or visit freelibrary.ca for more current contact info.
+
+Here are some basic installation instructions:
+prelude: we assume you are using an apache+mysql setup /w mod_passenger
+1) gem install hpricot
+2) rake db:create (alternatively create the database and add the user)
+3) rake db:migrate
+4) rake secret -> copy this and place it as your session key secret in config/environment.rb
+5) ensure mod_rewrite is enabled (under debian-based simply run a2enmod rewrite with admin privileges)
+
+Things like isbnDB and GoogleBooks API tokens are set in config/application.yml
+You can get an isbnDB api token from this page https://isbndb.com/account/create.html
+You can get a Google Maps api token from this page http://code.google.com/apis/maps/signup.html
+There is no guarantee that the API tokens stored in config/application.yml will work for you.
+
+There are other things you can change in config/application.yml (like a tags blacklist if you have problems with swearing or pro-capitalists)
+

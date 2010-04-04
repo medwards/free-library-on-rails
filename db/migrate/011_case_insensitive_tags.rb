@@ -17,6 +17,8 @@
 
 class CaseInsensitiveTags < ActiveRecord::Migration
   def self.up
+    case Rails::Configuration.new.database_configuration[RAILS_ENV]['adapter']
+      when 'mysql'
 		execute <<END
 ALTER TABLE tags MODIFY name varchar(255) CHARACTER SET latin1 UNIQUE COLLATE latin1_general_ci NOT NULL;
 END

@@ -93,6 +93,11 @@ en:
       title:  "Tags"
     show:
       title:  "Browsing {{tag}} Tag"
+  welcome:
+    about:
+      title:  "About the Site"
+    new things:
+      title:  "Recently Added Items"
   activerecord:
     models:
       book:   "Book"

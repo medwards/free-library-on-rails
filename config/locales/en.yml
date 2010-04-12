@@ -55,3 +55,19 @@ en:
         invalid isbn:         "Lookup failed - Invalid ISBN"
         isbn not found:       "Lookup failed - could not find that ISBN."
         success:              "Lookup successful."
+  items:
+    new:
+      title:  "Creating New "
+    edit:
+      title:  "Editing "
+    update:
+      message:
+        unauthorized: "not authorized to edit this item"
+    destroy:
+      message:
+        unauthorized: "not authorized to edit this item"
+  activerecord:
+    models:
+      book:   "Book"
+      video:  "Video"
+      item:   "Item"

@@ -17,7 +17,7 @@
 
 class TagsController < ApplicationController
 	def index
-		@title = 'Tags'
+		@title = I18n.t 'tags.index.title'
 		@tag_counts = ItemTagging.counts
 	end
 
@@ -26,7 +26,7 @@ class TagsController < ApplicationController
 
 		return four_oh_four unless @tag
 
-		@title = "Browsing #{@tag.name} Tag"
+		@title = I18n.t 'tags.show.title', :tag => @tag.name
 		@items = @tag.items.paginate(:page => params[:page])
 	end
 end

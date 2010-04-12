@@ -88,6 +88,11 @@ en:
     destroy:
       message:
         unauthorized: "not authorized to edit this item"
+  tags:
+    index:
+      title:  "Tags"
+    show:
+      title:  "Browsing {{tag}} Tag"
   activerecord:
     models:
       book:   "Book"

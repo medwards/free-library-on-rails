@@ -1,10 +1,11 @@
 en:
-  items:
-    status:
-      lent:     "lent"
-      returned: "returned"
-      rejected: "rejected"
   loans:
+    status:
+      requested:  "requested"
+      approved:   "approved"
+      lent:       "lent"
+      returned:   "returned"
+      rejected:   "rejected"
     loan request:       "Loan Request"
     loan approved:      "Loan Approved"
     loan not approved:  "Loan Not Approved"

@@ -26,7 +26,7 @@ class TagsController < ApplicationController
 
 		return four_oh_four unless @tag
 
-		@title = I18n.t 'tags.show.title', :tag => @tag.name
+		@title = I18n.t('tags.show.title', :tag => @tag.name)
 		@items = @tag.items.paginate(:page => params[:page])
 	end
 end

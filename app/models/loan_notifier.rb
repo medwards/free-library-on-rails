@@ -49,8 +49,10 @@ class LoanNotifier < ActionMailer::Base
 		@body[:owner]		= loan.owner.login
 		@body[:borrower]	= loan.borrower.login
 
-		@body[:item]		= "\"#{loan.item.title}\" #{I18n.t 'loans.email.by'} " +
-			"#{loan.item.author_first} #{loan.item.author_last}"
+		@body[:item]		= I18n.t('loans.email.body.item',
+                                    :title => loan.item.title,
+                                    :author_first => loan.item.author_first,
+                                    :author_last => loan.item.author_last)
 
 		# FIXME: don't hardcode urls, blah blah blah
 		@body[:item_url]	= 'http://freelibrary.ca' + polymorphic_path(loan.item)

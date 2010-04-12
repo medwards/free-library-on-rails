@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
 	end
 
 	def new
-		@title = I18n.t('items.new.title'), :item => itemclass.human_name
+		@title = I18n.t('items.new.title', :item => itemclass.human_name)
 		@item = itemclass.new(params[:item])
 
 		@tags = params[:tags]
@@ -64,7 +64,7 @@ class ItemsController < ApplicationController
 
 	def edit
 		@item = itemclass.find(params[:id])
-		@title = I18n.t('item.edit.title'), :item => @item.title
+		@title = I18n.t('item.edit.title', :item => @item.title)
 
 		unless @item.owned_by? self.current_user
 			redirect_to polymorphic_path(@item)

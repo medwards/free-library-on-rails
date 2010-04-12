@@ -1,0 +1,13 @@
+en:
+  items:
+    status:
+      lent:     "lent"
+      returned: "returned"
+      rejected: "rejected"
+  loans:
+    loan request:       "Loan Request"
+    loan approved:      "Loan Approved"
+    loan not approved:  "Loan Not Approved"
+  emails:  
+    email label:        "Free Library"
+    by:                 "by"

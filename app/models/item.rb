@@ -22,7 +22,7 @@ class Item < ActiveRecord::Base
 	has_many :lendings, :class_name => 'Loan'
 
 	has_many :requests, :class_name => 'Loan',
-		:conditions => "status NOT IN ('#{I18n.t :lent}', '#{I18n.t :returned}', '#{I18n.t :rejected}')"
+		:conditions => "status NOT IN ('#{I18n.t 'items.status.lent'}', '#{I18n.t 'items.status.returned'}', '#{I18n.t 'items.status.rejected'}')"
 
 	def self.tagging_class; ItemTagging; end
 	include Taggable
@@ -40,7 +40,7 @@ class Item < ActiveRecord::Base
 	end
 
 	def returned!
-		self.current_loan.status = I18n.t :returned
+		self.current_loan.status = I18n.t 'items.status.returned'
 		self.current_loan.save!
 
 		self.current_loan = nil

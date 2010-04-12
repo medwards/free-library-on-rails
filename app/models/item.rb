@@ -40,7 +40,7 @@ class Item < ActiveRecord::Base
 	end
 
 	def returned!
-		self.current_loan.status = I18n.t 'items.status.returned'
+		self.current_loan.status = I18n.t 'loans.status.returned'
 		self.current_loan.save!
 
 		self.current_loan = nil

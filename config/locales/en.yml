@@ -9,6 +9,8 @@ en:
     loan request:       "Loan Request"
     loan approved:      "Loan Approved"
     loan not approved:  "Loan Not Approved"
-  emails:  
+    sms:
+      request message: "You have a loan request on the Edmonton Free Library"
+  emails:
     email label:        "Free Library"
     by:                 "by"

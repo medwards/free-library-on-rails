@@ -14,6 +14,28 @@ en:
       not approved:  "Loan Not Approved"
       prefix:        "[Free Library]"
       by:            "by"
+    index:
+      title:  "Your Loans"
+    create:
+      message:
+        request sent: "Loan request sent."
+    update:
+      message:
+        unauthorized: "you don't have permission to modify this loan"
+    destroy:
+      message:
+        unauthorized delete:  "can't delete somebody else's loan request"
+        unauthorized cancel:  "can only cancel a pending request"
+    update requested:
+      message:
+        already loaned: "Can't loan an item that is already loaned."
+        date missing:   "You need to enter a return date."
+        invalid date:   "Not a valid return date."
+        past date:      "Can't have a return date in the past."
+        approved:       "Request approved."
+    update lent:
+      message:
+        returned: "Return acknowledged."
   users:
     email:
       prefix:         "[efl]"

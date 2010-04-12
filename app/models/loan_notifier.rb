@@ -24,32 +24,32 @@ class LoanNotifier < ActionMailer::Base
 		setup_email(loan)
 		@recipients = loan.owner.email
 		@from		= loan.borrower.email
-		@subject   += I18n.t 'loans.loan request'
+		@subject   += I18n.t 'loans.email.request'
 	end
 
 	def approved_notification(loan)
 		setup_email(loan)
 		@recipients = loan.borrower.email
 		@from		= loan.owner.email
-		@subject   += I18n.t 'loans.loan approved'
+		@subject   += I18n.t 'loans.email.approved'
 	end
 
 	def rejected_notification(loan)
 		setup_email(loan)
 		@recipients = loan.borrower.email
-		@subject   += I18n.t 'loans.loan not approved'
+		@subject   += I18n.t 'loans.email.not approved'
 	end
 
 	protected
 	def setup_email(loan)
 		@from		= "admin@freelibrary.ca"
-		@subject	= "[#{I18n.t 'emails.email label'}] "
+		@subject	= "#{I18n.t 'loans.email.prefix'} "
 		@sent_on	= Time.now
 
 		@body[:owner]		= loan.owner.login
 		@body[:borrower]	= loan.borrower.login
 
-		@body[:item]		= "\"#{loan.item.title}\" #{I18n.t 'emails.by'} " +
+		@body[:item]		= "\"#{loan.item.title}\" #{I18n.t 'loans.email.by'} " +
 			"#{loan.item.author_first} #{loan.item.author_last}"
 
 		# FIXME: don't hardcode urls, blah blah blah

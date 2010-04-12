@@ -20,18 +20,18 @@ class UserNotifier < ActionMailer::Base
 
 	# FIXME these should go somewhere that's easy to configure
 	FROM_ADDRESS = "admin@freelibrary.ca"
-	SUBJECT_PREFIX = "[efl] "
+	SUBJECT_PREFIX = "#{I18n.t 'users.email.prefix'} "
 	default_url_options[:host] = 'freelibrary.ca'
 
 	def signup_notification(user)
 		setup_email(user)
-		@subject	+= 'Free Library Account Request'
+		@subject	+= I18n.t 'users.email.signup'
 		@body[:url]	+= "/account/activate/#{user.activation_code}"
 	end
 
 	def password_reset_notification(user, new_password)
 		setup_email(user)
-		@subject += " Password Reset Request"
+		@subject += I18n.t 'users.email.password reset'
 		@body[:new_password] = new_password
 	end
 

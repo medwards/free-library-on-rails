@@ -6,11 +6,16 @@ en:
       lent:       "lent"
       returned:   "returned"
       rejected:   "rejected"
-    loan request:       "Loan Request"
-    loan approved:      "Loan Approved"
-    loan not approved:  "Loan Not Approved"
     sms:
       request message: "You have a loan request on the Edmonton Free Library"
-  emails:
-    email label:        "Free Library"
-    by:                 "by"
+    email:
+      request:       "Loan Request"
+      approved:      "Loan Approved"
+      not approved:  "Loan Not Approved"
+      prefix:        "[Free Library]"
+      by:            "by"
+  users:
+    email:
+      prefix:         "[efl]"
+      signup:         "Free Library Account Request"
+      password reset: "Password Reset Request"

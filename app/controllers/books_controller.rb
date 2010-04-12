@@ -19,7 +19,7 @@ class BooksController < ItemsController
 	def itemclass; Book end
 
 	def create
-		if params[:submit] == 'Lookup'
+		if params[:submit] == I18n.t('books.isbn lookup.button name')
 			self.isbnLookup params[:item][:isbn]
 		else
 			super
@@ -34,13 +34,13 @@ class BooksController < ItemsController
 				isbn = isbn[3..-1]
 				isbn[9] = BooksController.isbn_checksum(isbn).to_s
 			else
-				flash[:error] = "Lookup failed - Invalid EAN/Barcode"
+				flash[:error] = I18n.t 'books.isbn lookup.message.invalid ean_barcode'
 				redirect_to :action => "new", :item => { :isbn => isbn }
 				return
 			end
 		else
 			if isbn[9] == BooksController.isbn_checksum(isbn)
-				flash[:error] = "Lookup failed - Invalid ISBN"
+				flash[:error] = I18n.t 'books.isbn lookup.message.invalid isbn'
 				redirect_to :action => "new", :item => { :isbn => isbn }
 				return
 			end
@@ -49,12 +49,12 @@ class BooksController < ItemsController
 		begin
 			@item = Book.new_from_isbn(isbn)
 		rescue NoSuchISBN
-			flash[:error] = "Lookup failed - could not find that ISBN."
+			flash[:error] = I18n.t 'books.isbn lookup.message.isbn not found'
 			redirect_to :action => "new", :item => { :isbn => isbn }
 			return
 		end
 
-		flash[:notice] = "Lookup successful."
+		flash[:notice] = I18n.t 'books.isbn lookup.message.success'
 		redirect_to :action => "new",
 			:item => {
 				:title =>        @item.title,

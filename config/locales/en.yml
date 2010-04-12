@@ -47,3 +47,11 @@ en:
       message:
         activated:      "Your account has been activated. Please login."
         not activated:  "Unable to activate the account. Please check your activation URL."
+  books:
+    isbn lookup:
+      button name:  "Lookup"
+      message:
+        invalid ean_barcode:  "Lookup failed - Invalid EAN/Barcode"
+        invalid isbn:         "Lookup failed - Invalid ISBN"
+        isbn not found:       "Lookup failed - could not find that ISBN."
+        success:              "Lookup successful."

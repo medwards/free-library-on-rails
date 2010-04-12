@@ -19,3 +19,31 @@ en:
       prefix:         "[efl]"
       signup:         "Free Library Account Request"
       password reset: "Password Reset Request"
+  account:
+    index:
+      title:  "Editing Settings"
+    update:
+      message:
+        not updated:  "Couldn't update your settings: "
+        updated:      "Updated your settings."
+    login:
+      title:  "Logging In"
+      message:
+        logged in:  "Logged in successfully."
+        not activated:  "Couldn't log you in. You haven't activated your account."
+        check user and password: "Couldn't log you in. Check your username and password."
+    signup:
+      title:  "Signing Up"
+      message:
+        email sent: "Thanks for signing up! We sent you an email with instructions on how to continue."
+    reset password:
+      message:
+        email sent:   "An email has been sent containing your new password."
+        wrong email:  "No user with that email address exists."
+    logout:
+      message:
+        logged out: "You have been logged out."
+    activate:
+      message:
+        activated:      "Your account has been activated. Please login."
+        not activated:  "Unable to activate the account. Please check your activation URL."

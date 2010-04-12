@@ -79,9 +79,9 @@ en:
         success:              "Lookup successful."
   items:
     new:
-      title:  "Creating New "
+      title:  "Creating New {{item}}"
     edit:
-      title:  "Editing "
+      title:  "Editing {{item}}"
     update:
       message:
         unauthorized: "not authorized to edit this item"

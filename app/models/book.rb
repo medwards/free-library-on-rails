@@ -138,6 +138,7 @@ class Book < Item
 
 		if image
 			url = image.attributes['src']
+			return if url == '/googlebooks/images/no_cover_thumb.gif'
 
 			# download and save the image
 			open(self.cover_filename, "wb").write(open(url).read)

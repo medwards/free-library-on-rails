@@ -27,7 +27,7 @@ class Book < Item
 	COVER_IMG_DIR = 'public/images/items/books/'
 
 	def has_cover_image?
-		self.isbn and File.exists? self.cover_filename
+		self.isbn and not self.isbn.empty? and File.exists? self.cover_filename
 	end
 
 	def cover_filename

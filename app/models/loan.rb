@@ -21,6 +21,9 @@
 #		- lent
 #		- returned
 #		- rejected
+#
+#		You can translate this strings in a new locale file
+#		(such as 'es.yml') in config/locales/
 class Loan < ActiveRecord::Base
 	belongs_to :item
 	belongs_to :borrower, :class_name => 'User'
@@ -33,20 +36,20 @@ class Loan < ActiveRecord::Base
 	end
 
 	def approved?
-		['approved', 'lent', 'returned'].member? self.status
+		(I18n.t ['approved', 'lent', 'returned'], :scope => 'loans.status').member? self.status
 	end
 
 	def approved!
-		self.status = 'approved'
+		self.status = I18n.t 'loans.status.approved'
 		save!
 	end
 
 	def rejected?
-		self.status == 'rejected'
+		self.status == I18n.t('loans.status.rejected')
 	end
 
 	def rejected!
-		self.status = 'rejected'
+		self.status = I18n.t 'loans.status.rejected'
 		save!
 		callback :after_rejected
 	end
@@ -54,7 +57,7 @@ class Loan < ActiveRecord::Base
 	def lent!(return_date, memo = nil)
 		self.return_date = return_date
 		self.memo = memo
-		self.status = 'lent'
+		self.status = I18n.t 'loans.status.lent'
 		save!
 
 		self.item.current_loan = self
@@ -63,7 +66,7 @@ class Loan < ActiveRecord::Base
 	end
 
 	def returned!
-		self.status = 'returned'
+		self.status = I18n.t 'loans.status.returned'
 		save!
 
 		self.item.current_loan = nil
@@ -72,12 +75,12 @@ class Loan < ActiveRecord::Base
 
 	# make a new loan request
 	def self.create_request(user, item)
-		self.create(:borrower => user, :item => item, :status => 'requested')
+		self.create(:borrower => user, :item => item, :status => I18n.t('loans.status.requested'))
 	end
 
 	# does this user already have an outstanding loan for this item?
 	def self.already_requested(user, item)
 		self.exists? ["borrower_id = ? AND item_id = ?" \
-			" AND status NOT IN ('returned', 'rejected')", user, item]
+			" AND status NOT IN ('#{I18n.t 'loans.status.returned'}', '#{I18n.t 'loans.status.rejected'}')", user, item]
 	end
 end

@@ -57,4 +57,9 @@ Rails::Initializer.run do |config|
 
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
+
+  # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+  # config.i18n.default_locale = :es
+  # config.i18n.load_path += Dir[Rails.root.join(RAILS_ROOT, 'lib', 'locales', '**', '*.{rb,yml}')]
+  config.i18n.load_path += Dir[Rails.root.join(RAILS_ROOT, 'config','locales', '**', '*.{rb,yml}')]
 end

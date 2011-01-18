@@ -52,14 +52,14 @@ class User < ActiveRecord::Base
 
 	# outstanding loans and loan requests
 	has_many :borrowed_and_pending, :foreign_key => :borrower_id,
-		:class_name => 'Loan', :conditions => "status NOT IN ('returned', 'rejected')"
+		:class_name => 'Loan', :conditions => "status NOT IN ('#{I18n.t 'loans.status.returned'}', '#{I18n.t 'loans.status.rejected'}')"
 
 	has_many :lent_and_pending, :class_name => 'Loan', :through => :owned,
-		:source => :lendings, :conditions => "status NOT IN ('returned', 'rejected')"
+		:source => :lendings, :conditions => "status NOT IN ('#{I18n.t 'loans.status.returned'}', '#{I18n.t 'loans.status.rejected'}')"
 
 	# items that this user is currently borrowing
 	has_many :borrowed, :class_name => 'Item', :through => :borrowings,
-		:source => :item, :conditions => "status = 'lent'"
+		:source => :item, :conditions => "status = '#{I18n.t 'loans.status.lent'}'"
 
 	has_many :comments, :class_name => 'UserComment'
 

@@ -22,7 +22,9 @@ class CaseInsensitiveTags < ActiveRecord::Migration
 		execute <<END
 ALTER TABLE tags MODIFY name varchar(255) CHARACTER SET latin1 UNIQUE COLLATE latin1_general_ci NOT NULL;
 END
+    end
   end
 
-	def self.down; end
+  def self.down; 
+  end
 end

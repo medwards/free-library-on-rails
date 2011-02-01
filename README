@@ -2,9 +2,15 @@ If you have questions about the license please email medwards@walledcity.ca or v
 
 Here are some basic installation instructions:
 prelude: we assume you are using an apache+mysql setup /w mod_passenger
-1) gem install hpricot
+1) gem install hpricot(ruby1.8-dev)
 2) rake db:create (alternatively create the database and add the user)
+   - sudo gem install -v=2.3.2 rails 
+   - sudo apt-get install libmysqlclient16-dev
+   - sudo gem install mysql
+   - edit config/databasa.yml
+     database name, username and password 
 3) rake db:migrate
+   - sudo apt-get install libopenssl-ruby
 4) rake secret -> copy this and place it as your session key secret in config/environment.rb
 5) ensure mod_rewrite is enabled (under debian-based simply run a2enmod rewrite with admin privileges)
 

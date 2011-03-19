@@ -19,6 +19,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+	protect_from_forgery
+
 	helper :all # include all helpers, all the time
 
 	# See ActionController::RequestForgeryProtection for details
@@ -48,13 +50,7 @@ class ApplicationController < ActionController::Base
 	def region
 		return @region if @region
 
-		name = if ENV['RAILS_ENV'] == 'development'
-						 # hardcoded region for development
-						 'edmonton'
-					 else
-						 # the first part of the domain name
-						 self.request.host.split(/\./).first
-					 end
+		name = 'edmonton'
 
 		@region = Region.find_by_subdomain(name)
 	end

@@ -28,7 +28,7 @@
 
 	<div id="navitabs">
 		<h2 class="hide">Site menu:</h2>
-		<% uri = request.request_uri -%>
+		<% uri = request.fullpath -%>
 		<%= navitab 'Welcome', url_for('/'), uri == '/' %>
 		<%= navitab "What's New!", url_for('/new'), uri.match(/^\/new/) %>
 

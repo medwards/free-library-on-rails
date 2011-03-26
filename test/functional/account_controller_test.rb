@@ -65,7 +65,7 @@ class AccountControllerTest < ActionController::TestCase
 		end
 
 		assert_response 302
-		assert @response.flash[:error]
+		assert @request.flash[:error]
 
 		# password was not updated
 		bct = User.find_by_login('bct')
@@ -83,7 +83,7 @@ class AccountControllerTest < ActionController::TestCase
 		end
 
 		assert_response 302
-		assert @response.flash[:error]
+		assert @request.flash[:error]
 
 		# password was not updated
 		bct = User.find_by_login('bct')
@@ -102,7 +102,7 @@ class AccountControllerTest < ActionController::TestCase
 		end
 
 		assert_response 302
-		assert @response.flash[:notice]
+		assert @request.flash[:notice]
 
 		bct = User.find_by_login('bct')
 		assert bct.authenticated?('test')
@@ -149,7 +149,7 @@ class AccountControllerTest < ActionController::TestCase
 		end
 
 		assert_response 302
-		assert @response.flash[:notice]
+		assert @request.flash[:notice]
 
 		bct = User.find_by_login('bct')
 		assert bct.tags.member?('funny hats')
@@ -166,7 +166,7 @@ class AccountControllerTest < ActionController::TestCase
 
 		post :reset_password, :email => bct.email
 		assert_redirected_to :controller => 'account', :action => 'login'
-		assert @response.flash[:notice], 'Notice was not given to the user.'
+		assert @request.flash[:notice], 'Notice was not given to the user.'
 
 		bct = User.find_by_login 'bct'
 		assert_not_equal old_passwd, bct.crypted_password
@@ -176,6 +176,6 @@ class AccountControllerTest < ActionController::TestCase
 		post :reset_password, :email => 'some-email-that@doesnt-exist.example'
 
 		assert_redirected_to :controller => 'account', :action => 'login'
-		assert @response.flash[:error], 'User was not notified of error.'
+		assert @request.flash[:error], 'User was not notified of error.'
 	end
 end

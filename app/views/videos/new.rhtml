@@ -1,11 +1,11 @@
-<% inheriting_view 'items/new' do %>
-	<% content_for :utility_fields do %>
+<%= inheriting_view 'items/new' do %>
+	<%= content_for :utility_fields do %>
 	<% end %>
 
-	<% content_for :additional_fields do %>
+	<%= content_for :additional_fields do %>
 	<% end %>
 
-	<% content_for :submit_button do %>
+	<%= content_for :submit_button do %>
 		<%= submit_tag 'Add Video' %>
 	<% end %>
 <% end %>

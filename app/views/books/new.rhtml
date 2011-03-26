@@ -1,5 +1,5 @@
-<% inheriting_view 'items/new' do %>
-<% content_for :utility_fields do %>
+<%= inheriting_view 'items/new' do %>
+<%= content_for :utility_fields do %>
 	<tr>
 		<td><label for="isbn">ISBN</label></td>
 		<td>
@@ -20,7 +20,7 @@
 	</tr>
 <% end %>
 
-<% content_for :additional_fields do %>
+<%= content_for :additional_fields do %>
 	<tr>
 		<td><label for="author_first">Author's First Name</label></td>
 		<td><%= text_field_tag 'item[author_first]',
@@ -36,7 +36,7 @@
 	</tr>
 <% end %>
 
-<% content_for :submit_button do %>
+<%= content_for :submit_button do %>
 	<%= submit_tag 'Add Book', :name => "submit" %>
 <% end %>
 <% end %>

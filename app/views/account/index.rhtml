@@ -2,7 +2,7 @@
 
 <%= javascript_include_tag 'accountsettings' %>
 
-<% form_for :user, :url => { :action => 'update' } do |f| -%>
+<%= form_for :user, :url => { :action => 'update' } do |f| -%>
 	<table>
 		<tr>
 			<td><label for="email">Email:</label></td>
@@ -76,7 +76,7 @@
 
 <h2>Change password</h2>
 
-<% form_tag :action => 'update' do -%>
+<%= form_tag :action => 'update' do -%>
 	<table>
 		<tr>
 			<td><label for="password">New Password:</label></td>

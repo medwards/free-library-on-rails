@@ -12,6 +12,7 @@ gem 'hpricot'
 
 gem 'will_paginate'
 gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_select.git', :branch => 'rails3test'
+gem 'dynamic_form'
 
 # Use unicorn as the web server
 # gem 'unicorn'

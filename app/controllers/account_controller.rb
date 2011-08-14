@@ -16,9 +16,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class AccountController < ApplicationController
-	# omit passwords from the logs
-	filter_parameter_logging :password
-
 	# If you want "remember me" functionality, add this before_filter to Application Controller
 	before_filter :login_from_cookie
 

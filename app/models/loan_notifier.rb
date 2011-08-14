@@ -46,16 +46,16 @@ class LoanNotifier < ActionMailer::Base
 		@subject	= "#{I18n.t 'loans.email.prefix'} "
 		@sent_on	= Time.now
 
-		@body[:owner]		= loan.owner.login
-		@body[:borrower]	= loan.borrower.login
+		@owner		= loan.owner.login
+		@borrower	= loan.borrower.login
 
-		@body[:item]		= I18n.t('loans.email.body.item',
+		@item		= I18n.t('loans.email.body.item',
                                     :title => loan.item.title,
                                     :author_first => loan.item.author_first,
                                     :author_last => loan.item.author_last)
 
 		# FIXME: don't hardcode urls, blah blah blah
-		@body[:item_url]	= 'http://freelibrary.ca' + polymorphic_path(loan.item)
-		@body[:loans_url]	= 'http://freelibrary.ca' + loans_path
+		@item_url	= 'http://freelibrary.ca' + polymorphic_path(loan.item)
+		@loans_url	= 'http://freelibrary.ca' + loans_path
 	end
 end

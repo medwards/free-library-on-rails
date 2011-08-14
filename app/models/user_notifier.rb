@@ -26,13 +26,13 @@ class UserNotifier < ActionMailer::Base
 	def signup_notification(user)
 		setup_email(user)
 		@subject	+= I18n.t 'users.email.signup'
-		@body[:url]	+= "/account/activate/#{user.activation_code}"
+		@url		+= "/account/activate/#{user.activation_code}"
 	end
 
 	def password_reset_notification(user, new_password)
 		setup_email(user)
 		@subject += I18n.t 'users.email.password reset'
-		@body[:new_password] = new_password
+		@new_password = new_password
 	end
 
 	protected
@@ -41,7 +41,7 @@ class UserNotifier < ActionMailer::Base
 		@from			= FROM_ADDRESS
 		@subject		= SUBJECT_PREFIX
 		@sent_on		= Time.now
-		@body[:user] = user
-		@body[:url] = "http://freelibrary.ca"
+		@user = user
+		@url = "http://freelibrary.ca"
 	end
 end

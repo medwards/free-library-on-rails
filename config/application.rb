@@ -39,6 +39,7 @@ module FreeLibraryOnRails
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
+	# omit passwords from the logs
     config.filter_parameters += [:password]
   end
 end

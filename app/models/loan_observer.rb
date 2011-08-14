@@ -19,7 +19,7 @@ class LoanObserver < ActiveRecord::Observer
 	include SMSFu
 	def after_create(loan)
 		if loan.status == I18n.t('loans.status.requested') and loan.borrower != loan.item.owner
-			LoanNotifier.deliver_request_notification(loan)
+			LoanNotifier.request_notification(loan).deliver
 			if loan.item.owner.cellphone?
 				begin
 					deliver_sms(loan.item.owner.cellphone,

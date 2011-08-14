@@ -14,7 +14,7 @@ en:
       not approved:  "Loan Not Approved"
       prefix:        "[Free Library]"
       body:
-        item: "'{{title}}' by {{author_first}} {{author_last}}"
+        item: "'%{title}' by %{author_first} %{author_last}"
     index:
       title:  "Your Loans"
     create:
@@ -80,9 +80,9 @@ en:
         success:              "Lookup successful."
   items:
     new:
-      title:  "Creating New {{item}}"
+      title:  "Creating New %{item}"
     edit:
-      title:  "Editing {{item}}"
+      title:  "Editing %{item}"
     update:
       message:
         unauthorized: "not authorized to edit this item"
@@ -93,7 +93,7 @@ en:
     index:
       title:  "Tags"
     show:
-      title:  "Browsing {{tag}} Tag"
+      title:  "Browsing %{tag} Tag"
   welcome:
     about:
       title:  "About the Site"

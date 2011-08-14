@@ -29,7 +29,7 @@ class ItemsController < ApplicationController
 			@order = 'title'
 		end
 
-		@items = region.items.paginate(:all, :page => params[:page],
+		@items = region.items.paginate(:page => params[:page],
 										:order => @order,
 										:conditions => { :type => itemclass.to_s })
 	end

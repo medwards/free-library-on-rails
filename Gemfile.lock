@@ -74,7 +74,7 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.24)
-    will_paginate (2.3.15)
+    will_paginate (3.0.0)
 
 PLATFORMS
   ruby
@@ -89,4 +89,4 @@ DEPENDENCIES
   simplecov
   sms_fu
   sqlite3
-  will_paginate
+  will_paginate (~> 3.0)

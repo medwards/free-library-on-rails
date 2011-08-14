@@ -9,7 +9,8 @@ gem 'mysql2'
 
 gem 'hpricot'
 
-gem 'will_paginate'
+gem 'will_paginate', '~> 3.0'
+
 gem 'calendar_date_select'
 gem 'dynamic_form'
 

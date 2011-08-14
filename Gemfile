@@ -14,6 +14,9 @@ gem 'will_paginate'
 gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_select.git', :branch => 'rails3test'
 gem 'dynamic_form'
 
+gem 'sms_fu'
+gem 'pony' # required by sms_fu, not in its gemspec >:(
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

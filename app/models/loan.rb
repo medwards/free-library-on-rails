@@ -28,9 +28,6 @@ class Loan < ActiveRecord::Base
 	belongs_to :item
 	belongs_to :borrower, :class_name => 'User'
 
-	# this should be commented out for rails 2.0.2
-	define_callbacks :after_lent, :after_rejected
-
 	def owner
 		self.item.owner
 	end
@@ -51,7 +48,7 @@ class Loan < ActiveRecord::Base
 	def rejected!
 		self.status = I18n.t 'loans.status.rejected'
 		save!
-		callback :after_rejected
+		notify_observers :after_rejected
 	end
 
 	def lent!(return_date, memo = nil)
@@ -62,7 +59,7 @@ class Loan < ActiveRecord::Base
 
 		self.item.current_loan = self
 		self.item.save!
-		callback :after_lent
+		notify_observers :after_lent
 	end
 
 	def returned!

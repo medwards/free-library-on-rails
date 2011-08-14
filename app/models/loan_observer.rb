@@ -33,11 +33,11 @@ loan.item.owner.cellphone_provider, I18n.t('loans.sms.request message'))
 
 	def after_lent(loan)
 		if loan.borrower != loan.item.owner
-			LoanNotifier.deliver_approved_notification(loan)
+			LoanNotifier.approved_notification(loan).deliver
 		end
 	end
 
 	def after_rejected(loan)
-		LoanNotifier.deliver_rejected_notification(loan)
+		LoanNotifier.rejected_notification(loan).deliver
 	end
 end

@@ -29,7 +29,7 @@
 <% end %>
 
 <% if current_user %>
-	<% form_tag comments_user_path(@user.login), :method => 'post' do %>
+	<%= form_tag comments_user_path(@user.login), :method => 'post' do %>
 		<label style="vertical-align: top">Write a comment:
 			<textarea name="text" rows="7" cols="30" ></textarea>
 		</label><br>

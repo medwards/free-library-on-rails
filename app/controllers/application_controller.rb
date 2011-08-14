@@ -18,9 +18,12 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class ApplicationController < ActionController::Base
-	protect_from_forgery
+# I think maybe these shouldn't be here?
+# Still not clear on how Rails 3 loads libraries.
+require 'lib/authenticated_system'
+require 'lib/taggable'
 
+class ApplicationController < ActionController::Base
 	helper :all # include all helpers, all the time
 
 	# See ActionController::RequestForgeryProtection for details

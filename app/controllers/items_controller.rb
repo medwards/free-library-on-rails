@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
 	end
 
 	def new
-		@title = I18n.t('items.new.title', :item => itemclass.human_name)
+		@title = I18n.t('items.new.title', :item => itemclass.model_name.human)
 		@item = itemclass.new(params[:item])
 
 		@tags = params[:tags]

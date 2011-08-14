@@ -71,26 +71,16 @@ class Item < ActiveRecord::Base
 		self.find(:all, :limit => x, :order => 'created DESC')
 	end
 
-	def self.run_paginated_query page, conditions, terms, extra_conditions, extra_terms
-		conditions	+= ' ' + extra_conditions if extra_conditions
-		terms		+= extra_terms
-
-		# do the query
-		self.paginate :all,
-					  :page => page,
-					  :order => :title,
-					  :conditions => [conditions, *terms]
-	end
-
 	def self.paginated_search_title page, terms, extra_conditions = nil, extra_terms = []
 		# turn terms into a list of SQL wildcards
 		terms = terms.map { |t| "%#{t}%" }
 
 		# set up condition strings
 		cond = (['title LIKE ?'] * terms.length).join(' AND ')
+		cond += ' ' + extra_conditions if extra_conditions
 
 		# do the query
-		self.run_paginated_query page, cond, terms, extra_conditions, extra_terms
+		self.where([cond, *(terms + extra_terms)]).order(:title).paginate(:page => page)
 	end
 
 	def self.paginated_search_author page, terms, extra_conditions = nil, extra_terms = []
@@ -99,11 +89,12 @@ class Item < ActiveRecord::Base
 
 		# set up condition strings
 		cond = (['author_first LIKE ? OR author_last LIKE ?'] * terms.length).join(' AND ')
+		cond += ' ' + extra_conditions if extra_conditions
 
 		terms = terms.map { |x| [x] * 2 }.flatten
 
 		# do the query
-		self.run_paginated_query page, cond, terms, extra_conditions, extra_terms
+		self.where([cond, *(terms + extra_terms)]).order(:title).paginate(:page => page)
 	end
 
 	def self.paginated_search_description page, terms, extra_conditions = nil, extra_terms = []
@@ -114,6 +105,6 @@ class Item < ActiveRecord::Base
 		cond = (['description LIKE ?'] * terms.length).join(' AND ')
 
 		# do the query
-		self.run_paginated_query page, cond, terms, extra_conditions, extra_terms
+		self.where([cond, *(terms + extra_terms)]).order(:title).paginate(:page => page)
 	end
 end

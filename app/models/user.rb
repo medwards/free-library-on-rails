@@ -15,6 +15,8 @@
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
 
+require 'taggable'
+
 require 'digest/sha1'
 require 'open-uri'
 
@@ -123,7 +125,7 @@ class User < ActiveRecord::Base
 
 		save!
 
-		UserNotifier.deliver_password_reset_notification(self, self.password)
+		UserNotifier.password_reset_notification(self, self.password).deliver
 
 		self.password
 	end

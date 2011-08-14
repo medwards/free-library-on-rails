@@ -28,10 +28,25 @@ class AccountControllerTest < ActionController::TestCase
 		assert_response :success
 	end
 
-	def test_signup
+	def test_show_signup
 		get :signup
 
 		assert_response :success
+	end
+
+	def test_do_signup
+		assert_difference(User, :count, 1) do
+			post :signup, :user => { :login => 'stnick',
+									 :email => 'nick@example.org',
+									 :password => 'elves',
+									 :password_confirmation => 'elves',
+									 :postalcode => 'H0H 0H0' }
+		end
+
+		assert_redirected_to root_path
+
+		nick = User.find_by_login('stnick')
+
 	end
 
 	def test_login

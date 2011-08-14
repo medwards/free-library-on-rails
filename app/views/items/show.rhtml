@@ -79,5 +79,5 @@
 
 <div class="description">
 	<%= default_content_for :additional_description do %><% end %>
-	<%= paragraphize @item.description %>
+	<%= simple_format @item.description %>
 </div>

@@ -16,17 +16,15 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class UserNotifier < ActionMailer::Base
-	include ActionController::UrlWriter
-
 	# FIXME these should go somewhere that's easy to configure
-	FROM_ADDRESS = "admin@freelibrary.ca"
 	SUBJECT_PREFIX = "#{I18n.t 'users.email.prefix'} "
 	default_url_options[:host] = 'freelibrary.ca'
+	default :from => "admin@freelibrary.ca"
 
 	def signup_notification(user)
 		setup_email(user)
 		@subject	+= I18n.t 'users.email.signup'
-		@url		+= "/account/activate/#{user.activation_code}"
+		@url		= activate_url(user.activation_code)
 	end
 
 	def password_reset_notification(user, new_password)
@@ -38,10 +36,9 @@ class UserNotifier < ActionMailer::Base
 	protected
 	def setup_email(user)
 		@recipients		= user.email
-		@from			= FROM_ADDRESS
 		@subject		= SUBJECT_PREFIX
 		@sent_on		= Time.now
-		@user = user
-		@url = "http://freelibrary.ca"
+		@user			= user
+		@url			= root_url
 	end
 end

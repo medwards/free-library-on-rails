@@ -27,6 +27,8 @@ FreeLibraryOnRails::Application.routes.draw do
 	match 'about' => 'welcome#about'
 	match 'new'   => 'welcome#new_things'
 
+	get '/account/activate/:id' => 'account#activate', :as => :activate
+
 	root :to => 'welcome#index'
 
 	# Install the Rails 2 default routes as the lowest priority.

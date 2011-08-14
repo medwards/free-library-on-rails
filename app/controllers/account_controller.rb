@@ -90,9 +90,9 @@ class AccountController < ApplicationController
 		@user = User.new(params[:user])
 		@user.login = params[:user][:login]
 
-		UserNotifier.deliver_signup_notification(@user)
-
 		@user.save!
+
+		UserNotifier.signup_notification(@user).deliver
 
 		flash[:notice] = I18n.t 'account.signup.message.email sent'
 

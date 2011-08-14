@@ -221,9 +221,15 @@ END
 	protected
 		# turn a postal code into latitude and longitude
 		def do_geocoding
-			# don't geocode unless we have a postal code and the
-			# postal code has been changed since the last save
-			return unless self.postalcode and @geocode
+			if not self.postalcode.present?
+				# if we don't have a postal code, make up a location
+				self.latitude  = 0
+				self.longitude = 0
+				return
+			end
+
+			# only geocode when the postal code has changed
+			return unless self.postalcode_changed?
 
 			url = 'http://maps.google.com/maps/geo?q='
 			url += URI.escape self.postalcode

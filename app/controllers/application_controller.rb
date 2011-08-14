@@ -20,8 +20,8 @@
 
 # I think maybe these shouldn't be here?
 # Still not clear on how Rails 3 loads libraries.
-require 'lib/authenticated_system'
-require 'lib/taggable'
+require 'authenticated_system'
+require 'taggable'
 
 class ApplicationController < ActionController::Base
 	helper :all # include all helpers, all the time

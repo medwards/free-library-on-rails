@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 		@query = params[:q]
 
 		# fields to search
-		@fields = params[:field]
+		@fields = [ params[:field] ]
 		@fields ||= [ 'tags', 'title', 'author', 'description' ]
 
 		# TODO this needs the user_id condition, i'm too lazy to add it right now.

@@ -15,6 +15,8 @@
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
 
+require 'taggable'
+
 class Item < ActiveRecord::Base
 	belongs_to :owner, :class_name => 'User'
 	belongs_to :current_loan, :class_name => 'Loan'

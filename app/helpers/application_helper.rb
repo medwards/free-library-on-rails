@@ -1,3 +1,5 @@
+# coding: utf-8
+#
 # Copyright 2009 Michael Edwards, Brendan Taylor
 # This file is part of free-library-on-rails.
 # 

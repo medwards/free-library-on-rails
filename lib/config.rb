@@ -5,7 +5,7 @@ class AppConfig
 		config_file = File.join(Rails.root.to_s, "config", "application.yml")
 
 		if File.exists?(config_file)
-			config = YAML.load(File.read(config_file))[RAILS_ENV]
+			config = YAML.load(File.read(config_file))[Rails.env]
 
 			config.keys.each do |key|
 				cattr_accessor key

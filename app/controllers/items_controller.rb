@@ -109,7 +109,7 @@ class ItemsController < ApplicationController
 		@query = params[:q]
 
 		# fields to search
-		@fields = params[:field]
+		@fields = [ params[:field] ]
 		@fields ||= [ 'tags', 'title', 'author', 'description' ]
 
 		if @fields.member? 'tags'

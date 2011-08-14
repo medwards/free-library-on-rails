@@ -3,3 +3,4 @@ public/images/items/books/*
 db/*.sqlite3
 log/*.log
 tmp/
+coverage/

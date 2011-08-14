@@ -11,7 +11,7 @@ gem 'mysql2'
 gem 'hpricot'
 
 gem 'will_paginate'
-gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_select.git', :branch => 'rails3test'
+gem 'calendar_date_select'
 gem 'dynamic_form'
 
 gem 'sms_fu'

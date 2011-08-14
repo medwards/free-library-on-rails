@@ -10,8 +10,7 @@ gem 'mysql2'
 gem 'hpricot'
 
 gem 'will_paginate', '~> 3.0'
-
-gem 'calendar_date_select'
+gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_select.git'
 gem 'dynamic_form'
 
 gem 'sms_fu'

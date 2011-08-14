@@ -35,7 +35,7 @@ class AccountControllerTest < ActionController::TestCase
 	end
 
 	def test_login
-		get :signup
+		get :login
 
 		assert_response :success
 	end

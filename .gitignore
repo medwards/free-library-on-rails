@@ -1,1 +1,6 @@
 public/images/items/books/*
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+coverage/

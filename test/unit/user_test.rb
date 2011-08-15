@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../test_helper'
+# encoding: UTF-8
+require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup

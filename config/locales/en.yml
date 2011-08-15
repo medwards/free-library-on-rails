@@ -1,0 +1,106 @@
+en:
+  loans:
+    status:
+      requested:  "requested"
+      approved:   "approved"
+      lent:       "lent"
+      returned:   "returned"
+      rejected:   "rejected"
+    sms:
+      request message: "You have a loan request on the Edmonton Free Library"
+    email:
+      request:       "Loan Request"
+      approved:      "Loan Approved"
+      not approved:  "Loan Not Approved"
+      prefix:        "[Free Library]"
+      body:
+        item: "'%{title}' by %{author_first} %{author_last}"
+    index:
+      title:  "Your Loans"
+    create:
+      message:
+        request sent: "Loan request sent."
+    update:
+      message:
+        unauthorized: "you don't have permission to modify this loan"
+    destroy:
+      message:
+        unauthorized delete:  "can't delete somebody else's loan request"
+        unauthorized cancel:  "can only cancel a pending request"
+    update requested:
+      message:
+        already loaned: "Can't loan an item that is already loaned."
+        date missing:   "You need to enter a return date."
+        invalid date:   "Not a valid return date."
+        past date:      "Can't have a return date in the past."
+        approved:       "Request approved."
+    update lent:
+      message:
+        returned: "Return acknowledged."
+  users:
+    email:
+      prefix:         "[efl]"
+      signup:         "Free Library Account Request"
+      password reset: "Password Reset Request"
+  account:
+    index:
+      title:  "Editing Settings"
+    update:
+      message:
+        not updated:  "Couldn't update your settings: "
+        updated:      "Updated your settings."
+    login:
+      title:  "Logging In"
+      message:
+        logged in:  "Logged in successfully."
+        not activated:  "Couldn't log you in. You haven't activated your account."
+        check user and password: "Couldn't log you in. Check your username and password."
+    signup:
+      title:  "Signing Up"
+      message:
+        email sent: "Thanks for signing up! We sent you an email with instructions on how to continue."
+    reset password:
+      message:
+        email sent:   "An email has been sent containing your new password."
+        wrong email:  "No user with that email address exists."
+    logout:
+      message:
+        logged out: "You have been logged out."
+    activate:
+      message:
+        activated:      "Your account has been activated. Please login."
+        not activated:  "Unable to activate the account. Please check your activation URL."
+  books:
+    isbn lookup:
+      button name:  "Lookup"
+      message:
+        invalid ean_barcode:  "Lookup failed - Invalid EAN/Barcode"
+        invalid isbn:         "Lookup failed - Invalid ISBN"
+        isbn not found:       "Lookup failed - could not find that ISBN."
+        success:              "Lookup successful."
+  items:
+    new:
+      title:  "Creating New %{item}"
+    edit:
+      title:  "Editing %{item}"
+    update:
+      message:
+        unauthorized: "not authorized to edit this item"
+    destroy:
+      message:
+        unauthorized: "not authorized to edit this item"
+  tags:
+    index:
+      title:  "Tags"
+    show:
+      title:  "Browsing %{tag} Tag"
+  welcome:
+    about:
+      title:  "About the Site"
+    new things:
+      title:  "Recently Added Items"
+  activerecord:
+    models:
+      book:   "Book"
+      video:  "Video"
+      item:   "Item"

@@ -18,11 +18,12 @@
 class LoanObserver < ActiveRecord::Observer
 	include SMSFu
 	def after_create(loan)
-		if loan.status == 'requested' and loan.borrower != loan.item.owner
-			LoanNotifier.deliver_request_notification(loan)
+		if loan.status == I18n.t('loans.status.requested') and loan.borrower != loan.item.owner
+			LoanNotifier.request_notification(loan).deliver
 			if loan.item.owner.cellphone?
 				begin
-					deliver_sms(loan.item.owner.cellphone, loan.item.owner.cellphone_provider, "You have a loan request on the Edmonton Free Library")
+					deliver_sms(loan.item.owner.cellphone,
+loan.item.owner.cellphone_provider, I18n.t('loans.sms.request message'))
 				rescue Net::SMTPFatalError
 					# don't freak out if this fails
 				end
@@ -32,11 +33,11 @@ class LoanObserver < ActiveRecord::Observer
 
 	def after_lent(loan)
 		if loan.borrower != loan.item.owner
-			LoanNotifier.deliver_approved_notification(loan)
+			LoanNotifier.approved_notification(loan).deliver
 		end
 	end
 
 	def after_rejected(loan)
-		LoanNotifier.deliver_rejected_notification(loan)
+		LoanNotifier.rejected_notification(loan).deliver
 	end
 end

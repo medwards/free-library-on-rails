@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class LoanTest < ActiveSupport::TestCase
   def test_lent
@@ -6,7 +6,7 @@ class LoanTest < ActiveSupport::TestCase
 
     assert !loan.approved?
 
-    return_date = Date.today + 2.weeks
+    return_date = Time.now + 2.weeks
 
     loan.lent!(return_date)
 

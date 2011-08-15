@@ -19,7 +19,7 @@ class LoansController < ApplicationController
 	before_filter :login_required
 
 	def index
-		@title = 'Your Loans'
+		@title = I18n.t 'loans.index.title'
 		@borrowed_and_pending = self.current_user.borrowed_and_pending
 		@lent_and_pending = self.current_user.lent_and_pending
 	end
@@ -39,7 +39,7 @@ class LoansController < ApplicationController
 
 			@loan.lent!(return_date, memo)
 		else
-			flash[:notice] = "Loan request sent."
+			flash[:notice] = I18n.t 'loans.create.message.request sent'
 		end
 
 		redirect_to polymorphic_path(@item)
@@ -49,12 +49,12 @@ class LoansController < ApplicationController
 		@loan = Loan.find(params[:id])
 
 		unless @loan.item.owner == self.current_user
-			unauthorized "you don't have permission to modify this loan"; return
+			unauthorized I18n.t('loans.update.message.unauthorized'); return
 		end
 
-		if @loan.status == "requested"
+		if @loan.status == I18n.t('loans.status.requested')
 			update_requested
-		elsif @loan.status == "lent"
+		elsif @loan.status == I18n.t('loans.status.lent')
 			update_lent
 		end
 
@@ -65,11 +65,11 @@ class LoansController < ApplicationController
 		@loan = Loan.find(params[:id])
 
 		unless @loan.borrower == self.current_user
-			unauthorized "can't delete somebody else's loan request"; return
+			unauthorized I18n.t('loans.destroy.message.unauthorized delete'); return
 		end
 
-		unless @loan.status == 'requested'
-			unauthorized "can only cancel a pending request"; return
+		unless @loan.status == I18n.t('loans.status.requested')
+			unauthorized I18n.t('loans.destroy.message.unauthorized cancel'); return
 		end
 
 		@loan.destroy
@@ -79,37 +79,37 @@ class LoansController < ApplicationController
 
 	private
 	def update_requested
-		if params[:status] == 'rejected'
+		if params[:status] == I18n.t('loans.status.rejected')
 			@loan.rejected!
 		elsif @loan.item.loaned?
-			flash[:error] = "Can't loan an item that is already loaned."
+			flash[:error] = I18n.t 'loans.update requested.message.already loaned'
 		else
 			if params[:return_date].empty?
-				flash[:error] = 'You need to enter a return date.'
+				flash[:error] = I18n.t 'loans.update requested.message.date missing'
 				return
 			end
 
 			begin
 				return_date = Date.parse(params[:return_date])
 			rescue ArgumentError
-				flash[:error] = 'Not a valid return date.'
+				flash[:error] = I18n.t 'loans.update requested.message.invalid date'
 				return
 			end
 
 			if return_date <= Date.today
-				flash[:error] = "Can't have a return date in the past."
+				flash[:error] = I18n.t 'loans.update requested.message.past date'
 				return
 			end
 
 			memo = params[:memo]
 
 			@loan.lent!(return_date, memo)
-			flash[:notice] = "Request approved."
+			flash[:notice] = I18n.t 'loans.update requested.message.approved'
 		end
 	end
 
 	def update_lent
 		@loan.returned!
-		flash[:notice] = "Return acknowledged."
+		flash[:notice] = I18n.t 'loans.update lent.message.returned'
 	end
 end

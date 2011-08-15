@@ -1,6 +1,6 @@
 Do you want to borrow <%= h @item.title %>?
 
-<% form_tag loans_path do -%>
+<%= form_tag loans_path do -%>
 	<%= hidden_field_tag 'item_id', @item.id %>
 	<%= submit_tag 'request loan' %>
 <% end %>

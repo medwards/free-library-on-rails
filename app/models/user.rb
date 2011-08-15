@@ -15,6 +15,8 @@
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
 
+require 'taggable'
+
 require 'digest/sha1'
 require 'open-uri'
 
@@ -52,14 +54,14 @@ class User < ActiveRecord::Base
 
 	# outstanding loans and loan requests
 	has_many :borrowed_and_pending, :foreign_key => :borrower_id,
-		:class_name => 'Loan', :conditions => "status NOT IN ('returned', 'rejected')"
+		:class_name => 'Loan', :conditions => "status NOT IN ('#{I18n.t 'loans.status.returned'}', '#{I18n.t 'loans.status.rejected'}')"
 
 	has_many :lent_and_pending, :class_name => 'Loan', :through => :owned,
-		:source => :lendings, :conditions => "status NOT IN ('returned', 'rejected')"
+		:source => :lendings, :conditions => "status NOT IN ('#{I18n.t 'loans.status.returned'}', '#{I18n.t 'loans.status.rejected'}')"
 
 	# items that this user is currently borrowing
 	has_many :borrowed, :class_name => 'Item', :through => :borrowings,
-		:source => :item, :conditions => "status = 'lent'"
+		:source => :item, :conditions => "status = '#{I18n.t 'loans.status.lent'}'"
 
 	has_many :comments, :class_name => 'UserComment'
 
@@ -123,7 +125,7 @@ class User < ActiveRecord::Base
 
 		save!
 
-		UserNotifier.deliver_password_reset_notification(self, self.password)
+		UserNotifier.password_reset_notification(self, self.password).deliver
 
 		self.password
 	end
@@ -150,13 +152,13 @@ class User < ActiveRecord::Base
 	def remember_me
 		self.remember_token_expires_at = 2.weeks.from_now.utc
 		self.remember_token			   = encrypt("#{email}--#{remember_token_expires_at}")
-		save(false)
+		save(:validate => false)
 	end
 
 	def forget_me
 		self.remember_token_expires_at = nil
 		self.remember_token			   = nil
-		save(false)
+		save(:validate => false)
 	end
 
 	# --- geolocation stuff ---
@@ -219,9 +221,15 @@ END
 	protected
 		# turn a postal code into latitude and longitude
 		def do_geocoding
-			# don't geocode unless we have a postal code and the
-			# postal code has been changed since the last save
-			return unless self.postalcode and @geocode
+			if not self.postalcode.present?
+				# if we don't have a postal code, make up a location
+				self.latitude  = 0
+				self.longitude = 0
+				return
+			end
+
+			# only geocode when the postal code has changed
+			return unless self.postalcode_changed?
 
 			url = 'http://maps.google.com/maps/geo?q='
 			url += URI.escape self.postalcode

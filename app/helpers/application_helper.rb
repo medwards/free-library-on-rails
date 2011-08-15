@@ -1,3 +1,5 @@
+# coding: utf-8
+#
 # Copyright 2009 Michael Edwards, Brendan Taylor
 # This file is part of free-library-on-rails.
 # 
@@ -17,23 +19,13 @@
 
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-	def clean(input)
-		# XXX change this to a more fine-grained cleanup of the input and then untaint the string
-		return h(input)
-	end
-
-	# turn linebreaks into paragraphs
-	def paragraphize(text)
-		return "\n<p>" + h(text).gsub(/(\r?\n)+/, "</p>\n<p>") + "</p>"
-	end
-
 	# highlight the text of a search result
 	def highlight(text, query)
 		return text unless query
 
 		regexp = /(#{Regexp.escape(query)})/i
 
-		text.gsub(regexp, '<span class="highlight">\1</span>').untaint
+		text.gsub(regexp, '<span class="highlight">\1</span>').html_safe
 	end
 
 	# make excerpts for and highlight
@@ -51,7 +43,7 @@ module ApplicationHelper
 		# used to define source content for view inheritance
 		name = name.kind_of?(Symbol) ? ":#{name}" : name
 		out = eval("yield #{name}", block.binding)
-		concat(out || capture(&block))
+		out || capture(&block)
 	end
 
 	def inheriting_view(options = {}, &block)
@@ -75,7 +67,7 @@ module ApplicationHelper
 		options[:use_full_path] = true
 
 		# Render our parent view.
-		concat(render(options))
+		render(options)
 	end
 
 	# link to a user using their login

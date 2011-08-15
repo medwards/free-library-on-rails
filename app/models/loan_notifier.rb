@@ -16,44 +16,45 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class LoanNotifier < ActionMailer::Base
-	include ActionController::UrlWriter
 	# FIXME this should go somewhere that's easy to configure
 	default_url_options[:host] = 'freelibrary.ca'
+	default :from => "admin@freelibrary.ca"
 
 	def request_notification(loan)
 		setup_email(loan)
 		@recipients = loan.owner.email
 		@from		= loan.borrower.email
-		@subject   += 'Loan Request'
+		@subject   += I18n.t 'loans.email.request'
 	end
 
 	def approved_notification(loan)
 		setup_email(loan)
 		@recipients = loan.borrower.email
 		@from		= loan.owner.email
-		@subject   += 'Loan Approved'
+		@subject   += I18n.t 'loans.email.approved'
 	end
 
 	def rejected_notification(loan)
 		setup_email(loan)
 		@recipients = loan.borrower.email
-		@subject   += 'Loan Not Approved'
+		@subject   += I18n.t 'loans.email.not approved'
 	end
 
 	protected
 	def setup_email(loan)
-		@from		= "admin@freelibrary.ca"
-		@subject	= "[Free Library] "
+		@subject	= "#{I18n.t 'loans.email.prefix'} "
 		@sent_on	= Time.now
 
-		@body[:owner]		= loan.owner.login
-		@body[:borrower]	= loan.borrower.login
+		@owner		= loan.owner.login
+		@borrower	= loan.borrower.login
 
-		@body[:item]		= "\"#{loan.item.title}\" by " +
-			"#{loan.item.author_first} #{loan.item.author_last}"
+		@item		= I18n.t('loans.email.body.item',
+                                    :title => loan.item.title,
+                                    :author_first => loan.item.author_first,
+                                    :author_last => loan.item.author_last)
 
 		# FIXME: don't hardcode urls, blah blah blah
-		@body[:item_url]	= 'http://freelibrary.ca' + polymorphic_path(loan.item)
-		@body[:loans_url]	= 'http://freelibrary.ca' + loans_path
+		@item_url	= polymorphic_url(loan.item)
+		@loans_url	= loans_url
 	end
 end

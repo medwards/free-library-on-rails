@@ -18,6 +18,11 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+# I think maybe these shouldn't be here?
+# Still not clear on how Rails 3 loads libraries.
+require 'authenticated_system'
+require 'taggable'
+
 class ApplicationController < ActionController::Base
 	helper :all # include all helpers, all the time
 
@@ -48,13 +53,7 @@ class ApplicationController < ActionController::Base
 	def region
 		return @region if @region
 
-		name = if ENV['RAILS_ENV'] == 'development'
-						 # hardcoded region for development
-						 'edmonton'
-					 else
-						 # the first part of the domain name
-						 self.request.host.split(/\./).first
-					 end
+		name = 'edmonton'
 
 		@region = Region.find_by_subdomain(name)
 	end

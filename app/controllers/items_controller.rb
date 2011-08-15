@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
 	def itemclass; Item end
 
 	def index
-		@title = itemclass.to_s.pluralize
+		@title = itemclass.human_name.pluralize
 
 		if(params[:order] != nil and (params[:order] == 'author_last' or params[:order] == 'author_first' or params[:order] == 'owner_id'))
 			@order = params[:order]
@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
 	end
 
 	def new
-		@title = 'Creating New ' + itemclass.to_s
+		@title = I18n.t('items.new.title', :item => itemclass.model_name.human)
 		@item = itemclass.new(params[:item])
 
 		@tags = params[:tags]
@@ -64,7 +64,7 @@ class ItemsController < ApplicationController
 
 	def edit
 		@item = itemclass.find(params[:id])
-		@title = 'Editing ' + @item.title
+		@title = I18n.t('item.edit.title', :item => @item.title)
 
 		unless @item.owned_by? self.current_user
 			redirect_to polymorphic_path(@item)
@@ -77,7 +77,7 @@ class ItemsController < ApplicationController
 		@item = itemclass.find(params[:id])
 
 		unless @item.owned_by? self.current_user
-			unauthorized 'not authorized to edit this item'; return
+			unauthorized I18n.t('update.message.unauthorized'); return
 		end
 
 		itemclass.update(params[:id], params[:item])
@@ -91,7 +91,7 @@ class ItemsController < ApplicationController
 		@item = Item.find(params[:id])
 
 		unless @item.owned_by? self.current_user
-			unauthorized 'not authorized to edit this item'; return
+			unauthorized I18n.t('destroy.message.unauthorized'); return
 		end
 
 		@item.destroy
@@ -109,7 +109,7 @@ class ItemsController < ApplicationController
 		@query = params[:q]
 
 		# fields to search
-		@fields = params[:field]
+		@fields = [ params[:field] ]
 		@fields ||= [ 'tags', 'title', 'author', 'description' ]
 
 		if @fields.member? 'tags'

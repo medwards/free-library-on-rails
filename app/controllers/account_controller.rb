@@ -16,9 +16,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class AccountController < ApplicationController
-	# omit passwords from the logs
-	filter_parameter_logging :password
-
 	# If you want "remember me" functionality, add this before_filter to Application Controller
 	before_filter :login_from_cookie
 
@@ -29,7 +26,7 @@ class AccountController < ApplicationController
 		redirect_to(:action => 'signup') unless logged_in?
 
 		@user = current_user
-		@title = 'Editing Settings'
+		@title = I18n.t 'account.index.title'
 	end
 
 	def update
@@ -39,11 +36,11 @@ class AccountController < ApplicationController
 		# blacklisted with attr_protected like they are now
 		if not @user.update_attributes(params[:user])
 			error_list = "<ul><li>" + @user.errors.full_messages.join('</li><li>') + "</li></ul>"
-			flash[:error] = "Couldn't update your settings: "
+			flash[:error] = I18n.t 'account.update.message.not updated'
 		else
 			@user.tag_with params[:tags] if params[:tags]
 
-			flash[:notice] = 'Updated your settings.'
+			flash[:notice] = I18n.t 'account.update.message.updated'
 		end
 
 		redirect_to :action => 'index'
@@ -51,7 +48,7 @@ class AccountController < ApplicationController
 
 	def login
 		unless request.post?
-			@title = 'Logging In'
+			@title = I18n.t 'account.login.title'
 
 			# after login, redirect to the last URL they were at
 			# FIXME: it would be really nice not to have the special case for reset_password...
@@ -75,30 +72,29 @@ class AccountController < ApplicationController
 			end
 			redirect_back_or_default(:controller => 'account', :action => 'index')
 
-			flash[:notice] = "Logged in successfully."
+			flash[:notice] = I18n.t 'account.login.message.logged in'
 		else
 			user = User.find_by_login(params[:login])
 			if user and not user.activated_at
-				flash[:error] = "Couldn't log you in. You haven't activated your account."
+				flash[:error] = I18n.t 'account.login.message.not activated'
 			else
-				flash[:error] = "Couldn't log you in. Check your username and password."
+				flash[:error] = I18n.t 'account.login.message.check user and password'
 			end
 		end
 	end
 
 	def signup
-		@title = 'Signing Up'
+		@title = I18n.t 'account.signup.title'
 		return unless request.post?
 
 		@user = User.new(params[:user])
 		@user.login = params[:user][:login]
 
-		UserNotifier.deliver_signup_notification(@user)
-
 		@user.save!
 
-		flash[:notice] = "Thanks for signing up! " \
-			"We sent you an email with instructions on how to continue."
+		UserNotifier.signup_notification(@user).deliver
+
+		flash[:notice] = I18n.t 'account.signup.message.email sent'
 
 		redirect_back_or_default(:controller => 'welcome', :action => 'index')
 	rescue ActiveRecord::RecordInvalid
@@ -111,9 +107,9 @@ class AccountController < ApplicationController
 
 			if user
 				user.reset_password!
-				flash[:notice] = 'An email has been sent containing your new password.'
+				flash[:notice] = I18n.t 'account.reset password.message.email sent'
 			else
-				flash[:error] = 'No user with that email address exists.'
+				flash[:error] = I18n.t 'account.reset password.message.wrong email'
 			end
 
 			session[:return_to] = nil
@@ -125,7 +121,7 @@ class AccountController < ApplicationController
 		self.current_user.forget_me if logged_in?
 		cookies.delete :auth_token
 		reset_session
-		flash[:notice] = "You have been logged out."
+		flash[:notice] = I18n.t 'account.logout.message.logged out'
 		redirect_back_or_default(:controller => 'account', :action => 'login')
 	end
 
@@ -136,10 +132,10 @@ class AccountController < ApplicationController
 
 		@user = User.find_by_activation_code(activator)
 		if @user and @user.activate
-			flash[:notice] = "Your account has been activated. Please login."
+			flash[:notice] = I18n.t 'account.activate.message.activated'
 			redirect_back_or_default(:controller => 'account', :action => 'login')
 		else
-			flash[:notice] = "Unable to activate the account. Please check your activation URL."
+			flash[:notice] = I18n.t 'account.activate.message.not activated'
 			redirect_to(:controller => 'account', :action=> 'login')
 		end
 	end

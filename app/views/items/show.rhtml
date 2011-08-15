@@ -5,7 +5,7 @@
 	</div>
 <% end %>
 
-<h1><%= image_tag("icons/#{h @item.type}.png") %> <%=h @item.title %></h1>
+<h1><%= image_tag("icons/#{@item.type}.png") %> <%= @item.title %></h1>
 
 <% if @item.owned_by? session[:user] and not @item.requests.empty? %>
 	<div class="requests">
@@ -29,15 +29,15 @@
 	<tr><th>owner:</th>
 		<td><%= user_link @item.owner %></td></tr>
 	<tr><th>tags:</th>
-		<td><%= @item.taggings.map do |t|
-			link_to(h(t), tag_path(h(t.to_s)))
-		end.join ', ' %></td></tr>
+		<td><% @item.taggings.each_with_index do |t,i| %>
+			<%= ',' unless i.zero? %><%= link_to(t, tag_path(t.to_s)) %>
+		<% end %></td></tr>
 	<% if current_user %>
 	<tr><th>distance:</th>
 		<td><%= distance(@item.owner.distance_from(current_user)) %></td></tr>
 	<% end %>
 
-	<% default_content_for :additional_fields do %><% end %>
+	<%= default_content_for :additional_fields do %><% end %>
 </table>
 
 <% if @item.owned_by? session[:user] %>
@@ -50,7 +50,7 @@
 		<%= button_to 'returned', loan_path(@item.current_loan), :method => :put %>
 	<% else %>
 		<p>Not currently loaned.</p>
-	<% form_tag loans_path, :method => 'post' do -%>
+	<%= form_tag loans_path, :method => 'post' do -%>
 		<fieldset>
 			<legend>loan to yourself</legend>
 			<input type="hidden" name="item_id" value="<%=h @item.id %>">
@@ -78,6 +78,6 @@
 <h2>Description</h2>
 
 <div class="description">
-	<% default_content_for :additional_description do %><% end %>
-	<%= paragraphize @item.description %>
+	<%= default_content_for :additional_description do %><% end %>
+	<%= simple_format @item.description %>
 </div>

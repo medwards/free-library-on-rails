@@ -18,11 +18,11 @@
 class WelcomeController < ApplicationController
 	def index; end
 	def about
-		@title = 'About the Site'
+		@title = I18n.t 'welcome.about.title'
 	end
 
 	def new_things
-		@title = 'Recently Added Items'
+		@title = I18n.t 'welcome.new things.title'
 		@new_items = Item.newest
 	end
 end

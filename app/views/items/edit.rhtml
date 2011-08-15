@@ -1,8 +1,8 @@
 <h1>editing <%= h @item.title %></h1>
 
-<% error_messages_for(:item).untaint %>
+<%= error_messages_for(:item).untaint %>
 
-<% form_for :item, :url => { :action => 'update' }, :html => { :method => 'put' } do |f| -%>
+<%= form_for :item, :url => { :action => 'update' }, :html => { :method => 'put' } do |f| -%>
 <table>
 
 	<tr>
@@ -15,7 +15,7 @@
 		<td><%= f.text_area :description %></td>
 	</tr>
 
-	<% default_content_for :additional_fields do %><% end %>
+	<%= default_content_for :additional_fields do %><% end %>
 
 	<tr>
 		<td><label for="tags">Tags</label></td>
@@ -28,7 +28,7 @@
 </table>
 
 <p>
-	<% default_content_for :submit_button do %>
+	<%= default_content_for :submit_button do %>
 		<%= submit_tag 'Update' %>
 	<% end %>
 </p>

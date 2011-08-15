@@ -2,17 +2,17 @@
 
 <%= error_messages_for(:item).untaint %>
 
-<% form_for :item, :url => polymorphic_path(@item) do |f| -%>
+<%= form_for :item, :url => polymorphic_path(@item) do |f| -%>
 <table>
 
-	<% default_content_for :utility_fields do %><% end %>
+	<%= default_content_for :utility_fields do %><% end %>
 
 	<tr>
 		<td><label for="item_title">Title</label></td>
 		<td><%= f.text_field :title %></td>
 	</tr>
 
-	<% default_content_for :additional_fields do %><% end %>
+	<%= default_content_for :additional_fields do %><% end %>
 
 	<tr>
 		<td><label for="item_description">Review</label></td>
@@ -33,7 +33,7 @@
 </table>
 
 <p>
-	<% default_content_for :submit_button do %>
+	<%= default_content_for :submit_button do %>
 		<%= submit_tag 'Add Item' %>
 	<% end %>
 </p>

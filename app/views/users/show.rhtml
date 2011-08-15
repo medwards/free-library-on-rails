@@ -3,7 +3,7 @@
 <h1><%=h @user.login %></h1>
 
 <% if @user.about %>
-	<p class="description"><%= paragraphize @user.about %></p>
+	<p class="description"><%= simple_format @user.about %></p>
 <% end %>
 
 <% unless @user.taggings.empty? %>
@@ -22,14 +22,14 @@
 <% unless @user.comments.empty? %>
 	<% @user.comments.each do |c| %>
 		<div class="comment" style="margin-bottom: 1em;">
-			<p><%= paragraphize c.text %></p>
+			<p><%= simple_format c.text %></p>
 			<p class="byline">-- <%= user_link(c.author) %> <%= c.created.strftime("%Y-%m-%d") %></p>
 		</div>
 	<% end %>
 <% end %>
 
 <% if current_user %>
-	<% form_tag comments_user_path(@user.login), :method => 'post' do %>
+	<%= form_tag comments_user_path(@user.login), :method => 'post' do %>
 		<label style="vertical-align: top">Write a comment:
 			<textarea name="text" rows="7" cols="30" ></textarea>
 		</label><br>

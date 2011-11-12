@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
 		respond_to do |format|
 			format.html do
-				@items = @user.owned.paginate(:all, :page => params[:page], :order => 'title')
+				@items = @user.owned.paginate(:page => params[:page], :order => 'title')
 
 				@title = @user.login
 			end

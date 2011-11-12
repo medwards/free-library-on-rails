@@ -29,4 +29,8 @@ class Tag < ActiveRecord::Base
 		self.find :all, :conditions => [ 'item_taggings.tag_id = tags.id' ],
 			:include => :item_taggings, :order => order
 	end
+
+	def to_s
+		self.name
+	end
 end

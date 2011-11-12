@@ -167,8 +167,8 @@ class AccountControllerTest < ActionController::TestCase
 		assert @request.flash[:notice]
 
 		bct = User.find_by_login('bct')
-		assert bct.tags.member?('funny hats')
-		assert bct.tags.member?('celery')
+		assert bct.tags.map(&:to_s).member?('funny hats')
+		assert bct.tags.map(&:to_s).member?('celery')
 	end
 
 	def test_reset_password

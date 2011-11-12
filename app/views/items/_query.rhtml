@@ -1,7 +1,7 @@
 <% submit_value ||= 'Search' %>
 
 <div style="text-align: right;">
-	<%= form_tag :action => 'search', :method => :get do %>
+	<%= form_tag({ :action => 'search' }, { :method => 'get' }) do %>
 		<%= text_field_tag 'q' %>
 
 		<%= submit_tag submit_value, :name => nil %>

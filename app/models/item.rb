@@ -58,9 +58,7 @@ class Item < ActiveRecord::Base
 	end
 
 	def self.find_by_tag tag
-		tag = Tag.find_by_name(tag)
-
-		tag ? tag.items : []
+		self.joins(:tags).where(:'tags.name' => tag)
 	end
 
 	# overridden by Item subclasses

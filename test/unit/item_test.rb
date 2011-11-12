@@ -11,13 +11,13 @@ class ItemTest < ActiveSupport::TestCase
 	def test_basic_tagging
 		htc = items(:htc)
 
-		tags = htc.tags.sort
+		tags = htc.tags.map(&:to_s).sort
 		assert_equal ['politics', 'spain'], tags
 
 		# an item's tags can be replaced
 		htc.tag_with ['nonfiction']
 
-		tags = htc.tags(true) # 'true' means refresh the cache
+		tags = htc.tags.reload.map(&:to_s).sort
 		assert_equal ['nonfiction'], tags
 
 		# items can be found by tag
@@ -32,17 +32,17 @@ class ItemTest < ActiveSupport::TestCase
 
 		# duplicate tags only get stored once
 		htc.tag_with ['xyz', 'xyz', 'zyx']
-		assert_equal ['xyz', 'zyx'], htc.tags(true).sort
+		assert_equal ['xyz', 'zyx'], htc.tags.reload.map(&:to_s).sort
 
 		# can't tag an item with blacklisted tags
 		AppConfig.TAG_BLACKLIST = ['x', 'y', 'xyzzy']
 
 		htc.tag_with [ 'a', 'x', 'b', 'why', 'xyzzy', 'z']
-		assert_equal [ 'a', 'b', 'why', 'z' ], htc.tags(true).sort
+		assert_equal [ 'a', 'b', 'why', 'z' ], htc.tags.reload.map(&:to_s).sort
 
 		# can't tag an item with blank tags
 		htc.tag_with [ '', 'and so on.', ]
-		assert_equal ['and so on.'], htc.tags(true).sort
+		assert_equal ['and so on.'], htc.tags.reload.map(&:to_s).sort
 	end
 
 	def test_current_loan

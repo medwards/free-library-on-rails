@@ -53,7 +53,7 @@ class BooksControllerTest < ActionController::TestCase
 
 		new_book = Book.find_by_title('Iron Council')
 
-		assert_equal ['fiction', 'political'], new_book.tags.sort
+		assert_equal ['fiction', 'political'], new_book.tags.map(&:to_s).sort
 
 		assert_redirected_to :controller => 'books', :action => 'show', :id => new_book
 
@@ -118,7 +118,7 @@ class BooksControllerTest < ActionController::TestCase
 
 		item = Book.find(htc)
 		assert_equal 'something new', item.title
-		assert_equal ['new', 'tags'], item.tags.sort
+		assert_equal ['new', 'tags'], item.tags.map(&:to_s).sort
 	end
 
 	def test_unauthorized_edit

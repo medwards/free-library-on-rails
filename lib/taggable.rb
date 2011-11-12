@@ -28,6 +28,8 @@ module Taggable
 		klass.has_many :taggings,
 			:class_name => klass.tagging_class.to_s,
 			:foreign_key => :thing_id
+
+		klass.has_many :tags, :through => :taggings
 	end
 
 	# separate tags with commas and optional whitespace
@@ -65,10 +67,5 @@ module Taggable
 
 			self.taggings << tagging
 		end
-	end
-
-	# an Item's tags, as an Array of Strings
-	def tags(use_cached = false)
-		taggings(use_cached).map { |t| t.to_s }
 	end
 end

@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
 	def itemclass; Item end
 
 	def index
-		@title = itemclass.human_name.pluralize
+		@title = itemclass.model_name.human.pluralize
 
 		if(params[:order] != nil and (params[:order] == 'author_last' or params[:order] == 'author_first' or params[:order] == 'owner_id'))
 			@order = params[:order]
@@ -109,8 +109,11 @@ class ItemsController < ApplicationController
 		@query = params[:q]
 
 		# fields to search
-		@fields = [ params[:field] ]
-		@fields ||= [ 'tags', 'title', 'author', 'description' ]
+		@fields =	if params[:field].present?
+						[ params[:field] ]
+					else
+						[ 'tags', 'title', 'author', 'description' ]
+					end
 
 		if @fields.member? 'tags'
 			@tag_results = itemclass.find_by_tag(@query).paginate(:page => params[:page])

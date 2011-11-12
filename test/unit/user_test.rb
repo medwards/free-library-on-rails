@@ -73,14 +73,14 @@ class UserTest < ActiveSupport::TestCase
   def test_tagging
 	  bct = users(:bct)
 
-	  tags = bct.tags.sort
+	  tags = bct.tags.map(&:to_s).sort
 
 	  assert_equal ['engineering', 'science'], tags
 
 	  # tags can be added
 	  bct.tag_with ['decentralization']
 
-	  # users can be fonud by tag
+	  # users can be found by tag
 	  tagged_with = User.find_by_tag('decentralization')
 
 	  assert_equal 1, tagged_with.length

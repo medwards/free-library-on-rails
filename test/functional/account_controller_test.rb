@@ -150,8 +150,8 @@ class AccountControllerTest < ActionController::TestCase
 		assert_not_nil bct, 'user was able to rename themself'
 		assert_equal old_user.id, bct.id
 		assert_equal 'bct', bct.login
-		assert_equal Time.parse('2008-04-01'), bct.created_at
-		assert_equal Time.parse('2008-04-01'), bct.activated_at
+		assert_equal Time.zone.parse('2008-04-01'), bct.created_at
+		assert_equal Time.zone.parse('2008-04-01'), bct.activated_at
 
 		assert((Time.now - bct.updated_at).abs < 5)
 	end

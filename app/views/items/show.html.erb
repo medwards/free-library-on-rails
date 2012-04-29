@@ -9,7 +9,6 @@
 
 <% if @item.owned_by? session[:user] and not @item.requests.empty? %>
 	<div class="requests">
-		<%= calendar_date_select_includes 'silver' %>
 		<p>Requested by:</p>
 		<ul>
 		<% @item.requests.each do |req| %>
@@ -55,12 +54,14 @@
 			<legend>loan to yourself</legend>
 			<input type="hidden" name="item_id" value="<%=h @item.id %>">
 			<table>
-				<tr><td>Due Back:</td>
-				<td><%= calendar_date_select_tag 'return_date', '',
-					:buttons => false,
-					:format => :iso_date,
-					:valid_date_check => "date > (new Date()).stripTime()" %></td></tr>
-			<tr><td>Memo:</td> <td><%= text_field_tag 'memo' %></td></tr>
+				<tr>
+					<td>Due Back:</td>
+					<td><%= text_field_tag 'return_date', '', :class => 'return-date' %></td>
+				</tr>
+				<tr>
+					<td>Memo:</td>
+					<td><%= text_field_tag 'memo' %></td>
+				</tr>
 			</table>
 			<%= submit_tag 'loan' %>
 		</fieldset>

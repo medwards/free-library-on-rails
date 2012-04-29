@@ -8,10 +8,12 @@
 			- <%=h @title %>
 		<% end %>
 	</title>
+
 	<%= stylesheet_link_tag 'andreas06' %>
-	<%= javascript_include_tag :defaults %>
+	<%= javascript_include_tag 'application' %>
+
 	<%= csrf_meta_tag %>
-	<%= calendar_date_select_includes "freelibrary" %>
+
 	<link rel="icon" href="<%= url_for '/favicon.ico' %>">
 </head>
 

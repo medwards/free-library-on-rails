@@ -41,5 +41,8 @@ module FreeLibraryOnRails
     # Configure sensitive parameters which will be filtered from the log file.
 	# omit passwords from the logs
     config.filter_parameters += [:password]
+
+	# Enable the asset pipeline
+	config.assets.enabled = true
   end
 end

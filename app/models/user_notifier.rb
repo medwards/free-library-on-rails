@@ -25,20 +25,23 @@ class UserNotifier < ActionMailer::Base
 		setup_email(user)
 		@subject	+= I18n.t 'users.email.signup'
 		@url		= activate_url(user.activation_code)
+
+		mail :to => user.email, :subject => @subject
 	end
 
 	def password_reset_notification(user, new_password)
 		setup_email(user)
 		@subject += I18n.t 'users.email.password reset'
+		@url			= root_url
 		@new_password = new_password
+
+		mail :to => user.email, :subject => @subject
 	end
 
 	protected
 	def setup_email(user)
-		@recipients		= user.email
 		@subject		= SUBJECT_PREFIX
 		@sent_on		= Time.now
 		@user			= user
-		@url			= root_url
 	end
 end

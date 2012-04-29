@@ -22,22 +22,20 @@ class LoanNotifier < ActionMailer::Base
 
 	def request_notification(loan)
 		setup_email(loan)
-		@recipients = loan.owner.email
-		@from		= loan.borrower.email
-		@subject   += I18n.t 'loans.email.request'
+		@subject += I18n.t 'loans.email.request'
+		mail :to => loan.owner.email, :subject => @subject
 	end
 
 	def approved_notification(loan)
 		setup_email(loan)
-		@recipients = loan.borrower.email
-		@from		= loan.owner.email
-		@subject   += I18n.t 'loans.email.approved'
+		@subject += I18n.t 'loans.email.approved'
+		mail :to => loan.borrower.email, :subject => @subject
 	end
 
 	def rejected_notification(loan)
 		setup_email(loan)
-		@recipients = loan.borrower.email
-		@subject   += I18n.t 'loans.email.not approved'
+		@subject += I18n.t 'loans.email.not approved'
+		mail :to => loan.borrower.email, :subject => @subject
 	end
 
 	protected

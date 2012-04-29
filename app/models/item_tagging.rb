@@ -22,8 +22,8 @@ class ItemTagging < ActiveRecord::Base
 	def to_s; tag.name; end
 
 	def self.counts
-		ItemTagging.count(:include => [:tag],
-						 :group => 'name',
-						 :order => 'COUNT(*) DESC, name ASC')
+		ItemTagging.
+			joins(:tag).
+			count( :group => 'name', :order => 'COUNT(*) DESC, name ASC')
 	end
 end

@@ -5,8 +5,7 @@ gem 'rails', '3.2.3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-# the 0.3 series doesn't include the ActiveRecord adapter
-gem 'mysql2', '~> 0.2.0'
+gem 'mysql2', "~> 0.3"
 
 gem 'hpricot'
 

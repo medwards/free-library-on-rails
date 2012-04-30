@@ -4,6 +4,7 @@
 
 $(document).ready(function() {
 	$("input.return-date").datepicker({
-		minDate: 0
+		minDate:    0,
+		dateFormat: 'yy-mm-dd'
 	});
 });

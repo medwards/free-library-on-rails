@@ -4,7 +4,7 @@ gem 'rails', '3.2.3'
 
 gem 'mysql2', "~> 0.3"
 
-gem 'hpricot'
+gem 'nokogiri'
 
 gem 'will_paginate', '~> 3.0'
 gem 'dynamic_form'

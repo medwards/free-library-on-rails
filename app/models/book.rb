@@ -36,10 +36,12 @@ class Book < Item
 			raise NoSuchISBN
 		end
 
-		book = Book.new
+		isbndb_data ||= {}
+		google_data ||= {}
 
 		data = isbndb_data.merge(google_data)
 
+		book = Book.new
 		book.isbn         = data[:isbn]
 		book.title        = data[:title]
 		book.description  = data[:description]

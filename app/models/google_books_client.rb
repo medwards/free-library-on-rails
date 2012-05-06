@@ -34,26 +34,30 @@ class GoogleBooksClient
 	#
 	# e.g. "http://books.google.ca/books/about/Red_Plenty.html?id=M75AAAAACAAJ"
 	def canonical_url
-		@canonical_url ||= begin
+		@canonical_url ||=	begin
 								doc = Nokogiri::XML(open(self.isbn_url, 'User-Agent' => 'FLORa'))
 								canonical_link = doc.at_xpath("//link[@rel='canonical']")
-								canonical_url  = canonical_link.attribute("href").to_s
-						   end
-	rescue URI::InvalidURIError, OpenURI::HTTPError
-		nil
+								canonical_link.attribute("href").to_s
+							rescue URI::InvalidURIError, OpenURI::HTTPError
+								nil
+							end
 	end
 
 	# e.g. "M75AAAAACAAJ"
 	def book_id
+		return nil unless canonical_url
 		canonical_url.split("id=").last
 	end
 
 	def volume_url
+		return nil unless book_id
 		"https://www.googleapis.com/books/v1/volumes/" + self.book_id
 	end
 
 	def get_data
 		doc = fetch_json
+		return nil unless doc
+
 		doc = doc["volumeInfo"]
 
 		data = {
@@ -89,6 +93,7 @@ class GoogleBooksClient
 protected
 
 	def fetch_json
+		return nil unless self.volume_url
 		JSON.parse(open(self.volume_url).read)
 	end
 end

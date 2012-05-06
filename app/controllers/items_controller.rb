@@ -23,15 +23,17 @@ class ItemsController < ApplicationController
 	def index
 		@title = itemclass.model_name.human.pluralize
 
-		if(params[:order] != nil and (params[:order] == 'author_last' or params[:order] == 'author_first' or params[:order] == 'owner_id'))
+		if params[:order].present? and ['author_last', 'author_first', 'owner_id'].member? params[:order]
 			@order = params[:order]
 		else
+			# default to sort by title
 			@order = 'title'
 		end
 
-		@items = region.items.paginate(:page => params[:page],
-										:order => @order,
-										:conditions => { :type => itemclass.to_s })
+		@items = region.items.
+					where(:type => itemclass.to_s).
+					order(@order).
+					paginate(:page => params[:page])
 	end
 
 	def show

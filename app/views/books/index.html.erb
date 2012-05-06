@@ -1,4 +1,11 @@
 <h1>Books in <%= h(@region.name) %></h1>
 
-<% inheriting_view 'items/index' do %>
+<%= render 'items/query' %>
+
+<% if @items.empty? %>
+	<p>No books found in this region.</p>
+<% else %>
+	<%= render 'items/item_table', :items => @items %>
 <% end %>
+
+<%= will_paginate @items %>

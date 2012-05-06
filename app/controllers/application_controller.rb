@@ -51,11 +51,8 @@ class ApplicationController < ActionController::Base
 
 	# determine the name of the region that we're operating in
 	def region
-		return @region if @region
-
-		name = 'edmonton'
-
-		@region = Region.find_by_subdomain(name)
+		# FIXME it's very silly to hardcode the region name here.
+		@region ||= Region.find_by_subdomain('edmonton')
 	end
 
 	# like redirect_to :back, but gives a default in case Referer isn't set

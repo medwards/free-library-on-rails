@@ -1,8 +1,0 @@
-<%= render :partial => 'items/query' %>
-<% if @items.empty? %>
-	<p>No <%= controller.itemclass.to_s.downcase.pluralize %> found in this region.</p>
-<% else %>
-	<%= render :partial => 'items/item_table', :locals => { :items => @items } %>
-<% end %>
-
-<%= will_paginate @items %>

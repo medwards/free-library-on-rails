@@ -1,8 +1,9 @@
-<% content_for :extra_side_links do %>
-	<%= link_to 'add video', new_video_path, :class => 'nav' %><br class="hide">
-<% end %>
-
 <h1>Videos in <%= h(@region.name) %></h1>
 
-<% inheriting_view 'items/index' do %>
+<%= render 'items/query' %>
+
+<% if @items.empty? %>
+	<p>No videos found in this region.</p>
+<% else %>
+	<%= render 'items/item_table', :items => @items %>
 <% end %>

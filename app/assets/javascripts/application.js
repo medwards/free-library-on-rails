@@ -1,5 +1,7 @@
 //= require jquery.ui.datepicker
 //
+//= require isbnvalidation
+//
 //= require_self
 
 $(document).ready(function() {

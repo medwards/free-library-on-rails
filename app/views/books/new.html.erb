@@ -8,8 +8,6 @@
 		</td>
 	</tr>
 
-	<%= javascript_include_tag 'isbnvalidation' %>
-
 	<tr>
 		<td><label for="lcc_number">LCC</label></td>
 		<td>
@@ -40,3 +38,16 @@
 	<%= submit_tag 'Add Book', :name => "submit" %>
 <% end %>
 <% end %>
+
+<script>
+/* set up the validation code */
+var isbnInput = $("input#isbn");
+
+$('<span id="isbn-validation" />').insertAfter(isbnInput);
+
+validateISBN(isbnInput);
+
+isbnInput.on('keyup', function() {
+	validateISBN(isbnInput);
+});
+</script>

@@ -42,35 +42,21 @@ function checkISBN13(isbn) {
 		return (checkDigit + mod) == 10;
 };
 
-function validateISBN() {
-	var fieldValue = $("isbn").getValue();
-	var stripped = fieldValue.gsub(/[^0-9Xx]/, '');
+function validateISBN(isbnInput) {
+	var isbn = isbnInput.val();
 
 	var verdict = "bad length";
-	if (stripped.length == 10) {
-		if(checkISBN10(stripped))
+	if (isbn.length == 10) {
+		if(checkISBN10(isbn))
 			verdict = "good";
 		else
 			verdict = "bad checksum";
-	} else if (stripped.length == 13) {
-		if(checkISBN13(stripped))
+	} else if (isbn.length == 13) {
+		if(checkISBN13(isbn))
 			verdict = "good";
 		else
 			verdict = "bad checksum";
 	}
 
-	$("isbn-validation").innerHTML = verdict;
+	$("#isbn-validation").text(verdict);
 }
-
-/* set up the validation code */
-Event.observe(window, 'load', function(){
-	var isbnValidation = new Element('span');
-	isbnValidation.writeAttribute('id', 'isbn-validation');
-	$("isbn").up().insert(isbnValidation);
-
-	validateISBN();
-
-	new Form.Element.Observer($("isbn"), 1, function(){
-		validateISBN();
-	});
-});

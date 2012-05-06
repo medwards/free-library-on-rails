@@ -28,6 +28,10 @@ class Book < Item
 		COVER_IMG_DIR + self.isbn + '.jpg'
 	end
 
+	def fetch_cover_image
+		GoogleBooksClient.new(self.isbn).save_cover_image(self.cover_filename)
+	end
+
 	def self.new_from_isbn(isbn)
 		isbndb_data = IsbnDbClient.new(isbn).get_data
 		google_data = GoogleBooksClient.new(isbn).get_data

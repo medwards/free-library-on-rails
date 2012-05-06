@@ -23,6 +23,8 @@ class BooksController < ItemsController
 			self.isbnLookup params[:item][:isbn]
 		else
 			super
+
+			@item.fetch_cover_image
 		end
 	end
 

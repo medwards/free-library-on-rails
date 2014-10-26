@@ -89,7 +89,7 @@ class GoogleBooksClient
 	def cover_image_url
 		json = fetch_json
 		return nil unless json
-		json['volumeInfo']['imageLinks']['thumbnail']
+		json['volumeInfo']['imageLinks']['thumbnail'] rescue nil
 	end
 
 protected

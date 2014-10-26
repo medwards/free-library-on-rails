@@ -51,7 +51,7 @@ class VideosControllerTest < ActionController::TestCase
 		get :show, :id => new_video
 		assert_response :success
 
-		assert_match /Logan's Run/, @response.body
+		assert_match /Logan('|&#x27;)s Run/, @response.body
 	end
 
 	  # you can't create an item unless you're logged in

@@ -40,7 +40,9 @@ class AccountControllerTest < ActionController::TestCase
 									 :email => 'nick@example.org',
 									 :password => 'elves',
 									 :password_confirmation => 'elves',
-									 :postalcode => 'H0H 0H0' }
+									 :postalcode => 'H0H 0H0',
+									 :longitude => '0.12',
+									 :latitude => '1.23' }
 		end
 
 		assert_redirected_to root_path
@@ -134,6 +136,7 @@ class AccountControllerTest < ActionController::TestCase
 		login_as 'bct'
 
 		old_user = User.find_by_login('bct')
+		old_user.touch
 
 		post :update, :user => { :id                        => 1337,
 								 :created_at                => '2008-04-20',
@@ -153,7 +156,7 @@ class AccountControllerTest < ActionController::TestCase
 		assert_equal Time.zone.parse('2008-04-01'), bct.created_at
 		assert_equal Time.zone.parse('2008-04-01'), bct.activated_at
 
-		assert((Time.now - bct.updated_at).abs < 5)
+		assert (Time.now - bct.updated_at).abs < 5, 'user was able to change updated_at'
 	end
 
 	def test_tag

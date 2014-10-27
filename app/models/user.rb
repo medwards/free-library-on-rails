@@ -37,8 +37,10 @@ class User < ActiveRecord::Base
 	validates_format_of				:email,		 :with	 => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
 	validates_uniqueness_of		:login, :email, :case_sensitive => false
 
+	geocoded_by :postalcode
+	before_save :geocode, if: ->(o){ o.postalcode.present? and o.postalcode_changed? }
+
 	before_save :encrypt_password
-	before_save :do_geocoding
 
 	before_create :make_activation_code
 
@@ -208,42 +210,12 @@ END
 			:conditions => "#{distance_sql} < #{max_distance} AND users.id != #{id}"
 	end
 
-	def postalcode= postalcode
-		@geocode = true
-		super postalcode
-	end
-
 	def cellphone= cellphone
 		cellphone.gsub! /[^\d]/, ''
 		super cellphone
 	end
 
 	protected
-		# turn a postal code into latitude and longitude
-		def do_geocoding
-			if not self.postalcode.present?
-				# if we don't have a postal code, make up a location
-				self.latitude  = 0
-				self.longitude = 0
-				return
-			end
-
-			# only geocode when the postal code has changed
-			return unless self.postalcode_changed?
-
-			url = 'http://maps.google.com/maps/geo?q='
-			url += URI.escape self.postalcode
-			url += '&output=csv&key=' + AppConfig.GOOGLE_KEY
-
-			open(url) { |f|
-				f.each_line { |line|
-					csv = line.split(',')
-					self.latitude = csv[2]
-					self.longitude = csv[3]
-				}
-			}
-		end
-
 		def password_required?
 			crypted_password.blank? || !password.blank?
 		end

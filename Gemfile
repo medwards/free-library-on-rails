@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '~> 3.2.3'
 
-gem 'mysql2', "~> 0.3"
+gem 'mysql2'
 
 gem 'nokogiri'
 
@@ -11,6 +11,8 @@ gem 'dynamic_form'
 
 gem 'sms_fu'
 gem 'pony' # required by sms_fu, not in its gemspec >:(
+
+gem 'geocoder'
 
 # assets
 gem 'jquery-rails'

@@ -2,7 +2,6 @@ development: &defaults
   site_title: Free Library
   TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
   ISBNDB_KEY: PJ6X926W
-  GOOGLE_KEY: ABQIAAAAtMckXwUuUit3GcU7fqrjfhQ-fLx3XxcGMYuMv93Lb2-UXt48NxQJ0Yah9JBOEjCrA8dHFLPTAfhB3w
 
 production:
   <<: *defaults

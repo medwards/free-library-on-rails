@@ -25,14 +25,15 @@ class Book < Item
 	end
 
 	def cover_filename
-		COVER_IMG_DIR + self.isbn + '.jpg'
+		COVER_IMG_DIR + self.isbn + '.jpg' if self.isbn
 	end
 
 	def fetch_cover_image
-		GoogleBooksClient.new(self.isbn).save_cover_image(self.cover_filename)
+		GoogleBooksClient.new(self.isbn).save_cover_image(self.cover_filename) if self.isbn
 	end
 
 	def self.new_from_isbn(isbn)
+		isbn = isbn.gsub /[- ]/, ''
 		isbndb_data = IsbnDbClient.new(isbn).get_data
 		google_data = GoogleBooksClient.new(isbn).get_data
 

@@ -23,16 +23,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
 	def test_find_local
-		# haha this is such a terrible way of doing this
-		if ActiveRecord::Base.connection.class.to_s.downcase.match /sqlite/
-			$stderr.puts "skipping test_find_local, sqlite doesn't have the ACOS function"
-			return
-		end
-
-		near = @bct.find_nearby_users(3)
+		near = @bct.nearbys(3)
 		assert_equal [@medwards], near
 
-		far = @bct.find_nearby_users(3000)
+		far = @bct.nearbys(3000)
 		assert_equal [@medwards, @pierre], far
 	end
 

@@ -192,24 +192,6 @@ class User < ActiveRecord::Base
 		Math.sin(angle/2.0) ** 2
 	end
 
-	# find users within a given distance of the current one.
-	def find_nearby_users(max_distance)
-		# directly copied from the DLP's Great Circle SQL
-		distance_sql = <<END
-ACOS(
-COS(RADIANS(#{latitude})) * COS(RADIANS(#{longitude})) * COS(RADIANS(users.latitude)) * COS(RADIANS(users.longitude)) +
-COS(RADIANS(#{latitude})) * SIN(RADIANS(#{longitude})) * COS(RADIANS(users.latitude))
-* SIN(RADIANS(users.longitude)) +
-SIN(RADIANS(#{latitude})) * SIN(RADIANS(users.latitude))
-) * #{EARTH_RADIUS}
-END
-
-		User.find :all,
-			:select => "*, #{distance_sql} as distance",
-			:order => 'distance ASC',
-			:conditions => "#{distance_sql} < #{max_distance} AND users.id != #{id}"
-	end
-
 	def cellphone= cellphone
 		cellphone.gsub! /[^\d]/, ''
 		super cellphone

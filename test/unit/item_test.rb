@@ -35,7 +35,8 @@ class ItemTest < ActiveSupport::TestCase
 		assert_equal ['xyz', 'zyx'], htc.tags.reload.map(&:to_s).sort
 
 		# can't tag an item with blacklisted tags
-		AppConfig.TAG_BLACKLIST = ['x', 'y', 'xyzzy']
+		# @todo remove double array when https://github.com/Oshuma/app_config/issues/35 is fixed
+		AppConfig.TAG_BLACKLIST = [['x', 'y', 'xyzzy']]
 
 		htc.tag_with [ 'a', 'x', 'b', 'why', 'xyzzy', 'z']
 		assert_equal [ 'a', 'b', 'why', 'z' ], htc.tags.reload.map(&:to_s).sort

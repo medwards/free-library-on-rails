@@ -16,14 +16,13 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class UserNotifier < ActionMailer::Base
-	# FIXME these should go somewhere that's easy to configure
-	SUBJECT_PREFIX = "#{I18n.t 'users.email.prefix'} "
-	default_url_options[:host] = 'freelibrary.ca'
-	default :from => "admin@freelibrary.ca"
+	include ConfigurationHelper
+
+	default :from => AppConfig.mail_from
 
 	def signup_notification(user)
 		setup_email(user)
-		@subject	+= I18n.t 'users.email.signup'
+		@subject	+= I18n.t('users.email.signup', site_name: site_name)
 		@url		= activate_url(user.activation_code)
 
 		mail :to => user.email, :subject => @subject
@@ -40,8 +39,12 @@ class UserNotifier < ActionMailer::Base
 
 	protected
 	def setup_email(user)
-		@subject		= SUBJECT_PREFIX
+		@subject		= "#{I18n.t 'users.email.prefix', site_name_short: site_name(short: true)} "
 		@sent_on		= Time.now
 		@user			= user
+	end
+
+	def default_url_options
+		super.merge(AppConfig.mail_url_options.symbolize_keys)
 	end
 end

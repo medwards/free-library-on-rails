@@ -14,6 +14,9 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
+  # Always reload configuration
+  setup do AppConfig.reload! end
+
   # Add more helper methods to be used by all tests here...
 end
 

@@ -23,7 +23,7 @@ class LoanObserver < ActiveRecord::Observer
 			if loan.item.owner.cellphone?
 				begin
 					deliver_sms(loan.item.owner.cellphone,
-loan.item.owner.cellphone_provider, I18n.t('loans.sms.request message'))
+loan.item.owner.cellphone_provider, I18n.t('loans.sms.request message', site_name: site_name))
 				rescue Net::SMTPFatalError
 					# don't freak out if this fails
 				end

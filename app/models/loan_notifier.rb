@@ -16,9 +16,9 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class LoanNotifier < ActionMailer::Base
-	# FIXME this should go somewhere that's easy to configure
-	default_url_options[:host] = 'freelibrary.ca'
-	default :from => "admin@freelibrary.ca"
+	include ConfigurationHelper
+
+	default :from => AppConfig.mail_from
 
 	def request_notification(loan)
 		setup_email(loan)
@@ -40,7 +40,7 @@ class LoanNotifier < ActionMailer::Base
 
 	protected
 	def setup_email(loan)
-		@subject	= "#{I18n.t 'loans.email.prefix'} "
+		@subject	= "#{I18n.t 'loans.email.prefix', site_name_short: site_name(short: true)} "
 		@sent_on	= Time.now
 
 		@owner		= loan.owner.login
@@ -54,5 +54,9 @@ class LoanNotifier < ActionMailer::Base
 		# FIXME: don't hardcode urls, blah blah blah
 		@item_url	= polymorphic_url(loan.item)
 		@loans_url	= loans_url
+	end
+
+	def default_url_options
+		super.merge(AppConfig.mail_url_options.symbolize_keys)
 	end
 end

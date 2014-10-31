@@ -7,12 +7,12 @@ en:
       returned:   "returned"
       rejected:   "rejected"
     sms:
-      request message: "You have a loan request on the Edmonton Free Library"
+      request message: "You have a loan request on the %{site_name}"
     email:
       request:       "Loan Request"
       approved:      "Loan Approved"
       not approved:  "Loan Not Approved"
-      prefix:        "[Free Library]"
+      prefix:        "[%{site_name_short}]"
       body:
         item: "'%{title}' by %{author_first} %{author_last}"
     index:
@@ -39,8 +39,8 @@ en:
         returned: "Return acknowledged."
   users:
     email:
-      prefix:         "[efl]"
-      signup:         "Free Library Account Request"
+      prefix:         "[%{site_name_short}]"
+      signup:         "%{site_name} Account Request"
       password reset: "Password Reset Request"
   account:
     index:

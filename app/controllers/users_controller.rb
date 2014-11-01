@@ -18,6 +18,9 @@
 require 'csv'
 
 class UsersController < ApplicationController
+
+	before_filter :login_required
+
 	def show
 		@user = User.find_by_login(params[:id])
 		four_oh_four and return unless @user

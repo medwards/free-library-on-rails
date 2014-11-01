@@ -5,7 +5,7 @@
 		<th>cover</th>
 		<th>title</th>
 		<th>author</th>
-		<th>owner</th>
+		<% if self.current_user %><th>owner</th><% end %>
 		<% if self.current_user %><th>distance</th><% end %>
 	</tr>
 	<% items.each do |item| %>
@@ -21,10 +21,8 @@
 				<td><%= highlight(h(item.author_first + ' ' + item.author_last), @query) %></td>
 			<% end %>
 
-			<td><%= user_link item.owner %></td>
-			<% if self.current_user %><td>
-				<%= distance item.owner.distance_from(self.current_user) %>
-			</td><% end %>
+			<% if self.current_user %><td><%= user_link item.owner %></td><% end %>
+			<% if self.current_user %><td><%= distance item.owner.distance_from(self.current_user) %></td><% end %>
 		</tr>
 		<% if including.member? :description %>
 			<tr><td colspan="4">

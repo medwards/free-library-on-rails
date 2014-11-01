@@ -25,8 +25,10 @@
 <% end %>
 
 <table>
+	<% if current_user %>
 	<tr><th>owner:</th>
 		<td><%= user_link @item.owner %></td></tr>
+	<% end %>
 	<tr><th>tags:</th>
 		<td><% @item.taggings.each_with_index do |t,i| %>
 			<%= ',' unless i.zero? %><%= link_to(t, tag_path(t.to_s)) %>

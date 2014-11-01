@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 				@title = @user.login
 			end
 			format.csv do
-				@items = @user.owned :all, :order => 'id'
+				@items = @user.owned.order(:id)
 				render :layout => false
 			end
 		end

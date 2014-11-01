@@ -1,10 +1,13 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+	include AuthenticatedTestHelper
+
 	def setup
 		@controller = UsersController.new
 		@request    = ActionController::TestRequest.new
 		@response   = ActionController::TestResponse.new
+		login_as 'bct'
 	end
 
 	def test_routing

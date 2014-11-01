@@ -33,7 +33,7 @@ class Book < Item
 	end
 
 	def self.new_from_isbn(isbn)
-		isbn = isbn.gsub /[- ]/, ''
+		isbn = Isbn.new(isbn) unless isbn.is_a? Isbn
 		isbndb_data = IsbnDbClient.new(isbn).get_data
 		google_data = GoogleBooksClient.new(isbn).get_data
 

@@ -1,0 +1,9 @@
+/* different margins and colors from https://github.com/xoxco/jQuery-Tags-Input/blob/master/jquery.tagsinput.css */
+div.tagsinput { border: 1px solid #ccc; background: white; color: black; padding: 2px 5px; overflow-y: auto; }
+div.tagsinput span.tag { border: 1px solid #ddd; -moz-border-radius:2px; -webkit-border-radius:2px; padding: 0 2px 2px 2px; display: block; float: left; text-decoration:none; background: #f6f6f6; color: #000000; margin-right: 4px; }
+div.tagsinput span.tag a { font-weight: bold; color: #82ad2b; text-decoration:none; font-size: 90%; }
+div.tagsinput span.tag a:hover { background: #f6f6f6; color: #82ad2b; }
+div.tagsinput input { width:80px; margin:0px; border:1px solid transparent; background: transparent; color: #000; outline:0px;  margin-right: 4px; }
+div.tagsinput div { display:block; float: left; } 
+.tags_clear { clear: both; width: 100%; height: 0px; }
+.not_valid {background: #8d2424 !important; color: #000000 !important;}

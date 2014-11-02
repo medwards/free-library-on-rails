@@ -21,10 +21,9 @@
 		<td><label for="tags">Tags</label></td>
 		<td>
 			<% str_tags = @item.tags.map { |t| t.to_s } %>
-			<input id="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;">
+			<input id="tags" class="tags" name="tags" value="<%=h str_tags.join(', ') %>" style="width:25em;">
 		</td>
 	</tr>
-	<%= javascript_include_tag 'tageditor' %>
 </table>
 
 <p>

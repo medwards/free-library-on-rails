@@ -18,6 +18,7 @@ gem 'geocoder'
 # assets
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'tagsinput-rails'
 
 group :development, :test do
   gem 'sqlite3' # for tests

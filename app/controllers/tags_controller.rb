@@ -29,4 +29,9 @@ class TagsController < ApplicationController
 		@title = I18n.t('tags.show.title', :tag => @tag.name)
 		@items = @tag.items.paginate(:page => params[:page])
 	end
+
+	def autocomplete
+		@tags = Tag.search(params[:term]||params[:q]).paginate(:page => params[:page])
+		render json: @tags.map(&:name)
+	end
 end

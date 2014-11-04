@@ -11,6 +11,8 @@ development: &defaults
   TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
   # Key for retrieving book info using the ISBNDB API.
   ISBNDB_KEY: PJ6X926W
+  # Whether to ask members for phone number and send sms on loan request
+  use_sms: true
   # Mail configuration
   mail_from: admin@freelibrary.ca
   mail_url_options:

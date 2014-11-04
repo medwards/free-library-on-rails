@@ -4,7 +4,7 @@
 			<th>author:</th>
 			<td><%= h @item.author_first %> <%= h @item.author_last %></td>
 		</tr>
-		<% if @item.lcc_number %>
+		<% if @item.lcc_number.present? %>
 			<tr>
 				<th>LCC:</th>
 				<td><%= h @item.lcc_number %></td>

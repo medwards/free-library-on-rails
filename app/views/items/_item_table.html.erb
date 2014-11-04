@@ -18,7 +18,7 @@
 				<%= link_to highlight(h(item.title), @query), polymorphic_path(item) %>
 			</td>
 			<% if item.is_a? Book %>
-				<td><%= highlight(h(item.author_first + ' ' + item.author_last), @query) %></td>
+				<td><%= highlight(h(item.author), @query) %></td>
 			<% end %>
 
 			<% if self.current_user %><td><%= user_link item.owner %></td><% end %>

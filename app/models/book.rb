@@ -56,4 +56,8 @@ class Book < Item
 
 		book
 	end
+
+	def author
+		[author_first, author_last].compact.join(' ')
+	end
 end

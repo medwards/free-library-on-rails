@@ -64,6 +64,7 @@ class GoogleBooksClient
 			:isbn			=> @isbn,
 			:title			=> doc["title"],
 			:description	=> doc["description"],
+			:cover_url		=>(doc["imageLinks"]["thumbnail"] rescue nil),
 			:tags			=> doc["categories"]
 		}
 

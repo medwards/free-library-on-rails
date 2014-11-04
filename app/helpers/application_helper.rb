@@ -89,6 +89,6 @@ module ApplicationHelper
 	end
 
 	def cover_photo item
-		image_tag "/images/items/books/#{item.isbn}.jpg", :class => 'cover_photo', :alt => ''
+		image_tag item.cover_url, :class => 'cover_photo', :alt => ''
 	end
 end

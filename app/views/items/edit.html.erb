@@ -3,6 +3,7 @@
 <%= error_messages_for(:item).untaint %>
 
 <%= form_for :item, :url => { :action => 'update' }, :html => { :method => 'put' } do |f| -%>
+<%= f.hidden_field :cover_url if @item.cover_url.present? %>
 <table>
 
 	<tr>

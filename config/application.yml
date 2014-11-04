@@ -7,6 +7,8 @@ development: &defaults
   site_region_long: the Edmonton capital region
   # CSS Style file, a file app/assets/stylesheets or a full URL.
   css_style: andreas06.css
+  # Set this to false if you can't store images on your server (Heroku).
+  fetch_covers: true
   # Some tags are not acceptable.
   TAG_BLACKLIST: [general, Amazon.com, fuck, shit, crap]
   # Key for retrieving book info using the ISBNDB API.

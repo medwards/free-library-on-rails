@@ -16,11 +16,11 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 class LoanObserver < ActiveRecord::Observer
-	include SMSFu
+	include SMSFu if AppConfig.use_sms
 	def after_create(loan)
 		if loan.status == I18n.t('loans.status.requested') and loan.borrower != loan.item.owner
 			LoanNotifier.request_notification(loan).deliver
-			if loan.item.owner.cellphone?
+			if AppConfig.use_sms and loan.item.owner.cellphone?
 				begin
 					deliver_sms(loan.item.owner.cellphone,
 loan.item.owner.cellphone_provider, I18n.t('loans.sms.request message', site_name: site_name))

@@ -34,6 +34,7 @@
 			<td><%= f.text_field :latitude %></td>
 		</tr>
 
+		<% if AppConfig.use_sms %>
 		<tr class="sms_input">
 			<td><label for="user_cellphone">Cellphone:</label></td>
 			<td><%= f.text_field :cellphone %></td>
@@ -53,6 +54,8 @@
 				"Telus Mobility" => "telus" }, @user.cellphone_provider) %>
 			<td><%= select_tag "user_cellphone_provider", options, :name => "user[cellphone_provider]" %></td>
 		</tr>
+		<% end %>
+
 		<tr>
 			<td colspan="2" align="center"><label for="user_about">Write a little about yourself</label></td>
 		</tr>

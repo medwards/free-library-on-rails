@@ -4,7 +4,7 @@
 			<th>author:</th>
 			<td><%= link_to @item.author, search_items_path(q: @item.author, field: 'author') %></td>
 		</tr>
-		<% if @item.lcc_number %>
+		<% if @item.lcc_number.present? %>
 			<tr>
 				<th>LCC:</th>
 				<td><%= h @item.lcc_number %></td>

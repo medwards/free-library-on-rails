@@ -22,7 +22,9 @@ FreeLibraryOnRails::Application.routes.draw do
 	end
 
 	resources :loans
-	resources :tags, :constraints => { :id => %r(.+) }
+	resources :tags, :constraints => { :id => %r(.+) } do
+		collection { get :autocomplete }
+	end
 
 	match 'about' => 'welcome#about'
 	match 'new'   => 'welcome#new_things'

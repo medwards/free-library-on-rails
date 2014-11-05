@@ -30,6 +30,11 @@ class Tag < ActiveRecord::Base
 			:include => :item_taggings, :order => order
 	end
 
+	def self.search(q)
+		# @todo order by match closeness
+		where('name LIKE ?', "%#{q}%")
+	end
+
 	def to_s
 		self.name
 	end

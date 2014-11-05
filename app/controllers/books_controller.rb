@@ -24,7 +24,7 @@ class BooksController < ItemsController
 		else
 			super
 
-			@item.fetch_cover_image
+			@item.fetch_cover_image if AppConfig.fetch_covers
 		end
 	end
 
@@ -58,7 +58,8 @@ class BooksController < ItemsController
 				:isbn =>         @item.isbn,
 				:lcc_number =>	 @item.lcc_number,
 				:author_last =>	 @item.author_last,
-				:author_first => @item.author_first
+				:author_first => @item.author_first,
+				:cover_url =>    @item.cover_url
 			},
 			:tags => @item.tags
 	end

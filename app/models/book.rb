@@ -20,8 +20,16 @@ class NoSuchISBN < RuntimeError; end
 class Book < Item
 	COVER_IMG_DIR = 'public/images/items/books/'
 
+	def cover_url
+		if self.isbn.present? and File.exists? self.cover_filename
+			self.cover_filename
+		else
+			self[:cover_url]
+		end
+	end
+
 	def has_cover_image?
-		self.isbn and not self.isbn.empty? and File.exists? self.cover_filename
+		cover_url.present?
 	end
 
 	def cover_filename
@@ -52,6 +60,7 @@ class Book < Item
 		book.description  = data[:description]
 		book.author_first = data[:author_first]
 		book.author_last  = data[:author_last]
+		book.cover_url    = data[:cover_url]
 		book.tag_with(data[:tags])
 
 		book

@@ -3,6 +3,7 @@
 <%= error_messages_for(:item).untaint %>
 
 <%= form_for :item, :url => polymorphic_path(@item) do |f| -%>
+<%= f.hidden_field :cover_url if @item.cover_url.present? %>
 <table>
 
 	<%= default_content_for :utility_fields do %><% end %>

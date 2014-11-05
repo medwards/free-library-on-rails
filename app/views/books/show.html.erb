@@ -2,7 +2,7 @@
 	<%= content_for :additional_fields do %>
 		<tr>
 			<th>author:</th>
-			<td><%= h @item.author_first %> <%= h @item.author_last %></td>
+			<td><%= link_to @item.author, search_items_path(q: @item.author, field: 'author') %></td>
 		</tr>
 		<% if @item.lcc_number %>
 			<tr>

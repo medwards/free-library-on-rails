@@ -92,7 +92,7 @@ class AccountController < ApplicationController
 
 		@user.save!
 
-		UserNotifier.signup_notification(@user).deliver
+		UserMailer.signup_notification(@user).deliver
 
 		flash[:notice] = I18n.t 'account.signup.message.email sent'
 

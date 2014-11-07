@@ -19,7 +19,7 @@ class LoanObserver < ActiveRecord::Observer
 	include SMSFu if AppConfig.use_sms
 	def after_create(loan)
 		if loan.status == I18n.t('loans.status.requested') and loan.borrower != loan.item.owner
-			LoanNotifier.request_notification(loan).deliver
+			LoanMailer.request_notification(loan).deliver
 			if AppConfig.use_sms and loan.item.owner.cellphone?
 				begin
 					deliver_sms(loan.item.owner.cellphone,
@@ -33,11 +33,11 @@ loan.item.owner.cellphone_provider, I18n.t('loans.sms.request message', site_nam
 
 	def after_lent(loan)
 		if loan.borrower != loan.item.owner
-			LoanNotifier.approved_notification(loan).deliver
+			LoanMailer.approved_notification(loan).deliver
 		end
 	end
 
 	def after_rejected(loan)
-		LoanNotifier.rejected_notification(loan).deliver
+		LoanMailer.rejected_notification(loan).deliver
 	end
 end

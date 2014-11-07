@@ -1,0 +1,9 @@
+<h1>Loan approved</h1>
+
+<p>Hi <%= @borrower %>,</p>
+
+<p><%= @owner %> is going to loan you <%= @item %>!</p>
+<p>If you need to contact <%= @owner %> then just reply to this email.</p>
+
+<p>You can review all your borrowed items, and items borrowed from you
+on your <%= link_to "loans page", loans_url %>.</p>

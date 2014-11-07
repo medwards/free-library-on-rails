@@ -18,6 +18,7 @@
 class ApplicationMailer < ActionMailer::Base
 	include ConfigurationHelper
 
+	layout 'email'
 	default :from => AppConfig.mail_from
 
 	protected

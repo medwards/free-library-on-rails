@@ -8,6 +8,12 @@ class UserTest < ActiveSupport::TestCase
     @pierre   = User.find_by_login('pierre')
   end
 
+  def test_authenticate
+    assert_equal @bct, User.authenticate('bct', 'secret')
+    assert_nil User.authenticate('bct', 'this-is-a-wrong-password')
+    assert_equal @bct, User.authenticate('fake@example.org', 'secret')
+  end
+
   def test_owned
     lhd = items(:lhd)
 

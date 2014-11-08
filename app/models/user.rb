@@ -96,12 +96,11 @@ class User < ActiveRecord::Base
 		self.save!
 	end
 
-	# Authenticates a user by their login name and unencrypted password.
+	# Authenticates a user by their login name or email address and unencrypted password.
 	# Returns the user or nil.
 	def self.authenticate(login, password)
 		# hide records with a nil activated_at
-		u = find :first,
-			:conditions => ['login = ? and activated_at IS NOT NULL', login]
+		u= where('(login = ? OR email = ?) AND activated_at IS NOT NULL', login, login).first
 
 		if u and u.authenticated?(password)
 			u

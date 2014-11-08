@@ -127,7 +127,7 @@ class User < ActiveRecord::Base
 
 		save!
 
-		UserNotifier.password_reset_notification(self, self.password).deliver
+		UserMailer.password_reset_notification(self, self.password).deliver
 
 		self.password
 	end

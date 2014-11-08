@@ -15,10 +15,7 @@
 # License along with free-library-on-rails.
 # If not, see <http://www.gnu.org/licenses/>.
 
-class UserNotifier < ActionMailer::Base
-	include ConfigurationHelper
-
-	default :from => AppConfig.mail_from
+class UserMailer < ApplicationMailer
 
 	def signup_notification(user)
 		setup_email(user)
@@ -42,9 +39,5 @@ class UserNotifier < ActionMailer::Base
 		@subject		= "#{I18n.t 'users.email.prefix', site_name_short: site_name(short: true)} "
 		@sent_on		= Time.now
 		@user			= user
-	end
-
-	def default_url_options
-		super.merge(AppConfig.mail_url_options.symbolize_keys)
 	end
 end

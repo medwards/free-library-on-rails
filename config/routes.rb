@@ -29,6 +29,8 @@ FreeLibraryOnRails::Application.routes.draw do
 	match 'about' => 'welcome#about'
 	match 'new'   => 'welcome#new_things'
 
+	match '/account/login' => 'account#login', :as => :login
+	match '/account/signup' => 'account#signup', :as => :signup
 	get '/account/activate/:id' => 'account#activate', :as => :activate
 
 	root :to => 'welcome#index'

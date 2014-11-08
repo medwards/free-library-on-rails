@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class LoanNotifierTest < ActionMailer::TestCase
-  tests LoanNotifier
+class LoanMailerTest < ActionMailer::TestCase
+  tests LoanMailer
   # replace this with your real tests
   def test_truth
     assert true

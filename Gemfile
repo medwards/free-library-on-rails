@@ -6,6 +6,7 @@ gem 'app_config', '~> 2.5.3'
 gem 'mysql2'
 
 gem 'nokogiri'
+gem 'premailer-rails'
 
 gem 'will_paginate', '~> 3.0'
 gem 'dynamic_form'
@@ -24,6 +25,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets'
+  gem 'letter_opener'
   gem 'sqlite3' # for tests
   gem 'simplecov', :require => false
 end

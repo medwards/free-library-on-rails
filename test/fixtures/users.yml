@@ -1,6 +1,8 @@
 bct:
   login: bct
-  crypted_password: aoeu
+  # password: secret
+  crypted_password: 7411720174fc4d49f33863a0eaba8912fcb37958
+  salt: 68584e3fa52a7c059d9c50e59119b22db22ea471
   email: fake@example.org
   postalcode: T6E2J2
   created_at: 2008-04-01

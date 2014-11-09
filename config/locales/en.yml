@@ -53,7 +53,8 @@ en:
       title:  "Logging In"
       message:
         logged in:  "Logged in successfully."
-        not activated:  "Couldn't log you in. You haven't activated your account."
+        not activated: "We've sent you an activation email. After activating your account, you can login."
+        resend: "Resend email."
         check user and password: "Couldn't log you in. Check your username and password."
     signup:
       title:  "Signing Up"
@@ -62,7 +63,7 @@ en:
     reset password:
       message:
         email sent:   "An email has been sent containing your new password."
-        wrong email:  "No user with that email address exists."
+        wrong email:  "No member with that email address exists."
     logout:
       message:
         logged out: "You have been logged out."
@@ -101,6 +102,18 @@ en:
       title:  "Recently Added Items"
   activerecord:
     models:
-      book:   "Book"
-      video:  "Video"
-      item:   "Item"
+      user:
+        one: "Member"
+        other: "Members"
+      book:
+        one: "Book"
+        other: "Books"
+      video:
+        one: "Video"
+        other: "Videos"
+      item:
+        one: "Item"
+        other: "Items"
+      tag:
+        one: "Tag"
+        other: "Tags"

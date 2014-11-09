@@ -71,6 +71,10 @@ en:
       message:
         activated:      "Your account has been activated. Please login."
         not activated:  "Unable to activate the account. Please check your activation URL."
+    request activation:
+      message:
+        sent:     "Check your mailbox in a couple of minutes."
+        not sent: "This account does not need to be activated."
   books:
     isbn lookup:
       button name:  "Lookup"

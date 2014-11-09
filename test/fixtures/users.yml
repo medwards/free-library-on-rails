@@ -15,6 +15,7 @@ medwards:
   login: medwards
   crypted_password: aoeu
   email: test@example.org
+  activation_code: abcdefgh
   postalcode: T5K1M1
   latitude: 53.541
   longitude: -113.513

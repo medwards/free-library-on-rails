@@ -196,4 +196,11 @@ class AccountControllerTest < ActionController::TestCase
 		assert_redirected_to :controller => 'account', :action => 'login'
 		assert @request.flash[:error], 'User was not notified of error.'
 	end
+
+	def test_request_activation
+		post :request_activation, :email => 'test@example.org'
+
+		assert_response 302
+		assert_match I18n.t('account.request activation.message.sent'), @request.flash[:notice]
+	end
 end

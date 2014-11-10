@@ -76,7 +76,10 @@ class AccountController < ApplicationController
 		else
 			user = User.find_by_login(params[:login])
 			if user and not user.activated_at
-				flash[:error] = I18n.t 'account.login.message.not activated'
+				message = I18n.t('account.login.message.not activated') + ' '
+				message += view_context.link_to I18n.t('account.login.message.resend'),
+				                                request_activation_path(email: user.email), data: {method: :post}
+				flash[:error] = message.html_safe
 			else
 				flash[:error] = I18n.t 'account.login.message.check user and password'
 			end
@@ -140,4 +143,16 @@ class AccountController < ApplicationController
 			redirect_to(:controller => 'account', :action=> 'login')
 		end
 	end
+
+	def request_activation
+		@user = User.find_by_email params[:email]
+		if @user and not @user.activated_at
+			UserMailer.signup_notification(@user).deliver
+			flash[:notice] = I18n.t 'account.request activation.message.sent'
+		else
+			flash[:notice] = I18n.t 'account.request activation.message.not sent'
+		end
+		redirect_back_or_default login_path
+	end
+
 end

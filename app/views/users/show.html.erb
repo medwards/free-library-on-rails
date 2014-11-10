@@ -1,6 +1,9 @@
-<%= render :partial => 'items/query', :locals => { :submit_value => "Search #{h(@user)}" } %>
+<% if current_user.try(:librarian?) and not @user.librarian? %>
+	<%= sidelink 'make librarian', librarian_user_path(@user.login), data: {method: :post, confirm: "Are you sure? Only make people you trust a librarian."} %>
+<% end %>
 
-<h1><%=h @user.login %></h1>
+<h1><%=h @user.login %><% if @user.librarian? %> <span class="librarian">librarian</span><% end %></h1>
+<%= render 'items/query', :submit_value => "Search #{h(@user)}" %>
 
 <% if @user.about %>
 	<p class="description"><%= simple_format @user.about %></p>

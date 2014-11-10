@@ -34,6 +34,14 @@ class UserMailer < ApplicationMailer
 		mail :to => user.email, :subject => @subject
 	end
 
+	def librarian_notification(user, librarian)
+		setup_email(user)
+		@subject	+= I18n.t 'users.email.librarian'
+		@librarian	= librarian
+
+		mail :to => user.email, :subject => @subject
+	end
+
 	protected
 	def setup_email(user)
 		@subject		= "#{I18n.t 'users.email.prefix', site_name_short: site_name(short: true)} "

@@ -1,0 +1,16 @@
+<h4>You've become a librarian!</h4>
+
+<p><%= @librarian.login %> has made you a librarian on <%= AppConfig.site_name %>.
+Welcome to the team!</p>
+
+<p>Librarians may give structure, complete missing information, and help to
+make the website a pretty place.</p>
+
+<p>To do so, you're now able to edit not only your own books, but also those of
+others. Please use this possibility with care: a book listing is something
+personal of a member. Only change something if you think the member would
+appreciate it.</p>
+
+<p>In case you'd like to stop being a librarian, or perhaps you were added by
+accident, you can stop being a librarian on your
+<%= link_to 'member page', controller: 'account', action: 'show' %>. Thank you for your help!</p>

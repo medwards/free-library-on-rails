@@ -18,6 +18,7 @@ FreeLibraryOnRails::Application.routes.draw do
 	resources :users, :constraints => { :id => %r([^/;,?\.]+) } do
 		member do
 			post :comments
+			post :librarian
 		end
 	end
 

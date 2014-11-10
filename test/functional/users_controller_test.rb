@@ -40,4 +40,13 @@ class UsersControllerTest < ActionController::TestCase
 
 		assert_match /A Rad Dude./, @response.body
 	end
+
+	def test_make_librarian
+		login_as 'john'
+		post :librarian, :id => 'bct'
+
+		bct = User.find_by_login('bct')
+		assert_response 302
+		assert_equal true, bct.librarian?
+	end
 end

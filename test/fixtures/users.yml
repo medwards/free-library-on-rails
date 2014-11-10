@@ -28,3 +28,13 @@ pierre:
   latitude: 45.5
   longitude: -73.6
   region: montreal
+john:
+  login: john
+  crypted_password: aoeu
+  email: john@example.org
+  postalcode: H2A1A1
+  latitude: 5.56
+  longitude: -73.61
+  region: montreal
+  activated_at: 2008-05-01
+  librarian_since: 2008-05-01

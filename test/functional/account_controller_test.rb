@@ -142,6 +142,7 @@ class AccountControllerTest < ActionController::TestCase
 								 :created_at                => '2008-04-20',
 								 :updated_at                => '2008-04-20',
 								 :activated_at              => '2008-04-20',
+								 :librarian_since           => '2008-04-20',
 								 :login                     => 'somebody-else'
 							  }
 
@@ -155,6 +156,7 @@ class AccountControllerTest < ActionController::TestCase
 		assert_equal 'bct', bct.login
 		assert_equal Time.zone.parse('2008-04-01'), bct.created_at
 		assert_equal Time.zone.parse('2008-04-01'), bct.activated_at
+		assert_nil bct.librarian_since
 
 		assert (Time.now - bct.updated_at).abs < 5, 'user was able to change updated_at'
 	end
@@ -202,5 +204,13 @@ class AccountControllerTest < ActionController::TestCase
 
 		assert_response 302
 		assert_match I18n.t('account.request activation.message.sent'), @request.flash[:notice]
+	end
+
+	def test_librarian_giveup
+		login_as 'john'
+		post :update, :user => { :librarian_since => nil }
+
+		john = User.find_by_login('john')
+		assert_equal false, john.librarian?
 	end
 end

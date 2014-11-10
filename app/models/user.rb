@@ -196,6 +196,10 @@ class User < ActiveRecord::Base
 		super cellphone
 	end
 
+	def librarian?
+		librarian_since.present?
+	end
+
 	protected
 		def password_required?
 			crypted_password.blank? || !password.blank?

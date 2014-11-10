@@ -55,7 +55,7 @@ class ItemsController < ApplicationController
 		@item = itemclass.new(params[:item])
 
 		@item.created = Time.now
-		@item.owner = self.current_user
+		@item.owner = current_user
 
 		@item.save!
 
@@ -68,7 +68,7 @@ class ItemsController < ApplicationController
 		@item = itemclass.find(params[:id])
 		@title = I18n.t('item.edit.title', :item => @item.title)
 
-		unless @item.owned_by? self.current_user
+		unless @item.owned_by?(current_user) or current_user.librarian?
 			redirect_to polymorphic_path(@item)
 		end
 	rescue ActiveRecord::RecordNotFound
@@ -78,7 +78,7 @@ class ItemsController < ApplicationController
 	def update
 		@item = itemclass.find(params[:id])
 
-		unless @item.owned_by? self.current_user
+		unless @item.owned_by?(current_user) or current_user.librarian?
 			unauthorized I18n.t('update.message.unauthorized'); return
 		end
 
@@ -92,7 +92,7 @@ class ItemsController < ApplicationController
 	def destroy
 		@item = Item.find(params[:id])
 
-		unless @item.owned_by? self.current_user
+		unless @item.owned_by?(current_user)
 			unauthorized I18n.t('destroy.message.unauthorized'); return
 		end
 
@@ -100,7 +100,7 @@ class ItemsController < ApplicationController
 
 		# XXX this has behaved weird anecdotally... come back to it and test
 		#		-- i haven't noticed anything weird here. obsolete comment? (bct, 2009-09)
-		redirect_to user_path(self.current_user.login)
+		redirect_to user_path(current_user.login)
 	end
 
 	# plain ?param=value parameters:

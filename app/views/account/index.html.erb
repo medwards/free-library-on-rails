@@ -96,8 +96,7 @@
 <% if current_user.librarian? -%>
 <h2>Change Membership</h2>
 
-<%= form_tag :action => 'update' do -%>
-	<%= hidden_field_tag "user[librarian_since]", nil %>
+<%= form_tag :action => 'librarian' do -%>
 	<p>You are currently a librarian. If you're not actively helping anymore to maintain this website,
 	please consider to give up being one. That keeps it clear for everyone. You can always become a
 	a librarian again.<br>

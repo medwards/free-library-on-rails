@@ -91,7 +91,8 @@ class UsersController < ApplicationController
 
 		if not @user.librarian?
 			User.transaction do
-				@user.update_attributes! librarian_since: Time.now
+				@user.librarian_since = Time.now
+				@user.save!
 				UserMailer.librarian_notification(@user, current_user)
 			end
 			flash[:notice] = I18n.t 'account.librarian.message.made librarian', user: @user.login

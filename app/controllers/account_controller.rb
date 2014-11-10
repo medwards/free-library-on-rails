@@ -32,9 +32,6 @@ class AccountController < ApplicationController
 	def update
 		@user = current_user
 
-		# make sure users cannot make themselves a librarian
-		params[:user][:librarian_since] = nil if params[:user] and params[:user].include?(:librarian_since)
-
 		# XXX user-specifiable attributes should be whitelisted, not
 		# blacklisted with attr_protected like they are now
 		if not @user.update_attributes(params[:user])
@@ -46,6 +43,18 @@ class AccountController < ApplicationController
 			flash[:notice] = I18n.t 'account.update.message.updated'
 		end
 
+		redirect_to :action => 'index'
+	end
+
+	def leave_librarian
+		@user = current_user
+		if @user and @user.librarian?
+			@user.librarian_since = nil
+			@user.save!
+			flash[:notice] = I18n.t 'account.librarian.message.left'
+		else
+			flash[:notice] = I18n.t 'account.librarian.message.no librarian'
+		end
 		redirect_to :action => 'index'
 	end
 

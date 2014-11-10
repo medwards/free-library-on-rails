@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 	attr_accessor :password
 
 	# don't allow these attributes to be mass-assigned
-	attr_protected :login, :created_at, :updated_at, :activated_at, :crypted_password, :salt
+	attr_protected :login, :created_at, :updated_at, :activated_at, :librarian_since, :crypted_password, :salt
 
 	validates_presence_of			:login, :email
 	validates_presence_of			:password,									 :if => :password_required?

@@ -78,6 +78,8 @@ en:
         not sent: "This account does not need to be activated."
     librarian:
       message:
+        left:              "You're not a librarian anymore. Thank you for your help in the past."
+        no librarian:      "You're not a librarian."
         made librarian:    "%{user} is now a librarian. It would be great if you could help him or her on the way."
         already librarian: "%{user} is already a librarian."
   books:

@@ -75,6 +75,11 @@ module ApplicationHelper
 		link_to h(user.login), h(user_path(user.login)), *args
 	end
 
+	# link to an item's author
+	def author_link(item, query=nil, *args)
+		link_to highlight(h(item.author), query), search_items_path(q: item.author, field: 'author'), *args
+	end
+
 	# display controller-specific sidebar links, if they exist
 	# (they're stored in views/[controller]/_side_links.rhtml)
 	def controller_side_links

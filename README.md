@@ -26,13 +26,41 @@ Here are some basic installation instructions.
    - `rake db:create` (when upgrading use `rake db:migrate`)
 
 API tokens are set in config/application.yml.
-You can get an isbnDB api token [here](https://isbndb.com/account/create.html).
+You can get an ISBNdb api token [here](https://isbndb.com/account/create.html).
 There is no guarantee that the API tokens stored in config/application.yml will work for you.
 
 There are other things you can change in config/application.yml (like a tags blacklist if you have problems with swearing or pro-capitalists)
 
 
 If you have questions about the license please email medwards@walledcity.ca
+
+
+Features
+--------
+
+* Members can
+  * signup and create an account;
+  * add their books and videos;
+  * search items by name, author or description;
+  * loan items after confirmation from the owner (with return date);
+  * leave comments about other members as some form of user feedback.
+* Book information by ISBN (from ISBNdb and Google Books).
+* Book covers from Google Books.
+* Send SMS on loan request (optional).
+* Tagging.
+* Librarians may edit all books and tags (optional).
+
+### Librarians
+In some communities it can be useful to have librarians who help to complete missing
+information, correct mistakes and help with tagging. To enable this, you need to make
+one user a librarian by running the following command (replacing `admin@example.com`
+with the email address of the librarian):
+
+```
+echo "User.where(email: 'admin@example.com').update_all(librarian_since: Time.now)" | rails console
+```
+
+The first librarian can then make other users a librarian by visiting their profile page.
 
 
 See also

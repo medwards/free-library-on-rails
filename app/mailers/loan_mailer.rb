@@ -20,13 +20,13 @@ class LoanMailer < ApplicationMailer
 	def request_notification(loan)
 		setup_email(loan)
 		@subject += I18n.t 'loans.email.request'
-		mail :to => loan.owner.email, :subject => @subject
+		mail :reply_to => loan.borrower.email, :to => loan.owner.email, :subject => @subject
 	end
 
 	def approved_notification(loan)
 		setup_email(loan)
 		@subject += I18n.t 'loans.email.approved'
-		mail :to => loan.borrower.email, :subject => @subject
+		mail :reply_to => loan.owner.email, :to => loan.borrower.email, :subject => @subject
 	end
 
 	def rejected_notification(loan)

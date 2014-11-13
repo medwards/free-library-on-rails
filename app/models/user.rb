@@ -197,7 +197,7 @@ class User < ActiveRecord::Base
 	end
 
 	def librarian?
-		librarian_since.present?
+		AppConfig.use_librarian && librarian_since.present?
 	end
 
 	protected

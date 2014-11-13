@@ -207,10 +207,35 @@ class AccountControllerTest < ActionController::TestCase
 	end
 
 	def test_librarian_giveup
+		AppConfig.use_librarian = true
 		login_as 'john'
 		post :leave_librarian
 
 		john = User.find_by_login('john')
 		assert_equal false, john.librarian?
+	end
+
+	def test_librarian_on_profile
+		AppConfig.use_librarian = true
+		login_as 'john'
+		get :index
+
+		assert_match /librarian/, @response.body
+	end
+
+	def test_librarian_not_on_profile
+		AppConfig.use_librarian = true
+		login_as 'bct'
+		get :index
+
+		assert_no_match /librarian/, @response.body
+	end
+
+	def test_librarian_disabled_not_on_profile
+		AppConfig.use_librarian = false
+		login_as 'john'
+		get :index
+
+		assert_no_match /librarian/, @response.body
 	end
 end

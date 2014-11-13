@@ -42,11 +42,21 @@ class UsersControllerTest < ActionController::TestCase
 	end
 
 	def test_make_librarian
+		AppConfig.use_librarian = 'delegate'
 		login_as 'john'
 		post :librarian, :id => 'bct'
 
 		bct = User.find_by_login('bct')
 		assert_response 302
 		assert_equal true, bct.librarian?
+	end
+
+	def test_make_librarian_disabled
+		AppConfig.use_librarian = true
+		login_as 'john'
+		post :librarian, :id => 'bct'
+
+		bct = User.find_by_login('bct')
+		assert_equal false, bct.librarian?
 	end
 end

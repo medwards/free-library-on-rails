@@ -15,6 +15,9 @@ development: &defaults
   ISBNDB_KEY: PJ6X926W
   # Whether to ask members for phone number and send sms on loan request
   use_sms: true
+  # Librarians can edit others' books. This can be `true`, `false`, or `delegate`.
+  # Note that you still need to make someone a librarian, even if this is set.
+  use_librarian: true
   # Mail configuration
   mail_from: admin@freelibrary.ca
   mail_url_options:

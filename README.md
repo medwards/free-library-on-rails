@@ -60,7 +60,9 @@ with the email address of the librarian):
 echo "User.where(email: 'admin@example.com').update_all(librarian_since: Time.now)" | rails console
 ```
 
-The first librarian can then make other users a librarian by visiting their profile page.
+If you'd like to allow librarians to make other members a librarian, set `use_librarian`
+to `delegate` in config/application.yml. Librarians will then see a button on other users'
+profile page.
 
 
 See also

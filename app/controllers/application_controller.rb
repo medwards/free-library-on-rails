@@ -60,4 +60,14 @@ class ApplicationController < ActionController::Base
 	rescue ActionController::RedirectBackError
 		redirect_to default
 	end
+
+	# require librarian to be enabled by configuration
+	def librarian_enabled
+		render nothing: true, status: 403 unless AppConfig.use_librarian
+	end
+
+	# require librarian delegation to be enabled by configuration
+	def librarian_delegate_enabled
+		render nothing: true, status: 403 if AppConfig.use_librarian != 'delegate'
+	end
 end

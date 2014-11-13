@@ -1,5 +1,5 @@
-<% if current_user.try(:librarian?) and not @user.librarian? %>
-	<%= sidelink 'make librarian', librarian_user_path(@user.login), data: {method: :post, confirm: "Are you sure? Only make people you trust a librarian."} %>
+<% if AppConfig.use_librarian == 'delegate' && current_user.try(:librarian?) && !@user.librarian? %>
+	<%= link_to 'make librarian', librarian_user_path(@user.login), class: 'navitab pull-right', data: {method: :post, confirm: "Are you sure? Only make people you trust a librarian."} %>
 <% end %>
 
 <h1><%=h @user.login %><% if @user.librarian? %> <span class="librarian">librarian</span><% end %></h1>

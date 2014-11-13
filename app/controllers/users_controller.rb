@@ -20,6 +20,7 @@ require 'csv'
 class UsersController < ApplicationController
 
 	before_filter :login_required
+	before_filter :librarian_delegate_enabled, :only => [ :librarian ]
 
 	def show
 		@user = User.find_by_login(params[:id])
@@ -102,4 +103,5 @@ class UsersController < ApplicationController
 
 		redirect_to :action => :show
 	end
+
 end

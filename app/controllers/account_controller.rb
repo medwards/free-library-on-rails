@@ -20,6 +20,7 @@ class AccountController < ApplicationController
 	before_filter :login_from_cookie
 
 	before_filter :login_required, :only => [ :update ]
+	before_filter :librarian_enabled, :only => [ :leave_librarian ]
 
 	# say something nice, you goof! something sweet.
 	def index

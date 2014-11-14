@@ -6,6 +6,7 @@ class UserTest < ActiveSupport::TestCase
     @bct      = User.find_by_login('bct')
     @medwards = User.find_by_login('medwards')
     @pierre   = User.find_by_login('pierre')
+    @john     = User.find_by_login('john')
   end
 
   def test_authenticate
@@ -85,5 +86,20 @@ class UserTest < ActiveSupport::TestCase
 
 	  assert_equal 1, tagged_with.length
 	  assert_equal bct, tagged_with[0]
+  end
+
+  def test_librarian_enabled_false
+    AppConfig.use_librarian = false
+    assert_equal false, @john.librarian?
+  end
+
+  def test_librarian_enabled_true
+    AppConfig.use_librarian = true
+    assert_equal true, @john.librarian?
+  end
+
+  def test_librarian_enabled_delegate
+    AppConfig.use_librarian = 'delegate'
+    assert_equal true, @john.librarian?
   end
 end

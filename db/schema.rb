@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "item_taggings", :force => true do |t|
     t.integer "thing_id", :null => false
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 16) do
     t.string   "cellphone_provider"
     t.integer  "region_id",                                                             :default => 1
     t.text     "about"
+    t.datetime "librarian_since"
   end
 
 end

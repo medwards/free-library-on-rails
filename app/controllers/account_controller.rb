@@ -20,6 +20,7 @@ class AccountController < ApplicationController
 	before_filter :login_from_cookie
 
 	before_filter :login_required, :only => [ :update ]
+	before_filter :librarian_enabled, :only => [ :leave_librarian ]
 
 	# say something nice, you goof! something sweet.
 	def index
@@ -43,6 +44,18 @@ class AccountController < ApplicationController
 			flash[:notice] = I18n.t 'account.update.message.updated'
 		end
 
+		redirect_to :action => 'index'
+	end
+
+	def leave_librarian
+		@user = current_user
+		if @user and @user.librarian?
+			@user.librarian_since = nil
+			@user.save!
+			flash[:notice] = I18n.t 'account.librarian.message.left'
+		else
+			flash[:notice] = I18n.t 'account.librarian.message.no librarian'
+		end
 		redirect_to :action => 'index'
 	end
 

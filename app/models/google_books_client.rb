@@ -70,7 +70,8 @@ class GoogleBooksClient
 
 		if author = doc["authors"].first
 			name = Nameable.parse(author)
-			data[:author_first], data[:author_last] = name.first, name.last
+			data[:author_first] = [name.first, name.middle].compact.join ' '
+			data[:author_last] = name.last
 		end
 
 		data

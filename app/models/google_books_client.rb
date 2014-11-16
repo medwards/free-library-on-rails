@@ -68,9 +68,10 @@ class GoogleBooksClient
 			:tags			=> doc["categories"]
 		}
 
-		author = doc["authors"].first
-		if author
-			data[:author_first], data[:author_last] = author.split(" ", 2)
+		if author = doc["authors"].first
+			name = Nameable.parse(author)
+			data[:author_first] = [name.first, name.middle].compact.join ' '
+			data[:author_last] = name.last
 		end
 
 		data

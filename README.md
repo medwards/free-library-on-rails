@@ -19,11 +19,11 @@ Here are some basic installation instructions.
    - `sudo apt-get install libxslt1-dev libsqlite3-dev libmysqlclient-dev`
    - `bundle install`
 
-2. `rake secret` --- copy this and place it as your session key secret in config/environment.rb
+2. `rake secret` --- copy this and place it as your session key secret in `config/initializers/secret_token.rb`
 
 3. Setup the database
    - for production: in config/database.yml edit the database name, username and password.
-   - `rake db:create` (when upgrading use `rake db:migrate`)
+   - `rake db:setup` (when upgrading use `rake db:migrate`)
 
 API tokens are set in config/application.yml.
 You can get an ISBNdb api token [here](https://isbndb.com/account/create.html).

@@ -10,7 +10,7 @@ Installation
 
 Here are some basic installation instructions.
 
-0. Make sure you have Ruby 1.9 or higher as well as [Bundler](http://bundler.io/)
+0. Make sure you have Ruby 2.0 or higher as well as [Bundler](http://bundler.io/)
    (one way would be to use [RVM](https://rvm.io/rvm/install)).
    - for production: you may want to use [Apache](http://httpd.apache.org/) +
      [mod_passenger](https://www.phusionpassenger.com/).

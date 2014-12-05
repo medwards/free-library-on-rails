@@ -4,7 +4,7 @@
 		<td><label for="isbn">ISBN</label></td>
 		<td>
 			<%= text_field_tag 'item[isbn]', @item.isbn, :id => 'isbn' %>
-			<%= submit_tag t('books.isbn lookup.button name'), :name => "submit" %>
+			<%= submit_tag t('books.isbn lookup.button name'), :name => 'lookup_isbn' %>
 		</td>
 	</tr>
 

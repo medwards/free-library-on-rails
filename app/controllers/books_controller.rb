@@ -19,16 +19,25 @@ class BooksController < ItemsController
 	def itemclass; Book end
 
 	def create
-		if params[:submit] == I18n.t('books.isbn lookup.button name')
-			self.isbnLookup params[:item][:isbn]
+		if params[:lookup_isbn]
+			new
+			begin
+				isbn = find_isbn(@item.isbn)
+				@item = Book.new_from_isbn(isbn)
+				flash[:notice] = I18n.t 'books.isbn lookup.message.success'
+			rescue NoSuchISBN
+				flash[:error] = I18n.t 'books.isbn lookup.message.isbn not found'
+			end
+			render 'new'
 		else
 			super
-
 			@item.fetch_cover_image if AppConfig.fetch_covers
 		end
 	end
 
-	def isbnLookup isbn
+	protected
+
+	def find_isbn(isbn)
 		isbn = Isbn.new(isbn)
 
 		unless isbn.valid?
@@ -37,30 +46,8 @@ class BooksController < ItemsController
 			else
 				flash[:error] = I18n.t 'books.isbn lookup.message.invalid isbn'
 			end
-
-			redirect_to :action => "new", :item => { :isbn => isbn }
-			return
 		end
 
-		begin
-			@item = Book.new_from_isbn(isbn)
-		rescue NoSuchISBN
-			flash[:error] = I18n.t 'books.isbn lookup.message.isbn not found'
-			redirect_to :action => "new", :item => { :isbn => isbn }
-			return
-		end
-
-		flash[:notice] = I18n.t 'books.isbn lookup.message.success'
-		redirect_to :action => "new",
-			:item => {
-				:title =>        @item.title,
-				:description =>	 @item.description,
-				:isbn =>         @item.isbn,
-				:lcc_number =>	 @item.lcc_number,
-				:author_last =>	 @item.author_last,
-				:author_first => @item.author_first,
-				:cover_url =>    @item.cover_url
-			},
-			:tags => @item.tags
+		isbn
 	end
 end

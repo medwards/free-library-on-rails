@@ -48,6 +48,7 @@ class ItemsController < ApplicationController
 		@item = itemclass.new(params[:item])
 
 		@tags = params[:tags]
+		@tags = @tags.strip.split(Taggable::TAG_SEPARATOR) if @tags.is_a? String
 		@tags ||= []
 	end
 

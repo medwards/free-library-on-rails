@@ -4,6 +4,7 @@ Free Library on Rails
 This is an open source web application for organising a
 [distributed library](https://en.wikipedia.org/wiki/Distributed_library).
 
+This repository has not been updated, maintained, or run in production for a large number of years so this repository is now archived. You are of course welcome to fork it, the license is AGPL as seen in `COPYING`.
 
 Installation
 ------------
